@@ -1,12 +1,11 @@
 import { Menu, Page } from './types'
 
-/**
- * NOTE: This function returns a hardcoded menu structure for demonstration purposes.
- * In a production application, the engineering team should update to retrieve menu content from
- * a CMS or other data source that is appropriate for the project.
- */
-export function getMenu(handle: string): Menu[] {
-  return getMenus().filter((menu) => menu.handle === handle)[0]?.links || []
+export function getHeaderMenu(): Menu[] {
+  return getMenus().filter((menu) => menu.handle === 'next-js-frontend-header-menu')[0]?.links || []
+}
+
+export function getFooterMenu(): Menu[] {
+  return getMenus().filter((menu) => menu.handle === 'next-js-frontend-footer-menu')[0]?.links || []
 }
 
 /**
