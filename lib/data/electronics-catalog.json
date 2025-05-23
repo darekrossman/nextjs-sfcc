@@ -28298,6 +28298,1616 @@
           "non-revenue-flag": false,
           "non-discountable-flag": false
         }
+      },
+      {
+        "product-id": "10000061M",
+        "ean": {},
+        "upc": {},
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "display-name": [
+          {
+            "@xml:lang": "x-default",
+            "_content": "KlickKlack Vintage Mechanical Keyboard"
+          },
+          {
+            "@xml:lang": "fr-FR",
+            "_content": "Clavier Mécanique Vintage KlickKlack"
+          }
+        ],
+        "short-description": [
+          {
+            "@xml:lang": "x-default",
+            "_content": "Experience the satisfying tactile feel of a classic mechanical keyboard with modern USB-C connectivity and customizable RGB backlighting. A perfect blend of retro aesthetics and contemporary performance."
+          },
+          {
+            "@xml:lang": "fr-FR",
+            "_content": "Vivez la sensation tactile satisfaisante d'un clavier mécanique classique avec une connectivité USB-C moderne et un rétroéclairage RVB personnalisable. Un mélange parfait d'esthétique rétro et de performances contemporaines."
+          }
+        ],
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "images": {
+          "image-group": [
+            {
+              "@view-type": "large",
+              "image": [
+                {
+                  "@path": "images/large/10000061M_RetroBeige_1.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_RetroBeige_2.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_RetroBeige_3.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_RetroBeige_4.jpg"
+                }
+              ]
+            },
+            {
+              "@view-type": "large",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "RetroBeige"
+              },
+              "image": [
+                {
+                  "@path": "images/large/10000061M_RetroBeige_1.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_RetroBeige_2.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_RetroBeige_3.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_RetroBeige_4.jpg"
+                }
+              ]
+            },
+            {
+              "@view-type": "large",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "CyberTeal"
+              },
+              "image": [
+                {
+                  "@path": "images/large/10000061M_CyberTeal_1.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_CyberTeal_2.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_CyberTeal_3.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_CyberTeal_4.jpg"
+                }
+              ]
+            },
+            {
+              "@view-type": "large",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "IndustrialGray"
+              },
+              "image": [
+                {
+                  "@path": "images/large/10000061M_IndustrialGray_1.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_IndustrialGray_2.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_IndustrialGray_3.jpg"
+                },
+                {
+                  "@path": "images/large/10000061M_IndustrialGray_4.jpg"
+                }
+              ]
+            },
+            {
+              "@view-type": "swatch",
+              "image": {
+                "@path": "images/swatch/10000061M_RetroBeige_sw.jpg"
+              }
+            },
+            {
+              "@view-type": "swatch",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "RetroBeige"
+              },
+              "image": {
+                "@path": "images/swatch/10000061M_RetroBeige_sw.jpg"
+              }
+            },
+            {
+              "@view-type": "swatch",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "CyberTeal"
+              },
+              "image": {
+                "@path": "images/swatch/10000061M_CyberTeal_sw.jpg"
+              }
+            },
+            {
+              "@view-type": "swatch",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "IndustrialGray"
+              },
+              "image": {
+                "@path": "images/swatch/10000061M_IndustrialGray_sw.jpg"
+              }
+            }
+          ]
+        },
+        "tax-class-id": "standard",
+        "page-attributes": {
+          "page-title": [
+            {
+              "@xml:lang": "x-default",
+              "_content": "klickklack-vintage-mechanical-keyboard"
+            },
+            {
+              "@xml:lang": "fr-FR",
+              "_content": "clavier-mecanique-vintage-klickklack"
+            }
+          ],
+          "page-description": [
+            {
+              "@xml:lang": "x-default",
+              "_content": "KlickKlack Vintage Mechanical Keyboard with USB-C and RGB backlighting."
+            },
+            {
+              "@xml:lang": "fr-FR",
+              "_content": "Clavier Mécanique Vintage KlickKlack avec USB-C et rétroéclairage RVB."
+            }
+          ],
+          "page-url": [
+            {
+              "@xml:lang": "x-default",
+              "_content": "compact-computing/interactive-gadgets/klickklack-keyboard"
+            },
+            {
+              "@xml:lang": "fr-FR",
+              "_content": "informatique-compacte/gadgets-interactifs/clavier-klickklack"
+            }
+          ]
+        },
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "isNew",
+              "_content": "true"
+            },
+            {
+              "@attribute-id": "backlightType",
+              "_content": "RGBPerKey"
+            },
+            {
+              "@attribute-id": "connectivity",
+              "_content": "USBCWired"
+            }
+          ]
+        },
+        "variations": {
+          "attributes": {
+            "variation-attribute": [
+              {
+                "@attribute-id": "color",
+                "@variation-attribute-id": "color",
+                "display-name": [
+                  {
+                    "@xml:lang": "x-default",
+                    "_content": "Keyboard Color"
+                  },
+                  {
+                    "@xml:lang": "fr-FR",
+                    "_content": "Couleur du Clavier"
+                  }
+                ],
+                "variation-attribute-values": {
+                  "variation-attribute-value": [
+                    {
+                      "@value": "RetroBeige",
+                      "display-value": [
+                        {
+                          "@xml:lang": "x-default",
+                          "_content": "Retro Beige"
+                        },
+                        {
+                          "@xml:lang": "fr-FR",
+                          "_content": "Beige Rétro"
+                        }
+                      ]
+                    },
+                    {
+                      "@value": "CyberTeal",
+                      "display-value": [
+                        {
+                          "@xml:lang": "x-default",
+                          "_content": "Cyber Teal"
+                        },
+                        {
+                          "@xml:lang": "fr-FR",
+                          "_content": "Turquoise Cyber"
+                        }
+                      ]
+                    },
+                    {
+                      "@value": "IndustrialGray",
+                      "display-value": [
+                        {
+                          "@xml:lang": "x-default",
+                          "_content": "Industrial Gray"
+                        },
+                        {
+                          "@xml:lang": "fr-FR",
+                          "_content": "Gris Industriel"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "@attribute-id": "keySwitchType",
+                "@variation-attribute-id": "keySwitchType",
+                "display-name": [
+                  {
+                    "@xml:lang": "x-default",
+                    "_content": "Key Switch Type"
+                  },
+                  {
+                    "@xml:lang": "fr-FR",
+                    "_content": "Type de Switch"
+                  }
+                ],
+                "variation-attribute-values": {
+                  "variation-attribute-value": [
+                    {
+                      "@value": "ClickyBlue",
+                      "display-value": [
+                        {
+                          "@xml:lang": "x-default",
+                          "_content": "Clicky Blue"
+                        },
+                        {
+                          "@xml:lang": "fr-FR",
+                          "_content": "Bleu Clicky"
+                        }
+                      ]
+                    },
+                    {
+                      "@value": "TactileBrown",
+                      "display-value": [
+                        {
+                          "@xml:lang": "x-default",
+                          "_content": "Tactile Brown"
+                        },
+                        {
+                          "@xml:lang": "fr-FR",
+                          "_content": "Marron Tactile"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "variants": {
+            "variant": [
+              {
+                "product-id": "20000266M"
+              },
+              {
+                "product-id": "20000267M"
+              },
+              {
+                "product-id": "20000268M"
+              },
+              {
+                "product-id": "20000269M"
+              },
+              {
+                "product-id": "20000270M"
+              },
+              {
+                "product-id": "20000271M"
+              }
+            ]
+          }
+        },
+        "classification-category": "cc-interactive-gadgets",
+        "pinterest-enabled-flag": true,
+        "facebook-enabled-flag": true,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000266M",
+        "ean": {},
+        "upc": {
+          "_content": "010000061001"
+        },
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "RetroBeige"
+            },
+            {
+              "@attribute-id": "keySwitchType",
+              "_content": "ClickyBlue"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000267M",
+        "ean": {},
+        "upc": {
+          "_content": "010000061002"
+        },
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "RetroBeige"
+            },
+            {
+              "@attribute-id": "keySwitchType",
+              "_content": "TactileBrown"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000268M",
+        "ean": {},
+        "upc": {
+          "_content": "010000061003"
+        },
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "CyberTeal"
+            },
+            {
+              "@attribute-id": "keySwitchType",
+              "_content": "ClickyBlue"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000269M",
+        "ean": {},
+        "upc": {
+          "_content": "010000061004"
+        },
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "CyberTeal"
+            },
+            {
+              "@attribute-id": "keySwitchType",
+              "_content": "TactileBrown"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000270M",
+        "ean": {},
+        "upc": {
+          "_content": "010000061005"
+        },
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "IndustrialGray"
+            },
+            {
+              "@attribute-id": "keySwitchType",
+              "_content": "ClickyBlue"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000271M",
+        "ean": {},
+        "upc": {
+          "_content": "010000061006"
+        },
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "IndustrialGray"
+            },
+            {
+              "@attribute-id": "keySwitchType",
+              "_content": "TactileBrown"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "10000062M",
+        "ean": "",
+        "upc": "",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "display-name": [
+          {
+            "xml:lang": "x-default",
+            "_content": "FlipDot Calendar Display"
+          },
+          {
+            "xml:lang": "fr-FR",
+            "_content": "Afficheur Calendrier FlipDot"
+          }
+        ],
+        "short-description": [
+          {
+            "xml:lang": "x-default",
+            "_content": "A mesmerizing retro-modern calendar display using physical flipping dots to show the date and month. A unique statement piece for any desk or wall. USB powered with real-time clock sync."
+          },
+          {
+            "xml:lang": "fr-FR",
+            "_content": "Un afficheur calendrier rétro-moderne fascinant utilisant des points physiques basculants pour afficher la date et le mois. Une pièce de déclaration unique pour tout bureau ou mur. Alimenté par USB avec synchronisation de l'horloge en temps réel."
+          }
+        ],
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "images": {
+          "image-group": [
+            {
+              "view-type": "large",
+              "image": [
+                {
+                  "path": "images/large/10000062M_AluminumBlack_ClassicYellow_1.jpg"
+                },
+                {
+                  "path": "images/large/10000062M_AluminumBlack_ClassicYellow_2.jpg"
+                },
+                {
+                  "path": "images/large/10000062M_AluminumBlack_ClassicYellow_3.jpg"
+                },
+                {
+                  "path": "images/large/10000062M_AluminumBlack_ClassicYellow_4.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "large",
+              "variation": {
+                "attribute-id": "frameMaterial",
+                "value": "AluminumBlack"
+              },
+              "image": [
+                {
+                  "path": "images/large/10000062M_AluminumBlack_1.jpg"
+                },
+                {
+                  "path": "images/large/10000062M_AluminumBlack_2.jpg"
+                },
+                {
+                  "path": "images/large/10000062M_AluminumBlack_3.jpg"
+                },
+                {
+                  "path": "images/large/10000062M_AluminumBlack_4.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "large",
+              "variation": {
+                "attribute-id": "frameMaterial",
+                "value": "WalnutWood"
+              },
+              "image": [
+                {
+                  "path": "images/large/10000062M_WalnutWood_1.jpg"
+                },
+                {
+                  "path": "images/large/10000062M_WalnutWood_2.jpg"
+                },
+                {
+                  "path": "images/large/10000062M_WalnutWood_3.jpg"
+                },
+                {
+                  "path": "images/large/10000062M_WalnutWood_4.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "swatch",
+              "image": [
+                {
+                  "path": "images/swatch/10000062M_default_sw.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "swatch",
+              "variation": {
+                "attribute-id": "frameMaterial",
+                "value": "AluminumBlack"
+              },
+              "image": [
+                {
+                  "path": "images/swatch/10000062M_AluminumBlack_sw.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "swatch",
+              "variation": {
+                "attribute-id": "frameMaterial",
+                "value": "WalnutWood"
+              },
+              "image": [
+                {
+                  "path": "images/swatch/10000062M_WalnutWood_sw.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "swatch",
+              "variation": {
+                "attribute-id": "dotColor",
+                "value": "ClassicYellow"
+              },
+              "image": [
+                {
+                  "path": "images/swatch/10000062M_ClassicYellow_sw.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "swatch",
+              "variation": {
+                "attribute-id": "dotColor",
+                "value": "ModernWhite"
+              },
+              "image": [
+                {
+                  "path": "images/swatch/10000062M_ModernWhite_sw.jpg"
+                }
+              ]
+            }
+          ]
+        },
+        "tax-class-id": "standard",
+        "page-attributes": {
+          "page-title": [
+            {
+              "xml:lang": "x-default",
+              "_content": "flipdot-calendar-display"
+            },
+            {
+              "xml:lang": "fr-FR",
+              "_content": "afficheur-calendrier-flipdot"
+            }
+          ],
+          "page-description": [
+            {
+              "xml:lang": "x-default",
+              "_content": "A unique FlipDot Calendar Display with physical flipping dots for a stunning retro-modern effect."
+            },
+            {
+              "xml:lang": "fr-FR",
+              "_content": "Un Afficheur Calendrier FlipDot unique avec des points physiques basculants pour un effet rétro-moderne époustouflant."
+            }
+          ],
+          "page-url": [
+            {
+              "xml:lang": "x-default",
+              "_content": "visual-timepieces/novelty-displays/flipdot-calendar"
+            },
+            {
+              "xml:lang": "fr-FR",
+              "_content": "horloges-visuelles/afficheurs-nouveaute/calendrier-flipdot"
+            }
+          ]
+        },
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "isNew",
+              "_content": "true"
+            },
+            {
+              "attribute-id": "isFeatured",
+              "_content": "true"
+            },
+            {
+              "attribute-id": "displayType",
+              "_content": "PhysicalFlipDot"
+            }
+          ]
+        },
+        "variations": {
+          "attributes": {
+            "variation-attribute": [
+              {
+                "attribute-id": "frameMaterial",
+                "variation-attribute-id": "frameMaterial",
+                "display-name": [
+                  {
+                    "xml:lang": "x-default",
+                    "_content": "Frame Material"
+                  },
+                  {
+                    "xml:lang": "fr-FR",
+                    "_content": "Matériau du Cadre"
+                  }
+                ],
+                "variation-attribute-values": {
+                  "variation-attribute-value": [
+                    {
+                      "value": "AluminumBlack",
+                      "display-value": [
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Black Aluminum"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Aluminium Noir"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "WalnutWood",
+                      "display-value": [
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Walnut Wood"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Bois de Noyer"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "attribute-id": "dotColor",
+                "variation-attribute-id": "dotColor",
+                "display-name": [
+                  {
+                    "xml:lang": "x-default",
+                    "_content": "Dot Color"
+                  },
+                  {
+                    "xml:lang": "fr-FR",
+                    "_content": "Couleur des Points"
+                  }
+                ],
+                "variation-attribute-values": {
+                  "variation-attribute-value": [
+                    {
+                      "value": "ClassicYellow",
+                      "display-value": [
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Classic Yellow"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Jaune Classique"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ModernWhite",
+                      "display-value": [
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Modern White"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Blanc Moderne"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "variants": {
+            "variant": [
+              {
+                "product-id": "20000272M"
+              },
+              {
+                "product-id": "20000273M"
+              },
+              {
+                "product-id": "20000274M"
+              },
+              {
+                "product-id": "20000275M"
+              }
+            ]
+          }
+        },
+        "classification-category": "vt-novelty-displays",
+        "pinterest-enabled-flag": true,
+        "facebook-enabled-flag": true,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000272M",
+        "ean": "",
+        "upc": "010000062001",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "frameMaterial",
+              "_content": "AluminumBlack"
+            },
+            {
+              "attribute-id": "dotColor",
+              "_content": "ClassicYellow"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000273M",
+        "ean": "",
+        "upc": "010000062002",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "frameMaterial",
+              "_content": "AluminumBlack"
+            },
+            {
+              "attribute-id": "dotColor",
+              "_content": "ModernWhite"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000274M",
+        "ean": "",
+        "upc": "010000062003",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "frameMaterial",
+              "_content": "WalnutWood"
+            },
+            {
+              "attribute-id": "dotColor",
+              "_content": "ClassicYellow"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000275M",
+        "ean": "",
+        "upc": "010000062004",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "frameMaterial",
+              "_content": "WalnutWood"
+            },
+            {
+              "attribute-id": "dotColor",
+              "_content": "ModernWhite"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "10000063M",
+        "ean": {},
+        "upc": {},
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "display-name": [
+          {
+            "@xml:lang": "x-default",
+            "_content": "RetroPlay Mini Console Deluxe"
+          },
+          {
+            "@xml:lang": "fr-FR",
+            "_content": "Mini Console RetroPlay Deluxe"
+          }
+        ],
+        "short-description": [
+          {
+            "@xml:lang": "x-default",
+            "_content": "Relive the golden age of gaming with the RetroPlay Mini Console Deluxe! Packed with classic titles in a sleek, pocket-sized design. Features a vibrant LCD screen and authentic tactile controls."
+          },
+          {
+            "@xml:lang": "fr-FR",
+            "_content": "Revivez l'âge d'or du jeu vidéo avec la Mini Console RetroPlay Deluxe ! Remplie de titres classiques dans un design élégant et de poche. Écran LCD vibrant et commandes tactiles authentiques."
+          }
+        ],
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "images": {
+          "image-group": [
+            {
+              "@view-type": "large",
+              "image": [
+                {
+                  "@path": "images/large/10000063M_ClassicCream_1.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_ClassicCream_2.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_ClassicCream_3.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_ClassicCream_4.jpg"
+                }
+              ]
+            },
+            {
+              "@view-type": "large",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "ClassicCream"
+              },
+              "image": [
+                {
+                  "@path": "images/large/10000063M_ClassicCream_1.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_ClassicCream_2.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_ClassicCream_3.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_ClassicCream_4.jpg"
+                }
+              ]
+            },
+            {
+              "@view-type": "large",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "GalaxyPurple"
+              },
+              "image": [
+                {
+                  "@path": "images/large/10000063M_GalaxyPurple_1.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_GalaxyPurple_2.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_GalaxyPurple_3.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_GalaxyPurple_4.jpg"
+                }
+              ]
+            },
+            {
+              "@view-type": "large",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "AtomicRed"
+              },
+              "image": [
+                {
+                  "@path": "images/large/10000063M_AtomicRed_1.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_AtomicRed_2.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_AtomicRed_3.jpg"
+                },
+                {
+                  "@path": "images/large/10000063M_AtomicRed_4.jpg"
+                }
+              ]
+            },
+            {
+              "@view-type": "swatch",
+              "image": {
+                "@path": "images/swatch/10000063M_default_sw.jpg"
+              }
+            },
+            {
+              "@view-type": "swatch",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "ClassicCream"
+              },
+              "image": {
+                "@path": "images/swatch/10000063M_ClassicCream_sw.jpg"
+              }
+            },
+            {
+              "@view-type": "swatch",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "GalaxyPurple"
+              },
+              "image": {
+                "@path": "images/swatch/10000063M_GalaxyPurple_sw.jpg"
+              }
+            },
+            {
+              "@view-type": "swatch",
+              "variation": {
+                "@attribute-id": "color",
+                "@value": "AtomicRed"
+              },
+              "image": {
+                "@path": "images/swatch/10000063M_AtomicRed_sw.jpg"
+              }
+            }
+          ]
+        },
+        "tax-class-id": "standard",
+        "page-attributes": {
+          "page-title": [
+            {
+              "@xml:lang": "x-default",
+              "_content": "retroplay-mini-console-deluxe-handheld-gamer"
+            },
+            {
+              "@xml:lang": "fr-FR",
+              "_content": "mini-console-retroplay-deluxe-gamer-portable"
+            }
+          ],
+          "page-description": [
+            {
+              "@xml:lang": "x-default",
+              "_content": "Get the RetroPlay Mini Console Deluxe for classic handheld gaming fun. Available in multiple colors and game packs."
+            },
+            {
+              "@xml:lang": "fr-FR",
+              "_content": "Obtenez la Mini Console RetroPlay Deluxe pour un plaisir de jeu portable classique. Disponible en plusieurs couleurs et packs de jeux."
+            }
+          ],
+          "page-url": [
+            {
+              "@xml:lang": "x-default",
+              "_content": "compact-computing/handheld-gaming/retroplay-mini-console-deluxe"
+            },
+            {
+              "@xml:lang": "fr-FR",
+              "_content": "informatique-compacte/consoles-portables/mini-console-retroplay-deluxe"
+            }
+          ]
+        },
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "isNew",
+              "_content": true
+            },
+            {
+              "@attribute-id": "isFeatured",
+              "_content": true
+            },
+            {
+              "@attribute-id": "screenType",
+              "_content": "2.8inchLCD"
+            }
+          ]
+        },
+        "variations": {
+          "attributes": {
+            "variation-attribute": [
+              {
+                "@attribute-id": "color",
+                "@variation-attribute-id": "color",
+                "display-name": [
+                  {
+                    "@xml:lang": "x-default",
+                    "_content": "Color"
+                  },
+                  {
+                    "@xml:lang": "fr-FR",
+                    "_content": "Couleur"
+                  }
+                ],
+                "variation-attribute-values": {
+                  "variation-attribute-value": [
+                    {
+                      "@value": "ClassicCream",
+                      "display-value": [
+                        {
+                          "@xml:lang": "x-default",
+                          "_content": "Classic Cream"
+                        },
+                        {
+                          "@xml:lang": "fr-FR",
+                          "_content": "Crème Classique"
+                        }
+                      ]
+                    },
+                    {
+                      "@value": "GalaxyPurple",
+                      "display-value": [
+                        {
+                          "@xml:lang": "x-default",
+                          "_content": "Galaxy Purple"
+                        },
+                        {
+                          "@xml:lang": "fr-FR",
+                          "_content": "Violet Galaxie"
+                        }
+                      ]
+                    },
+                    {
+                      "@value": "AtomicRed",
+                      "display-value": [
+                        {
+                          "@xml:lang": "x-default",
+                          "_content": "Atomic Red"
+                        },
+                        {
+                          "@xml:lang": "fr-FR",
+                          "_content": "Rouge Atomique"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "@attribute-id": "gamePack",
+                "@variation-attribute-id": "gamePack",
+                "display-name": [
+                  {
+                    "@xml:lang": "x-default",
+                    "_content": "Game Pack"
+                  },
+                  {
+                    "@xml:lang": "fr-FR",
+                    "_content": "Pack de Jeux"
+                  }
+                ],
+                "variation-attribute-values": {
+                  "variation-attribute-value": [
+                    {
+                      "@value": "50Classics",
+                      "display-value": [
+                        {
+                          "@xml:lang": "x-default",
+                          "_content": "50 Classic Games"
+                        },
+                        {
+                          "@xml:lang": "fr-FR",
+                          "_content": "50 Jeux Classiques"
+                        }
+                      ]
+                    },
+                    {
+                      "@value": "100Ultimate",
+                      "display-value": [
+                        {
+                          "@xml:lang": "x-default",
+                          "_content": "100 Ultimate Games"
+                        },
+                        {
+                          "@xml:lang": "fr-FR",
+                          "_content": "100 Jeux Ultimes"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "variants": {
+            "variant": [
+              {
+                "product-id": "20000276M"
+              },
+              {
+                "product-id": "20000277M"
+              },
+              {
+                "product-id": "20000278M"
+              },
+              {
+                "product-id": "20000279M"
+              },
+              {
+                "product-id": "20000280M"
+              },
+              {
+                "product-id": "20000281M"
+              }
+            ]
+          }
+        },
+        "classification-category": "cc-handheld-gaming",
+        "pinterest-enabled-flag": true,
+        "facebook-enabled-flag": true,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000276M",
+        "ean": {},
+        "upc": "010000063001",
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "ClassicCream"
+            },
+            {
+              "@attribute-id": "gamePack",
+              "_content": "50Classics"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000277M",
+        "ean": {},
+        "upc": "010000063002",
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "ClassicCream"
+            },
+            {
+              "@attribute-id": "gamePack",
+              "_content": "100Ultimate"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000278M",
+        "ean": {},
+        "upc": "010000063003",
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "GalaxyPurple"
+            },
+            {
+              "@attribute-id": "gamePack",
+              "_content": "50Classics"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000279M",
+        "ean": {},
+        "upc": "010000063004",
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "GalaxyPurple"
+            },
+            {
+              "@attribute-id": "gamePack",
+              "_content": "100Ultimate"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000280M",
+        "ean": {},
+        "upc": "010000063005",
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "AtomicRed"
+            },
+            {
+              "@attribute-id": "gamePack",
+              "_content": "50Classics"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000281M",
+        "ean": {},
+        "upc": "010000063006",
+        "unit": {},
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "@attribute-id": "color",
+              "_content": "AtomicRed"
+            },
+            {
+              "@attribute-id": "gamePack",
+              "_content": "100Ultimate"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
       }
     ],
     "category-assignments": [
@@ -28549,6 +30159,21 @@
       {
         "category-id": "cc-interactive-gadgets",
         "product-id": "10000060M",
+        "primary-flag": true
+      },
+      {
+        "@category-id": "cc-interactive-gadgets",
+        "product-id": "10000061M",
+        "primary-flag": true
+      },
+      {
+        "category-id": "vt-novelty-displays",
+        "product-id": "10000062M",
+        "primary-flag": true
+      },
+      {
+        "@category-id": "cc-handheld-gaming",
+        "product-id": "10000063M",
         "primary-flag": true
       }
     ]
