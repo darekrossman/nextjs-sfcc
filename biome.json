@@ -41,6 +41,7 @@
   "files": {
     "ignore": [
       "node_modules/**",
+      "lib/data/**",
       ".next/**",
       "**/dist/**",
       "**/.turbo/**",

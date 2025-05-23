@@ -27202,56 +27202,118 @@
             {
               "view-type": "large",
               "image": [
-                { "path": "images/large/10000059M_GoldTone_1.jpg" },
-                { "path": "images/large/10000059M_GoldTone_2.jpg" },
-                { "path": "images/large/10000059M_GoldTone_3.jpg" },
-                { "path": "images/large/10000059M_GoldTone_4.jpg" }
+                {
+                  "path": "images/large/10000059M_GoldTone_1.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_GoldTone_2.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_GoldTone_3.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_GoldTone_4.jpg"
+                }
               ]
             },
             {
               "view-type": "large",
-              "variation": { "attribute-id": "color", "value": "GoldTone" },
+              "variation": {
+                "attribute-id": "color",
+                "value": "GoldTone"
+              },
               "image": [
-                { "path": "images/large/10000059M_GoldTone_1.jpg" },
-                { "path": "images/large/10000059M_GoldTone_2.jpg" },
-                { "path": "images/large/10000059M_GoldTone_3.jpg" },
-                { "path": "images/large/10000059M_GoldTone_4.jpg" }
+                {
+                  "path": "images/large/10000059M_GoldTone_1.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_GoldTone_2.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_GoldTone_3.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_GoldTone_4.jpg"
+                }
               ]
             },
             {
               "view-type": "large",
-              "variation": { "attribute-id": "color", "value": "SilverChrome" },
+              "variation": {
+                "attribute-id": "color",
+                "value": "SilverChrome"
+              },
               "image": [
-                { "path": "images/large/10000059M_SilverChrome_1.jpg" },
-                { "path": "images/large/10000059M_SilverChrome_2.jpg" },
-                { "path": "images/large/10000059M_SilverChrome_3.jpg" },
-                { "path": "images/large/10000059M_SilverChrome_4.jpg" }
+                {
+                  "path": "images/large/10000059M_SilverChrome_1.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_SilverChrome_2.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_SilverChrome_3.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_SilverChrome_4.jpg"
+                }
               ]
             },
             {
               "view-type": "large",
-              "variation": { "attribute-id": "color", "value": "MatteBlack" },
+              "variation": {
+                "attribute-id": "color",
+                "value": "MatteBlack"
+              },
               "image": [
-                { "path": "images/large/10000059M_MatteBlack_1.jpg" },
-                { "path": "images/large/10000059M_MatteBlack_2.jpg" },
-                { "path": "images/large/10000059M_MatteBlack_3.jpg" },
-                { "path": "images/large/10000059M_MatteBlack_4.jpg" }
+                {
+                  "path": "images/large/10000059M_MatteBlack_1.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_MatteBlack_2.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_MatteBlack_3.jpg"
+                },
+                {
+                  "path": "images/large/10000059M_MatteBlack_4.jpg"
+                }
               ]
             },
             {
               "view-type": "swatch",
-              "variation": { "attribute-id": "color", "value": "GoldTone" },
-              "image": [{ "path": "images/swatch/10000059M_GoldTone_sw.jpg" }]
+              "variation": {
+                "attribute-id": "color",
+                "value": "GoldTone"
+              },
+              "image": [
+                {
+                  "path": "images/swatch/10000059M_GoldTone_sw.jpg"
+                }
+              ]
             },
             {
               "view-type": "swatch",
-              "variation": { "attribute-id": "color", "value": "SilverChrome" },
-              "image": [{ "path": "images/swatch/10000059M_SilverChrome_sw.jpg" }]
+              "variation": {
+                "attribute-id": "color",
+                "value": "SilverChrome"
+              },
+              "image": [
+                {
+                  "path": "images/swatch/10000059M_SilverChrome_sw.jpg"
+                }
+              ]
             },
             {
               "view-type": "swatch",
-              "variation": { "attribute-id": "color", "value": "MatteBlack" },
-              "image": [{ "path": "images/swatch/10000059M_MatteBlack_sw.jpg" }]
+              "variation": {
+                "attribute-id": "color",
+                "value": "MatteBlack"
+              },
+              "image": [
+                {
+                  "path": "images/swatch/10000059M_MatteBlack_sw.jpg"
+                }
+              ]
             }
           ]
         },
@@ -27290,9 +27352,18 @@
         },
         "custom-attributes": {
           "custom-attribute": [
-            { "attribute-id": "isNew", "_content": "true" },
-            { "attribute-id": "era", "_content": "1980s" },
-            { "attribute-id": "displayType", "_content": "LCDDigital" }
+            {
+              "attribute-id": "isNew",
+              "_content": "true"
+            },
+            {
+              "attribute-id": "era",
+              "_content": "1980s"
+            },
+            {
+              "attribute-id": "displayType",
+              "_content": "LCDDigital"
+            }
           ]
         },
         "variations": {
@@ -27302,30 +27373,54 @@
                 "attribute-id": "color",
                 "variation-attribute-id": "color",
                 "display-name": [
-                  { "xml:lang": "x-default", "_content": "Case Color" },
-                  { "xml:lang": "fr-FR", "_content": "Couleur du Boîtier" }
+                  {
+                    "xml:lang": "x-default",
+                    "_content": "Case Color"
+                  },
+                  {
+                    "xml:lang": "fr-FR",
+                    "_content": "Couleur du Boîtier"
+                  }
                 ],
                 "variation-attribute-values": {
                   "variation-attribute-value": [
                     {
                       "value": "GoldTone",
                       "display-value": [
-                        { "xml:lang": "x-default", "_content": "Gold Tone" },
-                        { "xml:lang": "fr-FR", "_content": "Ton Or" }
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Gold Tone"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Ton Or"
+                        }
                       ]
                     },
                     {
                       "value": "SilverChrome",
                       "display-value": [
-                        { "xml:lang": "x-default", "_content": "Silver Chrome" },
-                        { "xml:lang": "fr-FR", "_content": "Chrome Argenté" }
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Silver Chrome"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Chrome Argenté"
+                        }
                       ]
                     },
                     {
                       "value": "MatteBlack",
                       "display-value": [
-                        { "xml:lang": "x-default", "_content": "Matte Black" },
-                        { "xml:lang": "fr-FR", "_content": "Noir Mat" }
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Matte Black"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Noir Mat"
+                        }
                       ]
                     }
                   ]
@@ -27335,23 +27430,41 @@
                 "attribute-id": "strapMaterial",
                 "variation-attribute-id": "strapMaterial",
                 "display-name": [
-                  { "xml:lang": "x-default", "_content": "Strap Material" },
-                  { "xml:lang": "fr-FR", "_content": "Matériau du Bracelet" }
+                  {
+                    "xml:lang": "x-default",
+                    "_content": "Strap Material"
+                  },
+                  {
+                    "xml:lang": "fr-FR",
+                    "_content": "Matériau du Bracelet"
+                  }
                 ],
                 "variation-attribute-values": {
                   "variation-attribute-value": [
                     {
                       "value": "StainlessSteel",
                       "display-value": [
-                        { "xml:lang": "x-default", "_content": "Stainless Steel" },
-                        { "xml:lang": "fr-FR", "_content": "Acier Inoxydable" }
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Stainless Steel"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Acier Inoxydable"
+                        }
                       ]
                     },
                     {
                       "value": "Resin",
                       "display-value": [
-                        { "xml:lang": "x-default", "_content": "Resin Band" },
-                        { "xml:lang": "fr-FR", "_content": "Bracelet Résine" }
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Resin Band"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Bracelet Résine"
+                        }
                       ]
                     }
                   ]
@@ -27361,12 +27474,24 @@
           },
           "variants": {
             "variant": [
-              { "product-id": "20000254M" },
-              { "product-id": "20000255M" },
-              { "product-id": "20000256M" },
-              { "product-id": "20000257M" },
-              { "product-id": "20000258M" },
-              { "product-id": "20000259M" }
+              {
+                "product-id": "20000254M"
+              },
+              {
+                "product-id": "20000255M"
+              },
+              {
+                "product-id": "20000256M"
+              },
+              {
+                "product-id": "20000257M"
+              },
+              {
+                "product-id": "20000258M"
+              },
+              {
+                "product-id": "20000259M"
+              }
             ]
           }
         },
@@ -27398,8 +27523,14 @@
         "page-attributes": {},
         "custom-attributes": {
           "custom-attribute": [
-            { "attribute-id": "color", "_content": "GoldTone" },
-            { "attribute-id": "strapMaterial", "_content": "StainlessSteel" }
+            {
+              "attribute-id": "color",
+              "_content": "GoldTone"
+            },
+            {
+              "attribute-id": "strapMaterial",
+              "_content": "StainlessSteel"
+            }
           ]
         },
         "pinterest-enabled-flag": false,
@@ -27429,8 +27560,14 @@
         "page-attributes": {},
         "custom-attributes": {
           "custom-attribute": [
-            { "attribute-id": "color", "_content": "GoldTone" },
-            { "attribute-id": "strapMaterial", "_content": "Resin" }
+            {
+              "attribute-id": "color",
+              "_content": "GoldTone"
+            },
+            {
+              "attribute-id": "strapMaterial",
+              "_content": "Resin"
+            }
           ]
         },
         "pinterest-enabled-flag": false,
@@ -27460,8 +27597,14 @@
         "page-attributes": {},
         "custom-attributes": {
           "custom-attribute": [
-            { "attribute-id": "color", "_content": "SilverChrome" },
-            { "attribute-id": "strapMaterial", "_content": "StainlessSteel" }
+            {
+              "attribute-id": "color",
+              "_content": "SilverChrome"
+            },
+            {
+              "attribute-id": "strapMaterial",
+              "_content": "StainlessSteel"
+            }
           ]
         },
         "pinterest-enabled-flag": false,
@@ -27491,8 +27634,14 @@
         "page-attributes": {},
         "custom-attributes": {
           "custom-attribute": [
-            { "attribute-id": "color", "_content": "SilverChrome" },
-            { "attribute-id": "strapMaterial", "_content": "Resin" }
+            {
+              "attribute-id": "color",
+              "_content": "SilverChrome"
+            },
+            {
+              "attribute-id": "strapMaterial",
+              "_content": "Resin"
+            }
           ]
         },
         "pinterest-enabled-flag": false,
@@ -27522,8 +27671,14 @@
         "page-attributes": {},
         "custom-attributes": {
           "custom-attribute": [
-            { "attribute-id": "color", "_content": "MatteBlack" },
-            { "attribute-id": "strapMaterial", "_content": "StainlessSteel" }
+            {
+              "attribute-id": "color",
+              "_content": "MatteBlack"
+            },
+            {
+              "attribute-id": "strapMaterial",
+              "_content": "StainlessSteel"
+            }
           ]
         },
         "pinterest-enabled-flag": false,
@@ -27553,8 +27708,586 @@
         "page-attributes": {},
         "custom-attributes": {
           "custom-attribute": [
-            { "attribute-id": "color", "_content": "MatteBlack" },
-            { "attribute-id": "strapMaterial", "_content": "Resin" }
+            {
+              "attribute-id": "color",
+              "_content": "MatteBlack"
+            },
+            {
+              "attribute-id": "strapMaterial",
+              "_content": "Resin"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "10000060M",
+        "ean": "",
+        "upc": "",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "display-name": [
+          {
+            "xml:lang": "x-default",
+            "_content": "PixelPet Keyfob - Virtual Pet Replica"
+          },
+          {
+            "xml:lang": "fr-FR",
+            "_content": "Porte-clés PixelPet - Réplique d'Animal Virtuel"
+          }
+        ],
+        "short-description": [
+          {
+            "xml:lang": "x-default",
+            "_content": "Relive the 90s craze with this charming virtual pet keyfob replica. Care for your digital companion, play mini-games, and watch it evolve. Compact and stylish for on-the-go nostalgia."
+          },
+          {
+            "xml:lang": "fr-FR",
+            "_content": "Revivez la folie des années 90 avec cette charmante réplique de porte-clés d'animal virtuel. Prenez soin de votre compagnon numérique, jouez à des mini-jeux et regardez-le évoluer. Compact et élégant pour une nostalgie en déplacement."
+          }
+        ],
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "images": {
+          "image-group": [
+            {
+              "view-type": "large",
+              "image": [
+                {
+                  "path": "images/large/10000060M_CosmicBlack_1.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_CosmicBlack_2.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_CosmicBlack_3.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_CosmicBlack_4.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "large",
+              "variation": {
+                "attribute-id": "shellColor",
+                "value": "CosmicBlack"
+              },
+              "image": [
+                {
+                  "path": "images/large/10000060M_CosmicBlack_1.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_CosmicBlack_2.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_CosmicBlack_3.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_CosmicBlack_4.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "large",
+              "variation": {
+                "attribute-id": "shellColor",
+                "value": "NebulaPurple"
+              },
+              "image": [
+                {
+                  "path": "images/large/10000060M_NebulaPurple_1.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_NebulaPurple_2.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_NebulaPurple_3.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_NebulaPurple_4.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "large",
+              "variation": {
+                "attribute-id": "shellColor",
+                "value": "StardustSilver"
+              },
+              "image": [
+                {
+                  "path": "images/large/10000060M_StardustSilver_1.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_StardustSilver_2.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_StardustSilver_3.jpg"
+                },
+                {
+                  "path": "images/large/10000060M_StardustSilver_4.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "swatch",
+              "image": [
+                {
+                  "path": "images/swatch/10000060M_default_sw.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "swatch",
+              "variation": {
+                "attribute-id": "shellColor",
+                "value": "CosmicBlack"
+              },
+              "image": [
+                {
+                  "path": "images/swatch/10000060M_CosmicBlack_sw.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "swatch",
+              "variation": {
+                "attribute-id": "shellColor",
+                "value": "NebulaPurple"
+              },
+              "image": [
+                {
+                  "path": "images/swatch/10000060M_NebulaPurple_sw.jpg"
+                }
+              ]
+            },
+            {
+              "view-type": "swatch",
+              "variation": {
+                "attribute-id": "shellColor",
+                "value": "StardustSilver"
+              },
+              "image": [
+                {
+                  "path": "images/swatch/10000060M_StardustSilver_sw.jpg"
+                }
+              ]
+            }
+          ]
+        },
+        "tax-class-id": "standard",
+        "page-attributes": {
+          "page-title": [
+            {
+              "xml:lang": "x-default",
+              "_content": "pixelpet-keyfob-virtual-pet"
+            },
+            {
+              "xml:lang": "fr-FR",
+              "_content": "portecles-pixelpet-animal-virtuel"
+            }
+          ],
+          "page-description": [
+            {
+              "xml:lang": "x-default",
+              "_content": "PixelPet Keyfob: Your favorite 90s virtual pet is back in a stylish keyfob form!"
+            },
+            {
+              "xml:lang": "fr-FR",
+              "_content": "Porte-clés PixelPet : Votre animal virtuel préféré des années 90 est de retour sous forme de porte-clés élégant !"
+            }
+          ],
+          "page-url": [
+            {
+              "xml:lang": "x-default",
+              "_content": "compact-computing/interactive-gadgets/pixelpet-keyfob"
+            },
+            {
+              "xml:lang": "fr-FR",
+              "_content": "informatique-compacte/gadgets-interactifs/portecles-pixelpet"
+            }
+          ]
+        },
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "isNew",
+              "_content": "true"
+            },
+            {
+              "attribute-id": "isFeatured",
+              "_content": "true"
+            },
+            {
+              "attribute-id": "era",
+              "_content": "1990s"
+            }
+          ]
+        },
+        "variations": {
+          "attributes": {
+            "variation-attribute": [
+              {
+                "attribute-id": "shellColor",
+                "variation-attribute-id": "shellColor",
+                "display-name": [
+                  {
+                    "xml:lang": "x-default",
+                    "_content": "Shell Color"
+                  },
+                  {
+                    "xml:lang": "fr-FR",
+                    "_content": "Couleur de la Coque"
+                  }
+                ],
+                "variation-attribute-values": {
+                  "variation-attribute-value": [
+                    {
+                      "value": "CosmicBlack",
+                      "display-value": [
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Cosmic Black"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Noir Cosmique"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "NebulaPurple",
+                      "display-value": [
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Nebula Purple"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Violet Nébuleuse"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "StardustSilver",
+                      "display-value": [
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Stardust Silver"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Argent Poussière d'Étoiles"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "attribute-id": "characterType",
+                "variation-attribute-id": "characterType",
+                "display-name": [
+                  {
+                    "xml:lang": "x-default",
+                    "_content": "Character Type"
+                  },
+                  {
+                    "xml:lang": "fr-FR",
+                    "_content": "Type de Personnage"
+                  }
+                ],
+                "variation-attribute-values": {
+                  "variation-attribute-value": [
+                    {
+                      "value": "DinoBuddy",
+                      "display-value": [
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Dino Buddy"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Copain Dino"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "SpaceCat",
+                      "display-value": [
+                        {
+                          "xml:lang": "x-default",
+                          "_content": "Space Cat"
+                        },
+                        {
+                          "xml:lang": "fr-FR",
+                          "_content": "Chat de l'Espace"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "variants": {
+            "variant": [
+              {
+                "product-id": "20000260M"
+              },
+              {
+                "product-id": "20000261M"
+              },
+              {
+                "product-id": "20000262M"
+              },
+              {
+                "product-id": "20000263M"
+              },
+              {
+                "product-id": "20000264M"
+              },
+              {
+                "product-id": "20000265M"
+              }
+            ]
+          }
+        },
+        "classification-category": "cc-interactive-gadgets",
+        "pinterest-enabled-flag": true,
+        "facebook-enabled-flag": true,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000260M",
+        "ean": "",
+        "upc": "010000060001",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "shellColor",
+              "_content": "CosmicBlack"
+            },
+            {
+              "attribute-id": "characterType",
+              "_content": "DinoBuddy"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000261M",
+        "ean": "",
+        "upc": "010000060002",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "shellColor",
+              "_content": "CosmicBlack"
+            },
+            {
+              "attribute-id": "characterType",
+              "_content": "SpaceCat"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000262M",
+        "ean": "",
+        "upc": "010000060003",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "shellColor",
+              "_content": "NebulaPurple"
+            },
+            {
+              "attribute-id": "characterType",
+              "_content": "DinoBuddy"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000263M",
+        "ean": "",
+        "upc": "010000060004",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "shellColor",
+              "_content": "NebulaPurple"
+            },
+            {
+              "attribute-id": "characterType",
+              "_content": "SpaceCat"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000264M",
+        "ean": "",
+        "upc": "010000060005",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "shellColor",
+              "_content": "StardustSilver"
+            },
+            {
+              "attribute-id": "characterType",
+              "_content": "DinoBuddy"
+            }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000265M",
+        "ean": "",
+        "upc": "010000060006",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            {
+              "attribute-id": "shellColor",
+              "_content": "StardustSilver"
+            },
+            {
+              "attribute-id": "characterType",
+              "_content": "SpaceCat"
+            }
           ]
         },
         "pinterest-enabled-flag": false,
@@ -27811,6 +28544,11 @@
       {
         "category-id": "vt-novelty-displays",
         "product-id": "10000059M",
+        "primary-flag": true
+      },
+      {
+        "category-id": "cc-interactive-gadgets",
+        "product-id": "10000060M",
         "primary-flag": true
       }
     ]
