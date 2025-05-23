@@ -1,5 +1,5 @@
-import { Separator } from "../ui/separator";
-import { Skeleton } from "../ui/skeleton";
+import { Separator } from '../ui/separator'
+import { Skeleton } from '../ui/skeleton'
 
 export function LoadingCart() {
   return (
@@ -32,5 +32,5 @@ export function LoadingCart() {
         <Skeleton className="h-6 w-[110px]" />
       </div>
     </div>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export function LoadingShippingMethods() {
   return (
@@ -24,5 +24,5 @@ export function LoadingShippingMethods() {
 
       <Skeleton className="h-11 w-full rounded-full" />
     </div>
-  );
+  )
 }

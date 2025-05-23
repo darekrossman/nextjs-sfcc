@@ -1,24 +1,24 @@
-import { getCart } from "@/lib/sfcc";
-import { Cart, CartItem, Order } from "@/lib/sfcc/types";
-import { ShoppingCart } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import Price from "../price";
-import { buttonVariants } from "../ui/button";
-import { Separator } from "../ui/separator";
+import { getCart } from '@/lib/sfcc'
+import { Cart, CartItem, Order } from '@/lib/sfcc/types'
+import { ShoppingCart } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import Price from '../price'
+import { buttonVariants } from '../ui/button'
+import { Separator } from '../ui/separator'
 
 export async function CartSummary() {
-  const cart = await getCart();
+  const cart = await getCart()
 
   if (!cart || cart.lines.length === 0) {
-    return <EmptyCart />;
+    return <EmptyCart />
   }
 
-  return <Summary data={cart} />;
+  return <Summary data={cart} />
 }
 
 export const Summary = ({ data }: { data: Cart | Order }) => {
-  const { cost } = data;
+  const { cost } = data
 
   return (
     <div className="space-y-4">
@@ -53,14 +53,11 @@ export const Summary = ({ data }: { data: Cart | Order }) => {
       </div>
       <div className="flex justify-between font-bold">
         <span>Total</span>
-        <Price
-          amount={cost.totalAmount.amount}
-          currencyCode={cost.totalAmount.currencyCode}
-        />
+        <Price amount={cost.totalAmount.amount} currencyCode={cost.totalAmount.currencyCode} />
       </div>
     </div>
-  );
-};
+  )
+}
 
 function EmptyCart() {
   return (
@@ -70,15 +67,11 @@ function EmptyCart() {
       <p className="text-center text-sm text-gray-500">
         Looks like you haven't added any items to your cart yet.
       </p>
-      <Link
-        href="/"
-        prefetch
-        className={buttonVariants({ variant: "outline" })}
-      >
+      <Link href="/" prefetch className={buttonVariants({ variant: 'outline' })}>
         Continue Shopping
       </Link>
     </div>
-  );
+  )
 }
 
 function Line({ line }: { line: CartItem }) {
@@ -93,16 +86,15 @@ function Line({ line }: { line: CartItem }) {
       />
       <div className="flex-grow">
         <h3 className="font-semibold">{line.merchandise.title}</h3>
-        {line.merchandise.selectedOptions &&
-          line.merchandise.selectedOptions.length > 0 && (
-            <div className="mt-1 text-sm text-gray-500">
-              {line.merchandise.selectedOptions.map((option, index) => (
-                <div key={`${option.name}-${index}`}>
-                  {option.name}: {option.value}
-                </div>
-              ))}
-            </div>
-          )}
+        {line.merchandise.selectedOptions && line.merchandise.selectedOptions.length > 0 && (
+          <div className="mt-1 text-sm text-gray-500">
+            {line.merchandise.selectedOptions.map((option, index) => (
+              <div key={`${option.name}-${index}`}>
+                {option.name}: {option.value}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className="text-right">
         <div className="font-semibold">
@@ -114,5 +106,5 @@ function Line({ line }: { line: CartItem }) {
         <div className="text-sm text-gray-500">Qty: {line.quantity}</div>
       </div>
     </div>
-  );
+  )
 }

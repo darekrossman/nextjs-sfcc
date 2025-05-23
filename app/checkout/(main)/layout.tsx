@@ -1,15 +1,13 @@
-import { CartSummary } from "@/components/checkout/checkout-cart";
-import { CheckoutProvider } from "@/components/checkout/checkout-context";
-import { CheckoutCrumbs } from "@/components/checkout/checkout-crumbs";
-import { CheckoutError } from "@/components/checkout/checkout-error";
-import { CollapsibleSummary } from "@/components/checkout/collapsible-summary";
-import { LoadingCart } from "@/components/checkout/loading-cart";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Suspense } from "react";
+import { CartSummary } from '@/components/checkout/checkout-cart'
+import { CheckoutProvider } from '@/components/checkout/checkout-context'
+import { CheckoutCrumbs } from '@/components/checkout/checkout-crumbs'
+import { CheckoutError } from '@/components/checkout/checkout-error'
+import { CollapsibleSummary } from '@/components/checkout/collapsible-summary'
+import { LoadingCart } from '@/components/checkout/loading-cart'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Suspense } from 'react'
 
-export default async function CheckoutLayout({
-  children,
-}: React.PropsWithChildren) {
+export default async function CheckoutLayout({ children }: React.PropsWithChildren) {
   return (
     <CheckoutProvider>
       <div className="container mx-auto p-4 md:p-8">
@@ -43,5 +41,5 @@ export default async function CheckoutLayout({
         </div>
       </div>
     </CheckoutProvider>
-  );
+  )
 }

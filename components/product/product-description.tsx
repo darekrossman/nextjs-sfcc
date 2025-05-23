@@ -1,8 +1,8 @@
-import { AddToCart } from "components/cart/add-to-cart";
-import Prose from "components/prose";
-import { Product } from "lib/sfcc/types";
-import { ProductPrice } from "./product-price";
-import { VariantSelector } from "./variant-selector";
+import { AddToCart } from 'components/cart/add-to-cart'
+import Prose from 'components/prose'
+import { Product } from 'lib/sfcc/types'
+import { ProductPrice } from './product-price'
+import { VariantSelector } from './variant-selector'
 
 export function ProductDescription({ product }: { product: Product }) {
   return (
@@ -22,5 +22,5 @@ export function ProductDescription({ product }: { product: Product }) {
       ) : null}
       <AddToCart product={product} />
     </>
-  );
+  )
 }

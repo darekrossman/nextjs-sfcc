@@ -1,13 +1,13 @@
-import { CheckoutStatus } from "@/components/checkout/checkout-status";
-import { PaymentForm } from "@/components/checkout/payment-form";
-import { getCart } from "@/lib/sfcc";
-import { redirect } from "next/navigation";
+import { CheckoutStatus } from '@/components/checkout/checkout-status'
+import { PaymentForm } from '@/components/checkout/payment-form'
+import { getCart } from '@/lib/sfcc'
+import { redirect } from 'next/navigation'
 
 export default async function PaymentPage() {
-  const cart = await getCart();
+  const cart = await getCart()
 
   if (!cart || cart.lines.length === 0) {
-    redirect("/");
+    redirect('/')
   }
 
   // In a real implementation, we would need to fetch the available payment methods
@@ -18,5 +18,5 @@ export default async function PaymentPage() {
       <CheckoutStatus />
       <PaymentForm />
     </div>
-  );
+  )
 }

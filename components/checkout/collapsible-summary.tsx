@@ -1,19 +1,15 @@
-import { CartSummary } from "@/components/checkout/checkout-cart";
-import { LoadingCart } from "@/components/checkout/loading-cart";
-import Price from "@/components/price";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { getCart } from "@/lib/sfcc";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { Suspense } from "react";
+import { CartSummary } from '@/components/checkout/checkout-cart'
+import { LoadingCart } from '@/components/checkout/loading-cart'
+import Price from '@/components/price'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { getCart } from '@/lib/sfcc'
+import { ChevronDown, ChevronUp } from 'lucide-react'
+import { Suspense } from 'react'
 
 export async function CollapsibleSummary() {
-  const cart = await getCart();
+  const cart = await getCart()
 
-  if (!cart) return null;
+  if (!cart) return null
 
   return (
     <Collapsible
@@ -40,5 +36,5 @@ export async function CollapsibleSummary() {
         </Suspense>
       </CollapsibleContent>
     </Collapsible>
-  );
+  )
 }

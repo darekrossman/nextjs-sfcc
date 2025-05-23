@@ -1,44 +1,43 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CountryCode } from "@/lib/sfcc/constants";
-import { formatCAPhone, formatUKPhone, formatUSPhone } from "@/lib/sfcc/utils";
-import { useEffect, useState } from "react";
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { CountryCode } from '@/lib/sfcc/constants'
+import { formatCAPhone, formatUKPhone, formatUSPhone } from '@/lib/sfcc/utils'
+import { useEffect, useState } from 'react'
 
-export interface PhoneInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  country: CountryCode;
-  onValueChange?: (value: string) => void;
-  label?: boolean;
-  name: string;
-  labelText?: string;
-  error?: string;
-  id?: string;
+export interface PhoneInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  country: CountryCode
+  onValueChange?: (value: string) => void
+  label?: boolean
+  name: string
+  labelText?: string
+  error?: string
+  id?: string
 }
 
 const PHONE_CONFIG: Record<
   CountryCode,
   {
-    label: string;
-    format: (value: string) => string;
+    label: string
+    format: (value: string) => string
   }
 > = {
   US: {
-    label: "Phone",
+    label: 'Phone',
     format: formatUSPhone,
   },
   CA: {
-    label: "Phone",
+    label: 'Phone',
     format: formatCAPhone,
   },
   UK: {
-    label: "Phone",
+    label: 'Phone',
     format: formatUKPhone,
   },
-};
+}
 
 export function PhoneInput({
   country,
-  defaultValue = "",
+  defaultValue = '',
   value,
   onChange,
   onValueChange,
@@ -53,37 +52,33 @@ export function PhoneInput({
   ...props
 }: PhoneInputProps) {
   const [inputValue, setInputValue] = useState<string>(
-    typeof value === "string"
-      ? value
-      : typeof defaultValue === "string"
-        ? defaultValue
-        : "",
-  );
+    typeof value === 'string' ? value : typeof defaultValue === 'string' ? defaultValue : '',
+  )
 
   // Get the configuration for the selected country
-  const config = PHONE_CONFIG[country] || PHONE_CONFIG.US;
+  const config = PHONE_CONFIG[country] || PHONE_CONFIG.US
 
   // Update internal value when the controlled value changes
   useEffect(() => {
-    if (typeof value === "string" && value !== inputValue) {
-      setInputValue(value);
+    if (typeof value === 'string' && value !== inputValue) {
+      setInputValue(value)
     }
-  }, [value, inputValue]);
+  }, [value, inputValue])
 
   // Format phone when country changes
   useEffect(() => {
     if (inputValue) {
-      const formattedValue = config.format(inputValue);
-      setInputValue(formattedValue);
-      onValueChange?.(formattedValue);
+      const formattedValue = config.format(inputValue)
+      setInputValue(formattedValue)
+      onValueChange?.(formattedValue)
     }
-  }, [country, config, inputValue, onValueChange]);
+  }, [country, config, inputValue, onValueChange])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value;
-    const formattedValue = config.format(rawValue);
+    const rawValue = e.target.value
+    const formattedValue = config.format(rawValue)
 
-    setInputValue(formattedValue);
+    setInputValue(formattedValue)
 
     // Call the original onChange if provided
     if (onChange) {
@@ -94,17 +89,17 @@ export function PhoneInput({
           ...e.target,
           value: formattedValue,
         },
-      } as React.ChangeEvent<HTMLInputElement>;
-      onChange(syntheticEvent);
+      } as React.ChangeEvent<HTMLInputElement>
+      onChange(syntheticEvent)
     }
 
     // Call the value change callback if provided
-    onValueChange?.(formattedValue);
-  };
+    onValueChange?.(formattedValue)
+  }
 
   // Use the provided id or generate one from the name
-  const inputId = id || `phone-${name}`;
-  const errorId = error ? `${inputId}-error` : undefined;
+  const inputId = id || `phone-${name}`
+  const errorId = error ? `${inputId}-error` : undefined
 
   return (
     <div className="space-y-1.5">
@@ -117,7 +112,7 @@ export function PhoneInput({
         disabled={disabled}
         required={required}
         className={className}
-        aria-invalid={error ? "true" : "false"}
+        aria-invalid={error ? 'true' : 'false'}
         aria-errormessage={errorId}
         type="tel"
         {...props}
@@ -128,5 +123,5 @@ export function PhoneInput({
         </p>
       )}
     </div>
-  );
+  )
 }

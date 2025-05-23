@@ -1,17 +1,17 @@
-import { Summary } from "@/components/checkout/checkout-cart";
-import { CheckoutProvider } from "@/components/checkout/checkout-context";
-import { CheckoutStatus } from "@/components/checkout/checkout-status";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getCheckoutOrder } from "@/lib/sfcc";
-import { CircleCheck, ShoppingBag } from "lucide-react";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { Summary } from '@/components/checkout/checkout-cart'
+import { CheckoutProvider } from '@/components/checkout/checkout-context'
+import { CheckoutStatus } from '@/components/checkout/checkout-status'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { getCheckoutOrder } from '@/lib/sfcc'
+import { CircleCheck, ShoppingBag } from 'lucide-react'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export default async function CheckoutConfirmationPage() {
-  const order = await getCheckoutOrder();
+  const order = await getCheckoutOrder()
 
   if (!order) {
-    redirect("/");
+    redirect('/')
   }
 
   return (
@@ -27,12 +27,8 @@ export default async function CheckoutConfirmationPage() {
               <CardContent className="p-6 flex items-center gap-3">
                 <CircleCheck className="text-green-600 h-12 w-12" />
                 <div>
-                  <h2 className="text-sm text-neutral-500">
-                    Order #{order.orderNumber}
-                  </h2>
-                  <p className="text-xl">
-                    Thank you, {order.shippingAddress?.firstName}!
-                  </p>
+                  <h2 className="text-sm text-neutral-500">Order #{order.orderNumber}</h2>
+                  <p className="text-xl">Thank you, {order.shippingAddress?.firstName}!</p>
                 </div>
               </CardContent>
             </Card>
@@ -60,5 +56,5 @@ export default async function CheckoutConfirmationPage() {
         </div>
       </div>
     </CheckoutProvider>
-  );
+  )
 }
