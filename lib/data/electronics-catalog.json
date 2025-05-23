@@ -27162,6 +27162,409 @@
           "non-revenue-flag": false,
           "non-discountable-flag": false
         }
+      },
+      {
+        "product-id": "10000059M",
+        "ean": "",
+        "upc": "",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "display-name": [
+          {
+            "xml:lang": "x-default",
+            "_content": "DigiChron Retro LCD Watch"
+          },
+          {
+            "xml:lang": "fr-FR",
+            "_content": "Montre LCD Rétro DigiChron"
+          }
+        ],
+        "short-description": [
+          {
+            "xml:lang": "x-default",
+            "_content": "A stylish throwback to the iconic digital watches of the 80s. The DigiChron features a classic LCD display, durable casing, and essential timekeeping functions. Available in multiple finishes and strap materials."
+          },
+          {
+            "xml:lang": "fr-FR",
+            "_content": "Un retour élégant aux montres numériques emblématiques des années 80. La DigiChron dispose d'un affichage LCD classique, d'un boîtier durable et de fonctions essentielles de chronométrage. Disponible en plusieurs finitions et matériaux de bracelet."
+          }
+        ],
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "images": {
+          "image-group": [
+            {
+              "view-type": "large",
+              "image": [
+                { "path": "images/large/10000059M_GoldTone_1.jpg" },
+                { "path": "images/large/10000059M_GoldTone_2.jpg" },
+                { "path": "images/large/10000059M_GoldTone_3.jpg" },
+                { "path": "images/large/10000059M_GoldTone_4.jpg" }
+              ]
+            },
+            {
+              "view-type": "large",
+              "variation": { "attribute-id": "color", "value": "GoldTone" },
+              "image": [
+                { "path": "images/large/10000059M_GoldTone_1.jpg" },
+                { "path": "images/large/10000059M_GoldTone_2.jpg" },
+                { "path": "images/large/10000059M_GoldTone_3.jpg" },
+                { "path": "images/large/10000059M_GoldTone_4.jpg" }
+              ]
+            },
+            {
+              "view-type": "large",
+              "variation": { "attribute-id": "color", "value": "SilverChrome" },
+              "image": [
+                { "path": "images/large/10000059M_SilverChrome_1.jpg" },
+                { "path": "images/large/10000059M_SilverChrome_2.jpg" },
+                { "path": "images/large/10000059M_SilverChrome_3.jpg" },
+                { "path": "images/large/10000059M_SilverChrome_4.jpg" }
+              ]
+            },
+            {
+              "view-type": "large",
+              "variation": { "attribute-id": "color", "value": "MatteBlack" },
+              "image": [
+                { "path": "images/large/10000059M_MatteBlack_1.jpg" },
+                { "path": "images/large/10000059M_MatteBlack_2.jpg" },
+                { "path": "images/large/10000059M_MatteBlack_3.jpg" },
+                { "path": "images/large/10000059M_MatteBlack_4.jpg" }
+              ]
+            },
+            {
+              "view-type": "swatch",
+              "variation": { "attribute-id": "color", "value": "GoldTone" },
+              "image": [{ "path": "images/swatch/10000059M_GoldTone_sw.jpg" }]
+            },
+            {
+              "view-type": "swatch",
+              "variation": { "attribute-id": "color", "value": "SilverChrome" },
+              "image": [{ "path": "images/swatch/10000059M_SilverChrome_sw.jpg" }]
+            },
+            {
+              "view-type": "swatch",
+              "variation": { "attribute-id": "color", "value": "MatteBlack" },
+              "image": [{ "path": "images/swatch/10000059M_MatteBlack_sw.jpg" }]
+            }
+          ]
+        },
+        "tax-class-id": "standard",
+        "page-attributes": {
+          "page-title": [
+            {
+              "xml:lang": "x-default",
+              "_content": "digichron-retro-lcd-watch"
+            },
+            {
+              "xml:lang": "fr-FR",
+              "_content": "montre-lcd-retro-digichron"
+            }
+          ],
+          "page-description": [
+            {
+              "xml:lang": "x-default",
+              "_content": "Shop the DigiChron Retro LCD Watch. Classic 80s digital style with modern reliability."
+            },
+            {
+              "xml:lang": "fr-FR",
+              "_content": "Achetez la Montre LCD Rétro DigiChron. Style numérique classique des années 80 avec une fiabilité moderne."
+            }
+          ],
+          "page-url": [
+            {
+              "xml:lang": "x-default",
+              "_content": "visual-timepieces/novelty-displays/digichron-retro-watch"
+            },
+            {
+              "xml:lang": "fr-FR",
+              "_content": "horloges-visuelles/afficheurs-nouveaute/montre-retro-digichron"
+            }
+          ]
+        },
+        "custom-attributes": {
+          "custom-attribute": [
+            { "attribute-id": "isNew", "_content": "true" },
+            { "attribute-id": "era", "_content": "1980s" },
+            { "attribute-id": "displayType", "_content": "LCDDigital" }
+          ]
+        },
+        "variations": {
+          "attributes": {
+            "variation-attribute": [
+              {
+                "attribute-id": "color",
+                "variation-attribute-id": "color",
+                "display-name": [
+                  { "xml:lang": "x-default", "_content": "Case Color" },
+                  { "xml:lang": "fr-FR", "_content": "Couleur du Boîtier" }
+                ],
+                "variation-attribute-values": {
+                  "variation-attribute-value": [
+                    {
+                      "value": "GoldTone",
+                      "display-value": [
+                        { "xml:lang": "x-default", "_content": "Gold Tone" },
+                        { "xml:lang": "fr-FR", "_content": "Ton Or" }
+                      ]
+                    },
+                    {
+                      "value": "SilverChrome",
+                      "display-value": [
+                        { "xml:lang": "x-default", "_content": "Silver Chrome" },
+                        { "xml:lang": "fr-FR", "_content": "Chrome Argenté" }
+                      ]
+                    },
+                    {
+                      "value": "MatteBlack",
+                      "display-value": [
+                        { "xml:lang": "x-default", "_content": "Matte Black" },
+                        { "xml:lang": "fr-FR", "_content": "Noir Mat" }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "attribute-id": "strapMaterial",
+                "variation-attribute-id": "strapMaterial",
+                "display-name": [
+                  { "xml:lang": "x-default", "_content": "Strap Material" },
+                  { "xml:lang": "fr-FR", "_content": "Matériau du Bracelet" }
+                ],
+                "variation-attribute-values": {
+                  "variation-attribute-value": [
+                    {
+                      "value": "StainlessSteel",
+                      "display-value": [
+                        { "xml:lang": "x-default", "_content": "Stainless Steel" },
+                        { "xml:lang": "fr-FR", "_content": "Acier Inoxydable" }
+                      ]
+                    },
+                    {
+                      "value": "Resin",
+                      "display-value": [
+                        { "xml:lang": "x-default", "_content": "Resin Band" },
+                        { "xml:lang": "fr-FR", "_content": "Bracelet Résine" }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "variants": {
+            "variant": [
+              { "product-id": "20000254M" },
+              { "product-id": "20000255M" },
+              { "product-id": "20000256M" },
+              { "product-id": "20000257M" },
+              { "product-id": "20000258M" },
+              { "product-id": "20000259M" }
+            ]
+          }
+        },
+        "classification-category": "vt-novelty-displays",
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": true,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000254M",
+        "ean": "",
+        "upc": "010000059001",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            { "attribute-id": "color", "_content": "GoldTone" },
+            { "attribute-id": "strapMaterial", "_content": "StainlessSteel" }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000255M",
+        "ean": "",
+        "upc": "010000059002",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            { "attribute-id": "color", "_content": "GoldTone" },
+            { "attribute-id": "strapMaterial", "_content": "Resin" }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000256M",
+        "ean": "",
+        "upc": "010000059003",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            { "attribute-id": "color", "_content": "SilverChrome" },
+            { "attribute-id": "strapMaterial", "_content": "StainlessSteel" }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000257M",
+        "ean": "",
+        "upc": "010000059004",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            { "attribute-id": "color", "_content": "SilverChrome" },
+            { "attribute-id": "strapMaterial", "_content": "Resin" }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000258M",
+        "ean": "",
+        "upc": "010000059005",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            { "attribute-id": "color", "_content": "MatteBlack" },
+            { "attribute-id": "strapMaterial", "_content": "StainlessSteel" }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
+      },
+      {
+        "product-id": "20000259M",
+        "ean": "",
+        "upc": "010000059006",
+        "unit": "",
+        "min-order-quantity": 1,
+        "step-quantity": 1,
+        "store-force-price-flag": false,
+        "store-non-inventory-flag": false,
+        "store-non-revenue-flag": false,
+        "store-non-discountable-flag": false,
+        "online-flag": true,
+        "available-flag": true,
+        "searchable-flag": true,
+        "tax-class-id": "standard",
+        "page-attributes": {},
+        "custom-attributes": {
+          "custom-attribute": [
+            { "attribute-id": "color", "_content": "MatteBlack" },
+            { "attribute-id": "strapMaterial", "_content": "Resin" }
+          ]
+        },
+        "pinterest-enabled-flag": false,
+        "facebook-enabled-flag": false,
+        "store-attributes": {
+          "force-price-flag": false,
+          "non-inventory-flag": false,
+          "non-revenue-flag": false,
+          "non-discountable-flag": false
+        }
       }
     ],
     "category-assignments": [
@@ -27403,6 +27806,11 @@
       {
         "category-id": "vt-desk-clocks",
         "product-id": "10000058M",
+        "primary-flag": true
+      },
+      {
+        "category-id": "vt-novelty-displays",
+        "product-id": "10000059M",
         "primary-flag": true
       }
     ]

@@ -7,7 +7,6 @@ import { mkdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
 
 import electronicCatalog from '../data/electronics-catalog.json'
-import { mergeCatalogs } from './merge-catalogs'
 
 async function main() {
   const ai = new GoogleGenAI({
@@ -441,7 +440,7 @@ I'm now fully committed to generating the complete JSON data, ensuring a valid, 
       role: 'user',
       parts: [
         {
-          text: `Continue adding more products to the catalog and assigning them to categories that we can paste into the catalog json. Our goal is have 100 master products, each with complete variants.`,
+          text: `Generate another single master product and its variants and assign it to the apprpriate category. Return the output in the form {"products": [...], "category-assignments": [...]}`,
         },
       ],
     },
@@ -464,27 +463,39 @@ I'm now fully committed to generating the complete JSON data, ensuring a valid, 
 
   // Generate filename with timestamp
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
-  const filename = `generated-catalog-${timestamp}.json`
+  const filename = `generated-product-${timestamp}.json`
   const filepath = join(dataDir, filename)
 
   // Write the response to file
   writeFileSync(filepath, fullResponse, 'utf8')
 
-  console.log(`✅ Catalog generated successfully!`)
-  console.log(`📁 File saved to: ${filepath}`)
-  console.log(`📊 Response length: ${fullResponse.length} characters`)
-
-  // Automatically merge the generated catalog into the existing electronics catalog
-  console.log(`\n🔄 Merging generated catalog into electronics catalog...`)
   try {
-    const mergeResults = mergeCatalogs(filename)
-    console.log(`\n✅ Auto-merge completed successfully!`)
-    console.log(`📈 Final catalog stats:`)
-    console.log(`   └── Total products: ${mergeResults.totalProducts}`)
-    console.log(`   └── Total assignments: ${mergeResults.totalAssignments}`)
+    // Parse the response JSON
+    const responseData = JSON.parse(fullResponse)
+
+    // Merge the new products and category assignments into the existing catalog
+    if (responseData.products && Array.isArray(responseData.products)) {
+      electronicCatalog.catalog.products.push(...responseData.products)
+    }
+
+    if (
+      responseData['category-assignments'] &&
+      Array.isArray(responseData['category-assignments'])
+    ) {
+      electronicCatalog.catalog['category-assignments'].push(
+        ...responseData['category-assignments'],
+      )
+    }
+
+    // Write the updated catalog back to the original file
+    const catalogPath = join(process.cwd(), 'lib', 'data', 'electronics-catalog.json')
+    writeFileSync(catalogPath, JSON.stringify(electronicCatalog, null, 2), 'utf8')
+
+    console.log(`Successfully merged new product into electronics-catalog.json`)
+    console.log(`Generated file also saved as: ${filename}`)
   } catch (error) {
-    console.error(`❌ Auto-merge failed:`, error)
-    console.log(`💡 You can manually run: pnpm tsx lib/scripts/merge-catalogs.ts`)
+    console.error('Error merging response into catalog:', error)
+    console.log(`Response saved to: ${filename}`)
   }
 }
 
