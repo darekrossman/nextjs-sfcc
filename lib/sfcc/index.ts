@@ -46,6 +46,7 @@ export async function getRootCategory() {
   const result = await productsClient.getCategory({
     parameters: {
       id: 'root',
+      levels: 99,
     },
   })
   return result
@@ -64,16 +65,19 @@ export async function searchAllProducts() {
     })
     return result
   } catch (error) {
-    const errorMessage = await ensureSDKResponseError(error, 'Failed to search all products')
+    const errorMessage = await ensureSDKResponseError(
+      error,
+      'Failed to search all products',
+    )
     console.error(errorMessage)
     return null
   }
 }
 
 export async function getCollections() {
-  'use cache'
-  cacheTag(TAGS.collections)
-  cacheLife('days')
+  // 'use cache'
+  // cacheTag(TAGS.collections)
+  // cacheLife('days')
   return await getSFCCCollections()
 }
 
@@ -83,9 +87,9 @@ export async function getCollection(handle: string) {
 }
 
 export async function getProduct(id: string) {
-  'use cache'
-  cacheTag(TAGS.products)
-  cacheLife('days')
+  // 'use cache'
+  // cacheTag(TAGS.products)
+  // cacheLife('days')
   return getSFCCProduct(id)
 }
 
@@ -231,7 +235,9 @@ export async function removeFromCart(lineIds: string[]) {
   return reshapeBasket(basket, cartItems)
 }
 
-export async function updateCart(lines: { id: string; merchandiseId: string; quantity: number }[]) {
+export async function updateCart(
+  lines: { id: string; merchandiseId: string; quantity: number }[],
+) {
   const cartId = (await cookies()).get('cartId')?.value!
   // get the guest token to get the correct guest cart
   const guestToken = (await cookies()).get('guest_token')?.value
@@ -309,7 +315,11 @@ export async function getProductRecommendations(productId: string) {
 }
 
 export async function revalidate(req: NextRequest) {
-  const collectionWebhooks = ['collections/create', 'collections/delete', 'collections/update']
+  const collectionWebhooks = [
+    'collections/create',
+    'collections/delete',
+    'collections/update',
+  ]
   const productWebhooks = ['products/create', 'products/delete', 'products/update']
   const topic = (await headers()).get('x-sfcc-topic') || 'unknown'
   const secret = req.nextUrl.searchParams.get('secret')
@@ -381,6 +391,7 @@ async function getSFCCProduct(id: string) {
   const product = await productsClient.getProduct({
     parameters: {
       id,
+      allImages: true,
     },
   })
 
@@ -413,6 +424,7 @@ async function searchProducts(options: {
       return productsClient.getProduct({
         parameters: {
           id: product.productId,
+          allImages: true,
         },
       })
     }),
@@ -474,7 +486,9 @@ export async function updateCustomerInfo(email: string) {
   }
 }
 
-export async function updateShippingAddress(shippingAddress: ShopperBasketsTypes.OrderAddress) {
+export async function updateShippingAddress(
+  shippingAddress: ShopperBasketsTypes.OrderAddress,
+) {
   const cartId = (await cookies()).get('cartId')?.value!
   const guestToken = (await cookies()).get('guest_token')?.value
   const config = await getGuestUserConfig(guestToken)
@@ -491,12 +505,17 @@ export async function updateShippingAddress(shippingAddress: ShopperBasketsTypes
       body: shippingAddress,
     })
   } catch (e) {
-    const error = await ensureSDKResponseError(e, 'Error updating basket shipping address')
+    const error = await ensureSDKResponseError(
+      e,
+      'Error updating basket shipping address',
+    )
     throw new Error(error)
   }
 }
 
-export async function updateBillingAddress(billingAddress: ShopperBasketsTypes.OrderAddress) {
+export async function updateBillingAddress(
+  billingAddress: ShopperBasketsTypes.OrderAddress,
+) {
   const cartId = (await cookies()).get('cartId')?.value!
   const guestToken = (await cookies()).get('guest_token')?.value
   const config = await getGuestUserConfig(guestToken)
@@ -575,7 +594,10 @@ export async function addPaymentMethod(paymentData: {
     // In a real implementation, the security code would be handled by the payment processor
     // and not stored in the commerce system
   } catch (e) {
-    const error = await ensureSDKResponseError(e, 'Error adding payment instrument to basket')
+    const error = await ensureSDKResponseError(
+      e,
+      'Error adding payment instrument to basket',
+    )
     throw new Error(error)
   }
 }

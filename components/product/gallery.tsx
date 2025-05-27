@@ -31,9 +31,6 @@ export function Gallery({
             alt={images[imageIndex]?.altText as string}
             src={images[imageIndex]?.src as string}
             priority={true}
-            loader={({ src, width, quality }) => {
-              return src
-            }}
           />
         )}
 

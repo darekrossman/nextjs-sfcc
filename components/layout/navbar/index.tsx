@@ -1,6 +1,6 @@
+import { getRootCategory } from '@/lib/sfcc'
 import CartModal from 'components/cart/modal'
 import LogoSquare from 'components/logo-square'
-import { getHeaderMenu } from 'lib/sfcc/content'
 import { Menu } from 'lib/sfcc/types'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -10,7 +10,12 @@ import Search, { SearchSkeleton } from './search'
 const { SITE_NAME } = process.env
 
 export async function Navbar() {
-  const menu = await getHeaderMenu()
+  const categories = await getRootCategory()
+
+  const menu = categories.categories?.map((category) => ({
+    title: category.name||'',
+    path: `/search/${category.id}`,
+  })) || []
 
   return (
     <nav className="relative flex items-center justify-between p-4 lg:px-6">

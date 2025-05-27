@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
   "organizeImports": {
-    "enabled": true
+    "enabled": false
   },
   "linter": {
     "enabled": true,
@@ -13,6 +13,7 @@
       },
       "correctness": {
         "noUnusedVariables": "off",
+        "noUnusedImports": "off",
         "useExhaustiveDependencies": "off"
       },
       "style": {
@@ -30,7 +31,7 @@
     "enabled": true,
     "indentWidth": 2,
     "indentStyle": "space",
-    "lineWidth": 100
+    "lineWidth": 90
   },
   "javascript": {
     "formatter": {
@@ -41,15 +42,16 @@
   "files": {
     "ignore": [
       "node_modules/**",
-      "lib/data/**",
       ".next/**",
+      ".vercel/**",
       "**/dist/**",
       "**/.turbo/**",
       "coverage/**",
       "public/**",
       "*.svg",
       "*.woff2",
-      "*.pack"
+      "*.pack",
+      "styled-system/**"
     ],
     "ignoreUnknown": true
   }

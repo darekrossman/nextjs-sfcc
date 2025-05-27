@@ -10,6 +10,10 @@ export default {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'stz3fsqejwncfcjx.public.blob.vercel-storage.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'zylq-002.dx.commercecloud.salesforce.com',
       },
       {

@@ -1,3 +1,5 @@
+export const SITE_NAME = 'Arcel'
+
 export const TAGS = {
   collections: 'collections',
   products: 'products',
