@@ -5,7 +5,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check --fix --unsafe",
-    "prepare": "panda codegen"
+    "prepare": "panda codegen",
+    "predev": "npm run typegen",
+    "prebuild": "npm run typegen",
+    "typegen": "sanity schema extract --path=./sanity/extract.json && sanity typegen generate"
   },
   "dependencies": {
     "@contentstack/delivery-sdk": "^4.7.0",
@@ -29,6 +32,9 @@
     "@radix-ui/react-toast": "^1.2.14",
     "@radix-ui/react-toggle": "^1.1.9",
     "@radix-ui/react-tooltip": "^1.2.7",
+    "@sanity/client": "^7.3.0",
+    "@sanity/image-url": "1",
+    "@sanity/vision": "3",
     "@shadow-panda/style-context": "^0.7.1",
     "clsx": "^2.1.1",
     "commerce-sdk-isomorphic": "^3.2.0",
@@ -38,12 +44,15 @@
     "mime": "^4.0.7",
     "motion": "^12.15.0",
     "next": "15.4.0-canary.54",
+    "next-sanity": "9",
     "radix-ui": "^1.4.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.4",
+    "sanity": "3",
     "sharp": "^0.34.2",
     "sonner": "^2.0.1",
+    "styled-components": "6",
     "tailwind-merge": "^3.3.0",
     "zod": "^3.24.2"
   },

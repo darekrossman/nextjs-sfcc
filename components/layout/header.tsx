@@ -1,4 +1,5 @@
 import { SITE_NAME } from '@/lib/constants'
+
 import { css } from '@/styled-system/css'
 import { Box, Divider, Flex } from '@/styled-system/jsx'
 import { Link, Text } from '@/ui/core'
@@ -6,8 +7,6 @@ import LogoIcon from '../icons/logo'
 import { Nav } from './nav'
 
 export function Header() {
-  const navPromise = Promise.resolve<any[]>([])
-
   return (
     <Box
       position="fixed"
@@ -26,7 +25,7 @@ export function Header() {
         gap={{ md: '1' }}
         bg={{ mdDown: 'var(--bg)' }}
       >
-        <Nav navPromise={navPromise} />
+        <Nav />
 
         <Divider orientation="vertical" h="5" color="var(--border)" hideFrom="md" />
 
