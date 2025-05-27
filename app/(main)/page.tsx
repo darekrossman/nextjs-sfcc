@@ -19,8 +19,6 @@ export default async function HomePage() {
   // const products = await getCollectionProducts({ collection: 'root' })
   const products: Product[] = []
 
-  console.log(products)
-
   return (
     <PageContainer>
       <Box

@@ -7,11 +7,10 @@ import { Link, Text } from '@/ui/core'
 import { Menu, Search } from 'lucide-react'
 import { isValidMotionProp } from 'motion/react'
 import * as motion from 'motion/react-client'
-import { SanityDocument } from 'next-sanity'
 import { Dialog } from 'radix-ui'
 import { Suspense, use, useState } from 'react'
 
-export function Nav({ navPromise }: { navPromise: Promise<SanityDocument[]> }) {
+export function Nav({ navPromise }: { navPromise: Promise<any[]> }) {
   return (
     <Flex>
       <NavMenu navPromise={navPromise} />
@@ -105,7 +104,7 @@ const itemVariants = {
   },
 }
 
-function NavMenu({ navPromise }: { navPromise: Promise<SanityDocument[]> }) {
+function NavMenu({ navPromise }: { navPromise: Promise<any[]> }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -137,7 +136,7 @@ function NavContent({
   open,
   setOpen,
 }: {
-  navPromise: Promise<SanityDocument[]>
+  navPromise: Promise<any[]>
   open: boolean
   setOpen: (open: boolean) => void
 }) {

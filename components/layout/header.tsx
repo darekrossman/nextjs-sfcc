@@ -4,15 +4,9 @@ import { Box, Divider, Flex } from '@/styled-system/jsx'
 import { Link, Text } from '@/ui/core'
 import LogoIcon from '../icons/logo'
 import { Nav } from './nav'
-import { client } from '@/lib/sanity/client'
-import { SanityDocument } from 'next-sanity'
-import { Suspense } from 'react'
-
-const NAV_QUERY = `*[_type == "category"]{ _id, categoryId, slug, title }`
-const options = { next: { revalidate: 30 } }
 
 export function Header() {
-  const navPromise = client.fetch<SanityDocument[]>(NAV_QUERY, {}, options)
+  const navPromise = Promise.resolve<any[]>([])
 
   return (
     <Box
