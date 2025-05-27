@@ -19,8 +19,8 @@ export const select = defineSlotRecipe({
   base: {
     trigger: {
       ...button.base,
-      ...button.variants?.variant.secondary,
-      ...button.variants?.size.md,
+      ...button.variants?.variant?.secondary,
+      ...button.variants?.size?.md,
       justifyContent: 'space-between',
       px: '4',
       textAlign: 'left',

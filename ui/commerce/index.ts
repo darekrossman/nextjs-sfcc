@@ -1,4 +1,3 @@
-export * from './product-tile'
 export * from './swatch-picker'
 export * from './star-rating'
 export * from './price'

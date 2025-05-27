@@ -188,3 +188,6 @@ export type SortedProductResult = {
   productResult: ShopperProductsTypes.Product
   index: number
 }
+
+/** @todo - need to fix this or remove this component */
+export type ProductSearchHit = any

@@ -12,7 +12,7 @@ export const colorMix: (...args: Parameters<PropertyTransform>) => {
   const amountValue = opacityValue ? Number(opacityValue) * 100 : `${100 - amount}%`
 
   return {
-    color: colorValue ?? color,
+    color: colorValue ?? color!,
     amount: amountValue,
     value: `color-mix(in srgb, transparent ${amountValue}, ${colorValue})`,
   }
