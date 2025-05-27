@@ -40,3 +40,5 @@ next-env.d.ts
 
 # editors
 .cursor
+
+styled-system
