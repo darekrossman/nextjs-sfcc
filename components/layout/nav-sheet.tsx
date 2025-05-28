@@ -28,6 +28,7 @@ const StyledMotionContent = styled(
       bg: 'gray.800',
       color: 'gray.100',
       overflow: 'hidden',
+      zIndex: 'sheet',
     },
   },
   {

@@ -10,6 +10,10 @@ export default {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+      {
+        protocol: 'https',
         hostname: 'stz3fsqejwncfcjx.public.blob.vercel-storage.com',
       },
       {

@@ -16,9 +16,6 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  // const products = await getCollectionProducts({ collection: 'root' })
-  const products: Product[] = []
-
   return (
     <PageContainer>
       <Box
@@ -41,41 +38,6 @@ export default async function HomePage() {
             objectFit: 'cover',
           })}
         />
-      </Box>
-
-      <Box bg="neutral.100" flex="1">
-        <Box h="120px" />
-
-        <Container maxW="4xl">
-          <Grid
-            gridTemplateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }}
-            gap="4"
-          >
-            {products.map((product) => {
-              return (
-                <Stack key={product.id} gap="0" bg="neutral.600/50">
-                  <Box p="5">
-                    <Box pos="relative" w="full" aspectRatio={1}>
-                      <Image
-                        src={product.featuredImage.url}
-                        alt={product.featuredImage.altText}
-                        fill
-                      />
-                    </Box>
-                  </Box>
-                  <Stack px="5" pb="4" gap="0" flex="1" textWrap="balance">
-                    <Text color="neutral.300" variant="static14">
-                      {product.title}
-                    </Text>
-                    <Text color="neutral.400" variant="static14">
-                      {product.priceRange.maxVariantPrice.amount}
-                    </Text>
-                  </Stack>
-                </Stack>
-              )
-            })}
-          </Grid>
-        </Container>
       </Box>
     </PageContainer>
   )

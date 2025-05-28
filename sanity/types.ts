@@ -261,12 +261,74 @@ export type CATEGORIES_QUERYResult = Array<{
   title: string | null;
 }>;
 // Variable: CATEGORY_QUERY
-// Query: *[_type == "category" && slug.current == $slug][0]{ _id, categoryId, slug, title }
+// Query: *[    _type == "category"    && slug.current == $slug  ][0]{    _id,    categoryId,    slug,    title,    body,    publishedAt,    heroBanner->{      _id,      title,      slug,      landscapeImage{        asset->{          _id,          url        },        alt,        hotspot,        crop      },      portraitImage{        asset->{          _id,          url        },        alt,        hotspot,        crop      },      overlay{        headline,        subheadline,        content,        textPosition,        textColor      },      callToActions[]{        label,        linkType,        internalLink,        externalUrl,        categoryReference->{          _id,          slug,          title        },        style,        priority      }    }  }
 export type CATEGORY_QUERYResult = {
   _id: string;
   categoryId: string | null;
   slug: Slug | null;
   title: string | null;
+  body: BlockContent | null;
+  publishedAt: string | null;
+  heroBanner: {
+    _id: string;
+    title: string | null;
+    slug: Slug | null;
+    landscapeImage: {
+      asset: {
+        _id: string;
+        url: string | null;
+      } | null;
+      alt: string | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+    } | null;
+    portraitImage: {
+      asset: {
+        _id: string;
+        url: string | null;
+      } | null;
+      alt: string | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+    } | null;
+    overlay: {
+      headline: string | null;
+      subheadline: string | null;
+      content: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "h2" | "h3" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }> | null;
+      textPosition: "center" | "left" | "right" | null;
+      textColor: "black" | "primary" | "secondary" | "white" | null;
+    } | null;
+    callToActions: Array<{
+      label: string | null;
+      linkType: "category" | "external" | "internal" | null;
+      internalLink: string | null;
+      externalUrl: string | null;
+      categoryReference: {
+        _id: string;
+        slug: Slug | null;
+        title: string | null;
+      } | null;
+      style: "ghost" | "outline" | "primary" | "secondary" | null;
+      priority: null;
+    }> | null;
+  } | null;
 } | null;
 
 // Query TypeMap
@@ -274,6 +336,6 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"category\"]{ _id, categoryId, slug, title }": CATEGORIES_QUERYResult;
-    "*[_type == \"category\" && slug.current == $slug][0]{ _id, categoryId, slug, title }": CATEGORY_QUERYResult;
+    "*[\n    _type == \"category\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    categoryId,\n    slug,\n    title,\n    body,\n    publishedAt,\n    heroBanner->{\n      _id,\n      title,\n      slug,\n      landscapeImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      portraitImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      overlay{\n        headline,\n        subheadline,\n        content,\n        textPosition,\n        textColor\n      },\n      callToActions[]{\n        label,\n        linkType,\n        internalLink,\n        externalUrl,\n        categoryReference->{\n          _id,\n          slug,\n          title\n        },\n        style,\n        priority\n      }\n    }\n  }": CATEGORY_QUERYResult;
   }
 }

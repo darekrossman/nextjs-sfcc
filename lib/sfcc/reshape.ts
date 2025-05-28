@@ -66,7 +66,7 @@ export function reshapeCategories(categories: ShopperProductsTypes.Category[]) {
   return reshapedCategories
 }
 
-export function reshapeProduct(product: ShopperProductsTypes.Product): Product {
+export function reshapeProduct(product: ShopperProductsTypes.Product) {
   if (!product.name) {
     throw new Error('Product name is not set')
   }
@@ -125,7 +125,7 @@ export function reshapeProduct(product: ShopperProductsTypes.Product): Product {
   }
 }
 
-export function reshapeProducts(products: ShopperProductsTypes.Product[]): Product[] {
+export function reshapeProducts(products: ShopperProductsTypes.Product[]) {
   const reshapedProducts = []
   for (const product of products) {
     if (product) {
@@ -191,7 +191,7 @@ export function reshapeProductItem(
   item: ShopperBasketsTypes.ProductItem,
   currency: string,
   matchingProduct: Product,
-): CartItem {
+) {
   return {
     id: item.itemId || '',
     quantity: item.quantity || 0,

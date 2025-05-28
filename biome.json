@@ -49,6 +49,7 @@
       "coverage/**",
       "public/**",
       "*.svg",
+      "*.ndjson",
       "*.woff2",
       "*.pack",
       "styled-system/**"

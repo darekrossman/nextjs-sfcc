@@ -6,6 +6,7 @@ import {
   ShopperOrdersTypes,
   ShopperProducts,
   ShopperSearch,
+  ShopperSearchTypes,
   helpers,
 } from 'commerce-sdk-isomorphic'
 import { TAGS } from 'lib/constants'
@@ -27,7 +28,7 @@ import {
   reshapeShippingMethods,
 } from './reshape'
 import { ensureSDKResponseError } from './type-guards'
-import { CartItem, Product } from './types'
+import { CartItem, Product, ProductSearchResult } from './types'
 import { getCardType, maskCardNumber } from './utils'
 
 const apiConfig = {
@@ -40,37 +41,27 @@ const apiConfig = {
   },
 }
 
-export async function getRootCategory() {
-  const config = await getGuestUserConfig()
-  const productsClient = new ShopperProducts(config)
-  const result = await productsClient.getCategory({
-    parameters: {
-      id: 'root',
-      levels: 99,
-    },
-  })
-  return result
+async function getGuestUserAuthToken() {
+  const loginClient = new ShopperLogin(apiConfig)
+  try {
+    return await helpers.loginGuestUserPrivate(
+      loginClient,
+      {},
+      { clientSecret: process.env.SFCC_SECRET || '' },
+    )
+  } catch (e) {
+    const error = await ensureSDKResponseError(e, 'Failed to retrieve access token')
+    throw new Error(error)
+  }
 }
 
-export async function searchAllProducts() {
-  const config = await getGuestUserConfig()
-  const searchClient = new ShopperSearch(config)
-  try {
-    const result = await searchClient.productSearch({
-      parameters: {
-        q: '',
-        refine: [`cgid=root`],
-        limit: 200,
-      },
-    })
-    return result
-  } catch (error) {
-    const errorMessage = await ensureSDKResponseError(
-      error,
-      'Failed to search all products',
-    )
-    console.error(errorMessage)
-    return null
+async function getGuestUserConfig(token?: string) {
+  const guestToken = token || (await getGuestUserAuthToken()).access_token
+  return {
+    ...apiConfig,
+    headers: {
+      authorization: `Bearer ${guestToken}`,
+    },
   }
 }
 
@@ -90,7 +81,17 @@ export async function getProduct(id: string) {
   // 'use cache'
   // cacheTag(TAGS.products)
   // cacheLife('days')
-  return getSFCCProduct(id)
+  const config = await getGuestUserConfig()
+  const productsClient = new ShopperProducts(config)
+
+  const product = await productsClient.getProduct({
+    parameters: {
+      id,
+      allImages: true,
+    },
+  })
+
+  return product as unknown as Product
 }
 
 export async function getCollectionProducts({
@@ -102,9 +103,9 @@ export async function getCollectionProducts({
   limit?: number
   sortKey?: string
 }) {
-  'use cache'
-  cacheTag(TAGS.products, TAGS.collections)
-  cacheLife('days')
+  // 'use cache'
+  // cacheTag(TAGS.products, TAGS.collections)
+  // cacheLife('days')
   return await searchProducts({ categoryId: collection, limit, sortKey })
 }
 
@@ -116,9 +117,9 @@ export async function getProducts({
   sortKey?: string
   reverse?: boolean
 }) {
-  'use cache'
-  cacheTag(TAGS.products)
-  cacheLife('days')
+  // 'use cache'
+  // cacheTag(TAGS.products)
+  // cacheLife('days')
   return await searchProducts({ query, sortKey })
 }
 
@@ -305,13 +306,13 @@ export async function getProductRecommendations(productId: string) {
 
   if (!categoryId) return []
 
-  const products = await getCollectionProducts({
+  const results = await getCollectionProducts({
     collection: categoryId,
     limit: 11,
   })
 
   // Filter out the product we're already looking at.
-  return products.filter((product) => product.id !== productId)
+  return results.products.filter((product) => product.id !== productId)
 }
 
 export async function revalidate(req: NextRequest) {
@@ -347,30 +348,6 @@ export async function revalidate(req: NextRequest) {
   return NextResponse.json({ status: 200, revalidated: true, now: Date.now() })
 }
 
-async function getGuestUserAuthToken() {
-  const loginClient = new ShopperLogin(apiConfig)
-  try {
-    return await helpers.loginGuestUserPrivate(
-      loginClient,
-      {},
-      { clientSecret: process.env.SFCC_SECRET || '' },
-    )
-  } catch (e) {
-    const error = await ensureSDKResponseError(e, 'Failed to retrieve access token')
-    throw new Error(error)
-  }
-}
-
-async function getGuestUserConfig(token?: string) {
-  const guestToken = token || (await getGuestUserAuthToken()).access_token
-  return {
-    ...apiConfig,
-    headers: {
-      authorization: `Bearer ${guestToken}`,
-    },
-  }
-}
-
 async function getSFCCCollections() {
   const config = await getGuestUserConfig()
   const productsClient = new ShopperProducts(config)
@@ -384,53 +361,36 @@ async function getSFCCCollections() {
   return reshapeCategories(result?.data || [])
 }
 
-async function getSFCCProduct(id: string) {
-  const config = await getGuestUserConfig()
-  const productsClient = new ShopperProducts(config)
-
-  const product = await productsClient.getProduct({
-    parameters: {
-      id,
-      allImages: true,
-    },
-  })
-
-  return reshapeProduct(product)
-}
-
 async function searchProducts(options: {
   query?: string
   categoryId?: string
   sortKey?: string
   limit?: number
-}) {
+}): Promise<ProductSearchResult> {
   const { query, categoryId, sortKey = defaultSort.sortKey, limit = 100 } = options
   const config = await getGuestUserConfig()
 
   const searchClient = new ShopperSearch(config)
-  const searchResults = await searchClient.productSearch({
+
+  const searchResults = (await searchClient.productSearch({
     parameters: {
       q: query || '',
       refine: categoryId ? [`cgid=${categoryId}`] : [],
       sort: sortKey,
       limit,
     },
-  })
+  })) as unknown as ShopperSearchTypes.ProductSearchResult
 
-  const productsClient = new ShopperProducts(config)
-
-  const results = await Promise.all(
+  const products = await Promise.all(
     (searchResults.hits || []).map((product) => {
-      return productsClient.getProduct({
-        parameters: {
-          id: product.productId,
-          allImages: true,
-        },
-      })
+      return getProduct(product.productId)
     }),
   )
 
-  return reshapeProducts(results)
+  return {
+    ...searchResults,
+    products,
+  }
 }
 
 async function getCartItems(createdBasket: ShopperBasketsTypes.Basket) {
@@ -450,15 +410,15 @@ async function getCartItems(createdBasket: ShopperBasketsTypes.Basket) {
     )
 
     // Reshape the sfcc items and push them onto the cartItems
-    createdBasket.productItems.map((productItem) => {
-      cartItems.push(
-        reshapeProductItem(
-          productItem,
-          createdBasket.currency || 'USD',
-          productsInCart.find((p) => p.id === productItem.productId)!,
-        ),
-      )
-    })
+    // createdBasket.productItems.map((productItem) => {
+    //   cartItems.push(
+    //     reshapeProductItem(
+    //       productItem,
+    //       createdBasket.currency || 'USD',
+    //       productsInCart.find((p) => p.id === productItem.productId)!,
+    //     ),
+    //   )
+    // })
   }
 
   return cartItems

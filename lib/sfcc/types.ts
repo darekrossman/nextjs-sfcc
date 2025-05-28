@@ -1,4 +1,8 @@
-import { ShopperBasketsTypes, ShopperProductsTypes } from 'commerce-sdk-isomorphic'
+import {
+  ShopperBasketsTypes,
+  ShopperProductsTypes,
+  ShopperSearchTypes,
+} from 'commerce-sdk-isomorphic'
 
 export type Connection<T> = {
   edges: Edge<T>[]
@@ -40,10 +44,11 @@ export type SalesforceProduct = {
   variationValues?: Record<string, string>
 }
 
-export type Product = Omit<SalesforceProduct, 'variants' | 'images'> & {
-  variants: ProductVariant[]
-  images: Image[]
-}
+export type Product = ShopperProductsTypes.Product
+// export type Product = Omit<SalesforceProduct, 'variants' | 'images'> & {
+//   variants: ProductVariant[]
+//   images: Image[]
+// }
 
 export type ProductVariant = {
   id: string
@@ -191,3 +196,7 @@ export type SortedProductResult = {
 
 /** @todo - need to fix this or remove this component */
 export type ProductSearchHit = any
+
+export type ProductSearchResult = ShopperSearchTypes.ProductSearchResult & {
+  products: ShopperProductsTypes.Product[]
+}
