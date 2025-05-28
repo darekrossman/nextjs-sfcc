@@ -32,7 +32,10 @@ export const SkipLink = React.forwardRef<HTMLAnchorElement, SkipLinkProps>(
         }}
         {...props}
       >
-        <FormattedMessage id="skipLink.skipToContent" defaultMessage="Skip to main content" />
+        <FormattedMessage
+          id="skipLink.skipToContent"
+          defaultMessage="Skip to main content"
+        />
       </styled.a>
     )
   },

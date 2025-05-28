@@ -64,7 +64,9 @@ export function AddToCart({ product }: { product: Product }) {
   const [message, formAction] = useActionState(addItem, null)
 
   const variant = variants.find((variant: ProductVariant) =>
-    variant.selectedOptions.every((option) => option.value === state[option.name.toLowerCase()]),
+    variant.selectedOptions.every(
+      (option) => option.value === state[option.name.toLowerCase()],
+    ),
   )
   const defaultVariantId = variants.length === 1 ? variants[0]?.id : undefined
   const selectedVariantId = variant?.id || defaultVariantId
@@ -78,7 +80,10 @@ export function AddToCart({ product }: { product: Product }) {
         addItemAction()
       }}
     >
-      <SubmitButton availableForSale={availableForSale} selectedVariantId={selectedVariantId} />
+      <SubmitButton
+        availableForSale={availableForSale}
+        selectedVariantId={selectedVariantId}
+      />
       <p aria-live="polite" className="sr-only" role="status">
         {message}
       </p>

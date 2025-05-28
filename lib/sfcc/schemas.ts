@@ -21,7 +21,10 @@ export const addressFormSchema = z.object({
 
 // Information form schema extends the address schema with email
 export const informationFormSchema = addressFormSchema.extend({
-  email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Please enter a valid email address'),
 })
 
 export const shippingMethodFormSchema = z.object({

@@ -12,10 +12,11 @@ const { SITE_NAME } = process.env
 export async function Navbar() {
   const categories = await getRootCategory()
 
-  const menu = categories.categories?.map((category) => ({
-    title: category.name||'',
-    path: `/search/${category.id}`,
-  })) || []
+  const menu =
+    categories.categories?.map((category) => ({
+      title: category.name || '',
+      path: `/search/${category.id}`,
+    })) || []
 
   return (
     <nav className="relative flex items-center justify-between p-4 lg:px-6">

@@ -9,7 +9,9 @@ export function ProductPrice({ product }: { product: Product }) {
   const { priceRange, currencyCode, variants } = product
 
   const selectedVariant = variants.find((variant) =>
-    variant.selectedOptions.every((option) => option.value === state[option.name.toLowerCase()]),
+    variant.selectedOptions.every(
+      (option) => option.value === state[option.name.toLowerCase()],
+    ),
   )
 
   if (selectedVariant) {

@@ -12,7 +12,11 @@ const BaseCheckbox = React.forwardRef<
   const styles = checkbox()
 
   return (
-    <CheckboxPrimitive.Root ref={ref} className={cx('peer', styles.root, className)} {...props}>
+    <CheckboxPrimitive.Root
+      ref={ref}
+      className={cx('peer', styles.root, className)}
+      {...props}
+    >
       <CheckboxPrimitive.Indicator className={styles.indicator}>
         <Icon name="Checkmark" size="xs" />
       </CheckboxPrimitive.Indicator>

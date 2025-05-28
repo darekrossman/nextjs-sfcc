@@ -24,28 +24,23 @@ export default async function HomePage() {
       <Box
         position="relative"
         w="100vw"
-        h={{ base: '375px', md: '460px' }}
-        bgGradient="to-b"
-        gradientFrom="neutral.300"
-        gradientTo="neutral.500"
-        borderBottom="1px solid"
-        borderColor="neutral.600"
+        // h={{ base: '375px', md: '400px' }}
+        minH="400px"
+        aspectRatio="1536 / 1024"
+        overflow="hidden"
       >
-        {/* <Box
-          h="512px"
-          aspectRatio={1}
-          position="absolute"
-          bottom="-100px"
-          left="50%"
-          transform="translateX(-50%)"
-        >
-          <Image
-            src="/cms/10000052M_Black_1.webp"
-            alt="logo"
-            width={1024}
-            height={1024}
-          />
-        </Box> */}
+        <Image
+          src="/cms/home-banner-3.webp"
+          alt="banner"
+          width={1536}
+          height={1024}
+          className={css({
+            display: 'block',
+            w: 'full',
+            h: 'auto',
+            objectFit: 'cover',
+          })}
+        />
       </Box>
 
       <Box bg="neutral.100" flex="1">

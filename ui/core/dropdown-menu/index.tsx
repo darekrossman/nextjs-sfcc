@@ -92,9 +92,13 @@ const Label = React.forwardRef<
 Label.displayName = DropdownMenuPrimitive.Label.displayName
 
 export const DropdownMenu = styled(withProvider(DropdownMenuPrimitive.Root, 'root'))
-export const DropdownMenuTrigger = styled(withContext(DropdownMenuPrimitive.Trigger, 'trigger'))
+export const DropdownMenuTrigger = styled(
+  withContext(DropdownMenuPrimitive.Trigger, 'trigger'),
+)
 export const DropdownMenuGroup = styled(withContext(DropdownMenuPrimitive.Group, 'group'))
-export const DropdownMenuPortal = styled(withContext(DropdownMenuPrimitive.Portal, 'portal'))
+export const DropdownMenuPortal = styled(
+  withContext(DropdownMenuPrimitive.Portal, 'portal'),
+)
 export const DropdownMenuSub = styled(withContext(DropdownMenuPrimitive.Sub, 'sub'))
 export const DropdownMenuRadioGroup = styled(
   withContext(DropdownMenuPrimitive.RadioGroup, 'radioGroup'),

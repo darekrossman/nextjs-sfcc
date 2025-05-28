@@ -34,7 +34,9 @@ export function AddressForm({
   prefix = '',
 }: AddressFormProps) {
   const getFieldName = (name: string) => (prefix ? `${prefix}.${name}` : name)
-  const [selectedCountry, setSelectedCountry] = useState<string>(defaultValues.country || 'US')
+  const [selectedCountry, setSelectedCountry] = useState<string>(
+    defaultValues.country || 'US',
+  )
 
   const handleCountryChange = (value: string) => {
     setSelectedCountry(value)
@@ -84,7 +86,9 @@ export function AddressForm({
               defaultValue={defaultValues.lastName}
               aria-invalid={errors?.[getFieldName('lastName')] ? 'true' : 'false'}
               aria-errormessage={
-                errors?.[getFieldName('lastName')] ? `${getFieldName('lastName')}-error` : undefined
+                errors?.[getFieldName('lastName')]
+                  ? `${getFieldName('lastName')}-error`
+                  : undefined
               }
             />
             {errors?.[getFieldName('lastName')] && (
@@ -109,7 +113,9 @@ export function AddressForm({
             defaultValue={defaultValues.address1}
             aria-invalid={errors?.[getFieldName('address1')] ? 'true' : 'false'}
             aria-errormessage={
-              errors?.[getFieldName('address1')] ? `${getFieldName('address1')}-error` : undefined
+              errors?.[getFieldName('address1')]
+                ? `${getFieldName('address1')}-error`
+                : undefined
             }
           />
           {errors?.[getFieldName('address1')] && (
@@ -123,7 +129,9 @@ export function AddressForm({
           )}
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor={getFieldName('address2')}>Apartment, suite, etc. (optional)</Label>
+          <Label htmlFor={getFieldName('address2')}>
+            Apartment, suite, etc. (optional)
+          </Label>
           <Input
             id={getFieldName('address2')}
             name={getFieldName('address2')}
@@ -132,7 +140,9 @@ export function AddressForm({
             defaultValue={defaultValues.address2}
             aria-invalid={errors?.[getFieldName('address2')] ? 'true' : 'false'}
             aria-errormessage={
-              errors?.[getFieldName('address2')] ? `${getFieldName('address2')}-error` : undefined
+              errors?.[getFieldName('address2')]
+                ? `${getFieldName('address2')}-error`
+                : undefined
             }
           />
         </div>
@@ -148,11 +158,17 @@ export function AddressForm({
               defaultValue={defaultValues.city}
               aria-invalid={errors?.[getFieldName('city')] ? 'true' : 'false'}
               aria-errormessage={
-                errors?.[getFieldName('city')] ? `${getFieldName('city')}-error` : undefined
+                errors?.[getFieldName('city')]
+                  ? `${getFieldName('city')}-error`
+                  : undefined
               }
             />
             {errors?.[getFieldName('city')] && (
-              <p id={`${getFieldName('city')}-error`} className="text-sm text-red-500" role="alert">
+              <p
+                id={`${getFieldName('city')}-error`}
+                className="text-sm text-red-500"
+                role="alert"
+              >
                 {errors[getFieldName('city')]![0]}
               </p>
             )}
@@ -168,7 +184,9 @@ export function AddressForm({
               defaultValue={defaultValues.state}
               aria-invalid={errors?.[getFieldName('state')] ? 'true' : 'false'}
               aria-errormessage={
-                errors?.[getFieldName('state')] ? `${getFieldName('state')}-error` : undefined
+                errors?.[getFieldName('state')]
+                  ? `${getFieldName('state')}-error`
+                  : undefined
               }
             />
             {errors?.[getFieldName('state')] && (
@@ -190,7 +208,9 @@ export function AddressForm({
             defaultValue={defaultValues.zip}
             disabled={pending}
             required
-            error={errors?.[getFieldName('zip')] ? errors[getFieldName('zip')]![0] : undefined}
+            error={
+              errors?.[getFieldName('zip')] ? errors[getFieldName('zip')]![0] : undefined
+            }
           />
           <div className="space-y-1.5">
             <Label htmlFor={getFieldName('country')}>Country</Label>
@@ -202,7 +222,9 @@ export function AddressForm({
               onValueChange={handleCountryChange}
               aria-invalid={errors?.[getFieldName('country')] ? 'true' : 'false'}
               aria-errormessage={
-                errors?.[getFieldName('country')] ? `${getFieldName('country')}-error` : undefined
+                errors?.[getFieldName('country')]
+                  ? `${getFieldName('country')}-error`
+                  : undefined
               }
             >
               <SelectTrigger id={getFieldName('country')}>
@@ -232,7 +254,11 @@ export function AddressForm({
           defaultValue={defaultValues.phone}
           disabled={pending}
           labelText="Phone (optional)"
-          error={errors?.[getFieldName('phone')] ? errors[getFieldName('phone')]![0] : undefined}
+          error={
+            errors?.[getFieldName('phone')]
+              ? errors[getFieldName('phone')]![0]
+              : undefined
+          }
         />
       </CardContent>
     </Card>

@@ -22,7 +22,7 @@ const StyledMotionContent = styled(
   {
     base: {
       position: 'fixed',
-      top: 0,
+      top: { base: '4', md: '6' },
       left: 0,
       maxWidth: '100vw',
       bg: 'gray.800',
@@ -37,7 +37,7 @@ const StyledMotionContent = styled(
 )
 
 const contentVariants = {
-  closed: (sm = true) => ({
+  closed: (sm = false) => ({
     top: sm ? 16 : 24,
     width: '0px',
     height: sm ? '44px' : '143px',
@@ -47,7 +47,7 @@ const contentVariants = {
       top: { type: 'spring', bounce: 0, visualDuration: 0.15 },
     },
   }),
-  open: (sm = true) => ({
+  open: (sm = false) => ({
     width: sm ? '100vw' : '375px',
     height: '100dvh',
     top: 0,
@@ -82,6 +82,7 @@ const itemVariants = {
 }
 
 export function NavSheet({ navPromise, children }: PropsWithChildren<NavSheetProps>) {
+  const isMobile = useIsMobile()
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -94,8 +95,6 @@ export function NavSheet({ navPromise, children }: PropsWithChildren<NavSheetPro
       document.body.classList.remove('nav-open')
     }
   }, [open])
-
-  console.log(open)
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen} modal={false}>
@@ -121,11 +120,20 @@ export function NavSheet({ navPromise, children }: PropsWithChildren<NavSheetPro
           />
         </NavButton>
       </Dialog.Trigger>
-      <Dialog.Portal forceMount>
-        <Suspense fallback={null}>
-          <NavContent navPromise={navPromise} open={open} setOpen={setOpen} />
-        </Suspense>
-      </Dialog.Portal>
+      <AnimatePresence>
+        {open && (
+          <Dialog.Portal forceMount>
+            <Suspense fallback={null}>
+              <NavContent
+                navPromise={navPromise}
+                open={open}
+                setOpen={setOpen}
+                isMobile={isMobile}
+              />
+            </Suspense>
+          </Dialog.Portal>
+        )}
+      </AnimatePresence>
     </Dialog.Root>
   )
 }
@@ -134,12 +142,13 @@ function NavContent({
   navPromise,
   open,
   setOpen,
+  isMobile,
 }: {
   navPromise: NavSheetProps['navPromise']
   open: boolean
   setOpen: (open: boolean) => void
+  isMobile: boolean
 }) {
-  const isMobile = useIsMobile()
   const navItems = use(navPromise)
 
   return (
@@ -147,12 +156,14 @@ function NavContent({
       <StyledMotionContent
         variants={contentVariants}
         initial="closed"
-        animate={open ? 'open' : 'closed'}
+        animate="open"
+        exit="closed"
         custom={isMobile}
       >
         <motion.ul
           initial="closed"
-          animate={open ? 'open' : 'closed'}
+          animate="open"
+          exit="closed"
           variants={listVariants}
           style={{ y: isMobile ? 100 : 200 }}
           className={css({
@@ -166,7 +177,7 @@ function NavContent({
                 <Link
                   href={`/category/${item.slug.current}`}
                   onClick={() => setOpen(false)}
-                  display="block"
+                  display="inline-block"
                   py="3"
                   fontSize="24px"
                   lineHeight="1"

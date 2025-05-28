@@ -28,7 +28,9 @@ export default async function CheckoutConfirmationPage() {
                 <CircleCheck className="text-green-600 h-12 w-12" />
                 <div>
                   <h2 className="text-sm text-neutral-500">Order #{order.orderNumber}</h2>
-                  <p className="text-xl">Thank you, {order.shippingAddress?.firstName}!</p>
+                  <p className="text-xl">
+                    Thank you, {order.shippingAddress?.firstName}!
+                  </p>
                 </div>
               </CardContent>
             </Card>

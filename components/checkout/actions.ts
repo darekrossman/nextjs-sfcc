@@ -45,7 +45,10 @@ export async function updateShippingContact(
 
     revalidateTag(TAGS.cart)
   } catch (error) {
-    return handleFormActionError(error, 'An error occurred while updating your shipping address')
+    return handleFormActionError(
+      error,
+      'An error occurred while updating your shipping address',
+    )
   }
 }
 
@@ -67,7 +70,10 @@ export async function updateShippingMethod(
 
     revalidateTag(TAGS.cart)
   } catch (error) {
-    return handleFormActionError(error, 'An error occurred while updating your shipping method')
+    return handleFormActionError(
+      error,
+      'An error occurred while updating your shipping method',
+    )
   }
 }
 
@@ -95,7 +101,10 @@ export async function addPaymentMethod(
 
     revalidateTag(TAGS.cart)
   } catch (error) {
-    return handleFormActionError(error, 'An error occurred while adding your payment method')
+    return handleFormActionError(
+      error,
+      'An error occurred while adding your payment method',
+    )
   }
 }
 

@@ -31,7 +31,12 @@ const Content = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
 >(({ children, position = 'popper', ...props }, ref) => (
   <SelectPrimitive.Portal>
-    <SelectPrimitive.Content ref={ref} position={position} data-position={position} {...props}>
+    <SelectPrimitive.Content
+      ref={ref}
+      position={position}
+      data-position={position}
+      {...props}
+    >
       <SelectPrimitive.ScrollUpButton
         className={css({
           display: 'flex',

@@ -13,17 +13,53 @@
  */
 
 // Source: schema.json
+export type BlockContent = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+  listItem?: "bullet" | "number";
+  markDefs?: Array<{
+    href?: string;
+    _type: "link";
+    _key: string;
+  }>;
+  level?: number;
+  _type: "block";
+  _key: string;
+}>;
+
 export type Category = {
   _id: string;
   _type: "category";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  title?: string;
   categoryId?: string;
+  slug?: Slug;
+  heroBanner?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "heroBanner";
+  };
+  body?: BlockContent;
+  publishedAt?: string;
+};
+
+export type HeroBanner = {
+  _id: string;
+  _type: "heroBanner";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
   title?: string;
   slug?: Slug;
-  publishedAt?: string;
-  image?: {
+  landscapeImage?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -33,26 +69,66 @@ export type Category = {
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt?: string;
     _type: "image";
   };
-  body?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
+  portraitImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  overlay?: {
+    headline?: string;
+    subheadline?: string;
+    content?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h2" | "h3";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
+    textPosition?: "left" | "center" | "right";
+    textColor?: "white" | "black" | "primary" | "secondary";
+  };
+  callToActions?: Array<{
+    label?: string;
+    linkType?: "internal" | "external" | "category";
+    internalLink?: string;
+    externalUrl?: string;
+    categoryReference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "category";
+    };
+    style?: "primary" | "secondary" | "outline" | "ghost";
+    openInNewTab?: boolean;
+    _type: "ctaButton";
     _key: string;
   }>;
+  status?: "draft" | "active" | "scheduled" | "inactive";
+  priority?: number;
+  scheduledStart?: string;
+  scheduledEnd?: string;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -173,7 +249,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = BlockContent | Category | HeroBanner | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
 // Variable: CATEGORIES_QUERY

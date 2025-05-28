@@ -1,6 +1,12 @@
 'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { CheckoutStep, checkoutStepRoutes } from '@/lib/sfcc/constants'
 import { Order } from '@/lib/sfcc/types'
@@ -27,8 +33,13 @@ export function CheckoutStatus({
     return null
   }
 
-  const { customerEmail, shippingAddress, shippingMethod, paymentInstruments, billingAddress } =
-    data
+  const {
+    customerEmail,
+    shippingAddress,
+    shippingMethod,
+    paymentInstruments,
+    billingAddress,
+  } = data
   const payment = paymentInstruments?.[0]
 
   const CardIcon = {
@@ -52,7 +63,9 @@ export function CheckoutStatus({
         <>
           <CardHeader>
             <CardTitle>Your order is confirmed</CardTitle>
-            <CardDescription>You'll receive a confirmation email shortly.</CardDescription>
+            <CardDescription>
+              You'll receive a confirmation email shortly.
+            </CardDescription>
           </CardHeader>
           <Separator />
         </>
@@ -79,7 +92,11 @@ export function CheckoutStatus({
         {shippingMethod && checkoutStep > CheckoutStep.Shipping && (
           <>
             <Separator />
-            <LineItem label="Shipping Method" step={CheckoutStep.Shipping} editable={editable}>
+            <LineItem
+              label="Shipping Method"
+              step={CheckoutStep.Shipping}
+              editable={editable}
+            >
               <div>
                 {shippingMethod.name} -{' '}
                 {shippingMethod.price && (
@@ -109,7 +126,9 @@ export function CheckoutStatus({
                   )}
                   <span>
                     Ending in{' '}
-                    <span className="font-bold">{payment.paymentCard?.numberLastDigits}</span>
+                    <span className="font-bold">
+                      {payment.paymentCard?.numberLastDigits}
+                    </span>
                   </span>
                 </div>
                 {billingAddress && (
@@ -121,8 +140,8 @@ export function CheckoutStatus({
                         <>
                           {billingAddress.address1}
                           {billingAddress.address2 ? `, ${billingAddress.address2}` : ''},{' '}
-                          {billingAddress.city} {billingAddress.state}, {billingAddress.zip},{' '}
-                          {billingAddress.country}
+                          {billingAddress.city} {billingAddress.state},{' '}
+                          {billingAddress.zip}, {billingAddress.country}
                         </>
                       )}
                     </p>
@@ -163,7 +182,10 @@ function LineItem({
 
 function EditLink({ step }: { step: CheckoutStep }) {
   return (
-    <Link href={checkoutStepRoutes[step]} className="text-sm text-blue-600 hover:text-blue-700">
+    <Link
+      href={checkoutStepRoutes[step]}
+      className="text-sm text-blue-600 hover:text-blue-700"
+    >
       Edit
     </Link>
   )

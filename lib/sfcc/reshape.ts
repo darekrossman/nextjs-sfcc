@@ -3,7 +3,15 @@ import {
   ShopperOrdersTypes,
   ShopperProductsTypes,
 } from 'commerce-sdk-isomorphic'
-import { Cart, CartItem, Collection, Image, Order, Product, ShippingMethod } from './types'
+import {
+  Cart,
+  CartItem,
+  Collection,
+  Image,
+  Order,
+  Product,
+  ShippingMethod,
+} from './types'
 
 export function reshapeShippingMethods(
   shippingMethods: ShopperBasketsTypes.ShippingMethodResult,
@@ -25,7 +33,9 @@ export function reshapeShippingMethods(
   )
 }
 
-export function reshapeCategory(category: ShopperProductsTypes.Category): Collection | undefined {
+export function reshapeCategory(
+  category: ShopperProductsTypes.Category,
+): Collection | undefined {
   if (!category) {
     return undefined
   }
@@ -128,7 +138,9 @@ export function reshapeProducts(products: ShopperProductsTypes.Product[]): Produ
   return reshapedProducts
 }
 
-export function reshapeImages(imageGroups: ShopperProductsTypes.ImageGroup[] | undefined): Image[] {
+export function reshapeImages(
+  imageGroups: ShopperProductsTypes.ImageGroup[] | undefined,
+): Image[] {
   if (!imageGroups) return []
 
   const largeGroup = imageGroups.filter((g) => g.viewType === 'large')
@@ -205,7 +217,10 @@ export function reshapeProductItem(
   }
 }
 
-export function reshapeBasket(basket: ShopperBasketsTypes.Basket, cartItems: CartItem[]): Cart {
+export function reshapeBasket(
+  basket: ShopperBasketsTypes.Basket,
+  cartItems: CartItem[],
+): Cart {
   // For demo purposes, we are assuming there's a single shipment.
   const shipment = basket.shipments?.[0]
   const shippingAddress = shipment?.shippingAddress
@@ -225,7 +240,9 @@ export function reshapeBasket(basket: ShopperBasketsTypes.Basket, cartItems: Car
       },
       totalAmount: {
         amount:
-          orderTotal != null ? orderTotal.toString() : `${productSubTotal + merchandizeTotalTax}`,
+          orderTotal != null
+            ? orderTotal.toString()
+            : `${productSubTotal + merchandizeTotalTax}`,
         currencyCode: basket.currency || 'USD',
       },
       totalTaxAmount: {
@@ -278,7 +295,10 @@ export function reshapeBasket(basket: ShopperBasketsTypes.Basket, cartItems: Car
   }
 }
 
-export function reshapeOrder(order: ShopperOrdersTypes.Order, cartItems: CartItem[]): Order {
+export function reshapeOrder(
+  order: ShopperOrdersTypes.Order,
+  cartItems: CartItem[],
+): Order {
   const cart = reshapeBasket(order as ShopperBasketsTypes.Basket, cartItems)
   return {
     ...cart,

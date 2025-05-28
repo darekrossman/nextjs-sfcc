@@ -30,7 +30,10 @@ const Price = ({
   if (minAmount && maxAmount && minAmount !== maxAmount) {
     priceDisplay = `${formatPrice(minAmount, currencyCode)} - ${formatPrice(maxAmount, currencyCode)}`
   } else if (amount || minAmount || maxAmount) {
-    priceDisplay = formatPrice(amount || minAmount || maxAmount || '9999.99', currencyCode)
+    priceDisplay = formatPrice(
+      amount || minAmount || maxAmount || '9999.99',
+      currencyCode,
+    )
   }
 
   if (!priceDisplay) {
@@ -41,7 +44,9 @@ const Price = ({
     <p suppressHydrationWarning={true} className={className}>
       {prefix ? `${prefix} ` : ''}
       {priceDisplay}
-      <span className={clsx('ml-1 inline', currencyCodeClassName)}>{`${currencyCode}`}</span>
+      <span
+        className={clsx('ml-1 inline', currencyCodeClassName)}
+      >{`${currencyCode}`}</span>
     </p>
   )
 }

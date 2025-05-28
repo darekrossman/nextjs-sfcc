@@ -38,7 +38,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let fetchedRoutes: Route[] = []
 
   try {
-    fetchedRoutes = [...(await Promise.all([collectionsPromise, productsPromise])).flat(), ...pages]
+    fetchedRoutes = [
+      ...(await Promise.all([collectionsPromise, productsPromise])).flat(),
+      ...pages,
+    ]
   } catch (error) {
     throw JSON.stringify(error, null, 2)
   }

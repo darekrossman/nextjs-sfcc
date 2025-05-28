@@ -1,11 +1,17 @@
 import { Menu, Page } from './types'
 
 export function getHeaderMenu(): Menu[] {
-  return getMenus().filter((menu) => menu.handle === 'next-js-frontend-header-menu')[0]?.links || []
+  return (
+    getMenus().filter((menu) => menu.handle === 'next-js-frontend-header-menu')[0]
+      ?.links || []
+  )
 }
 
 export function getFooterMenu(): Menu[] {
-  return getMenus().filter((menu) => menu.handle === 'next-js-frontend-footer-menu')[0]?.links || []
+  return (
+    getMenus().filter((menu) => menu.handle === 'next-js-frontend-footer-menu')[0]
+      ?.links || []
+  )
 }
 
 /**
@@ -130,10 +136,12 @@ const aboutPage = {
 <li>Automatic light/dark mode based on system settings</li>
 <li>And more!</li>
 </ul></div>`,
-  bodySummary: 'This website is built with Next.js, Vercel, and Salesforce Commerce Cloud.',
+  bodySummary:
+    'This website is built with Next.js, Vercel, and Salesforce Commerce Cloud.',
   seo: {
     title: 'About',
-    description: 'This website is built with Next.js, Vercel, and Salesforce Commerce Cloud.',
+    description:
+      'This website is built with Next.js, Vercel, and Salesforce Commerce Cloud.',
   },
   createdAt: '2024-09-20T20:15:06Z',
   updatedAt: '2024-09-20T20:15:06Z',

@@ -4,7 +4,8 @@ import { CountryCode, PostalCodeConfig } from '@/lib/sfcc/constants'
 import { formatCAPostal, formatUKPostcode, formatUSZip } from '@/lib/sfcc/utils'
 import { useEffect, useState } from 'react'
 
-export interface PostalCodeInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface PostalCodeInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   country: CountryCode
   onValueChange?: (value: string) => void
   label?: boolean
@@ -49,7 +50,11 @@ export function PostalCodeInput({
   ...props
 }: PostalCodeInputProps) {
   const [inputValue, setInputValue] = useState<string>(
-    typeof value === 'string' ? value : typeof defaultValue === 'string' ? defaultValue : '',
+    typeof value === 'string'
+      ? value
+      : typeof defaultValue === 'string'
+        ? defaultValue
+        : '',
   )
 
   // Get the configuration for the selected country

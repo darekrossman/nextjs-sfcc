@@ -1,7 +1,11 @@
 'use client'
 
 import { Input } from '@/components/ui/input'
-import { formatCreditCardNumber, getCardType, stripCardFormatting } from '@/lib/sfcc/utils'
+import {
+  formatCreditCardNumber,
+  getCardType,
+  stripCardFormatting,
+} from '@/lib/sfcc/utils'
 import { CreditCard } from 'lucide-react'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { AmexIcon, DiscoverIcon, MasterCardIcon, VisaIcon } from './icons/cc-icons'
@@ -68,7 +72,11 @@ export function CreditCardInput({
         {...props}
       />
       <div className="absolute right-2 top-1/2 -translate-y-1/2">
-        {Icon ? <Icon className="w-6 h-6" /> : <CreditCard className="w-6 h-6 opacity-50" />}
+        {Icon ? (
+          <Icon className="w-6 h-6" />
+        ) : (
+          <CreditCard className="w-6 h-6 opacity-50" />
+        )}
       </div>
     </div>
   )

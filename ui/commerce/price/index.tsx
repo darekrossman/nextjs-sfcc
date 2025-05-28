@@ -51,73 +51,90 @@ const StyledPrice = styled('div', price)
  * If the price is a number, component expects currency to be provided.
  * Uses the price recipe from the preset base for styling
  */
-export const Price = forwardRef<HTMLDivElement, PriceProps>(({ price, ...props }, ref) => {
-  if (typeof price === 'number') {
-    if (!('currency' in props)) return null
+export const Price = forwardRef<HTMLDivElement, PriceProps>(
+  ({ price, ...props }, ref) => {
+    if (typeof price === 'number') {
+      if (!('currency' in props)) return null
 
-    const { currency, ...restProps } = props
+      const { currency, ...restProps } = props
 
-    return (
-      <StyledPrice ref={ref} {...restProps}>
-        <FormattedNumber value={price} currency={currency} style="currency" />
-      </StyledPrice>
-    )
-  }
+      return (
+        <StyledPrice ref={ref} {...restProps}>
+          <FormattedNumber value={price} currency={currency} style="currency" />
+        </StyledPrice>
+      )
+    }
 
-  const { type, model, currency } = price
+    const { type, model, currency } = price
 
-  if (type === 'range') {
-    const { min, max } = model
-    const hasSale = min?.sales !== undefined && min?.sales !== min?.list
-    const minPrice = min?.sales ?? min?.list
-    const maxPrice = max?.sales ?? max?.list
+    if (type === 'range') {
+      const { min, max } = model
+      const hasSale = min?.sales !== undefined && min?.sales !== min?.list
+      const minPrice = min?.sales ?? min?.list
+      const maxPrice = max?.sales ?? max?.list
 
-    if (!minPrice || !maxPrice) {
+      if (!minPrice || !maxPrice) {
+        return null
+      }
+
+      return (
+        <StyledPrice
+          ref={ref}
+          variant={hasSale ? 'sale' : 'list'}
+          data-test="product-price-range"
+          {...props}
+        >
+          <FormattedNumber value={minPrice.value} currency={currency} style="currency" />
+          {'-'}
+          <FormattedNumber value={maxPrice.value} currency={currency} style="currency" />
+        </StyledPrice>
+      )
+    }
+
+    if (!model?.sales && !model?.list) {
       return null
     }
+
+    /** Determine if we should show sale price */
+    const hasSale =
+      model.sales != null &&
+      model.list?.value != null &&
+      model.sales.value !== model.list.value
 
     return (
       <StyledPrice
         ref={ref}
         variant={hasSale ? 'sale' : 'list'}
-        data-test="product-price-range"
+        data-test="product-price"
         {...props}
       >
-        <FormattedNumber value={minPrice.value} currency={currency} style="currency" />
-        {'-'}
-        <FormattedNumber value={maxPrice.value} currency={currency} style="currency" />
+        {hasSale ? (
+          <>
+            <span data-test="product-sale-price">
+              <FormattedNumber
+                value={model.sales?.value}
+                currency={currency}
+                style="currency"
+              />
+            </span>{' '}
+            <span data-test="product-list-price">
+              <FormattedNumber
+                value={model.list!.value}
+                currency={currency}
+                style="currency"
+              />
+            </span>{' '}
+          </>
+        ) : (
+          <FormattedNumber
+            value={model.sales?.value ?? model.list?.value ?? 0}
+            currency={currency}
+            style="currency"
+          />
+        )}
       </StyledPrice>
     )
-  }
-
-  if (!model?.sales && !model?.list) {
-    return null
-  }
-
-  /** Determine if we should show sale price */
-  const hasSale =
-    model.sales != null && model.list?.value != null && model.sales.value !== model.list.value
-
-  return (
-    <StyledPrice ref={ref} variant={hasSale ? 'sale' : 'list'} data-test="product-price" {...props}>
-      {hasSale ? (
-        <>
-          <span data-test="product-sale-price">
-            <FormattedNumber value={model.sales?.value} currency={currency} style="currency" />
-          </span>{' '}
-          <span data-test="product-list-price">
-            <FormattedNumber value={model.list!.value} currency={currency} style="currency" />
-          </span>{' '}
-        </>
-      ) : (
-        <FormattedNumber
-          value={model.sales?.value ?? model.list?.value ?? 0}
-          currency={currency}
-          style="currency"
-        />
-      )}
-    </StyledPrice>
-  )
-})
+  },
+)
 
 Price.displayName = 'Price'

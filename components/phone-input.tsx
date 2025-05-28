@@ -52,7 +52,11 @@ export function PhoneInput({
   ...props
 }: PhoneInputProps) {
   const [inputValue, setInputValue] = useState<string>(
-    typeof value === 'string' ? value : typeof defaultValue === 'string' ? defaultValue : '',
+    typeof value === 'string'
+      ? value
+      : typeof defaultValue === 'string'
+        ? defaultValue
+        : '',
   )
 
   // Get the configuration for the selected country

@@ -76,7 +76,10 @@ const PaginationBase = forwardRef<HTMLElement, PaginationProps>(
       }),
       next: formatMessage({ id: 'pagination.next', defaultMessage: 'Next' }),
       page: formatMessage({ id: 'pagination.page', defaultMessage: 'Page' }),
-      ellipsis: formatMessage({ id: 'pagination.ellipsis', defaultMessage: 'More pages' }),
+      ellipsis: formatMessage({
+        id: 'pagination.ellipsis',
+        defaultMessage: 'More pages',
+      }),
     }
 
     const mergedLabels = { ...defaultLabels, ...labels }

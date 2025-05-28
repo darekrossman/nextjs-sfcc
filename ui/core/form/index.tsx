@@ -38,8 +38,12 @@ type FormItemContextValue = {
   id: string
 }
 
-const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue)
-const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue)
+const FormFieldContext = React.createContext<FormFieldContextValue>(
+  {} as FormFieldContextValue,
+)
+const FormItemContext = React.createContext<FormItemContextValue>(
+  {} as FormItemContextValue,
+)
 
 export const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
@@ -75,16 +79,17 @@ const BaseFormField = <
   </FormFieldContext.Provider>
 )
 
-const BaseFormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  (props, ref) => {
-    const id = React.useId()
-    return (
-      <FormItemContext.Provider value={{ id }}>
-        <div ref={ref} {...props} />
-      </FormItemContext.Provider>
-    )
-  },
-)
+const BaseFormItem = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>((props, ref) => {
+  const id = React.useId()
+  return (
+    <FormItemContext.Provider value={{ id }}>
+      <div ref={ref} {...props} />
+    </FormItemContext.Provider>
+  )
+})
 BaseFormItem.displayName = 'FormItem'
 
 const BaseFormLabel = React.forwardRef<
@@ -93,7 +98,14 @@ const BaseFormLabel = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { formItemId } = useFormField()
 
-  return <Label ref={ref} className={cx(formLabel(), className)} htmlFor={formItemId} {...props} />
+  return (
+    <Label
+      ref={ref}
+      className={cx(formLabel(), className)}
+      htmlFor={formItemId}
+      {...props}
+    />
+  )
 })
 BaseFormLabel.displayName = 'FormLabel'
 
@@ -107,7 +119,9 @@ const BaseFormControl = React.forwardRef<
     <Slot
       ref={ref}
       id={formItemId}
-      aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
+      aria-describedby={
+        !error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`
+      }
       aria-invalid={!!error}
       {...props}
     />
@@ -211,7 +225,9 @@ const BaseFormPasswordField = ({
                 className="form-password-field-button"
               >
                 <Icon name={showPassword ? 'EyeOff' : 'Eye'} />
-                <VisuallyHidden>{showPassword ? hideMessageText : showMessageText}</VisuallyHidden>
+                <VisuallyHidden>
+                  {showPassword ? hideMessageText : showMessageText}
+                </VisuallyHidden>
               </Button>
             </Box>
           </FormControl>

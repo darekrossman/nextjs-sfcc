@@ -1,7 +1,11 @@
 'use client'
 
 import { CreditCardInput } from '@/components/cc-input'
-import { addPaymentMethod, placeOrder, updateBillingAddress } from '@/components/checkout/actions'
+import {
+  addPaymentMethod,
+  placeOrder,
+  updateBillingAddress,
+} from '@/components/checkout/actions'
 import { AddressForm } from '@/components/checkout/address-form'
 import { useCheckoutActionState } from '@/components/checkout/checkout-context'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -52,7 +56,9 @@ export function PaymentForm() {
   }
 
   const errors = state?.errors?.fieldErrors
-  const billingAddress = billingSameAsShipping ? cart?.shippingAddress : cart?.billingAddress
+  const billingAddress = billingSameAsShipping
+    ? cart?.shippingAddress
+    : cart?.billingAddress
 
   return (
     <form action={formAction} className="space-y-6 md:space-y-8">
@@ -68,7 +74,9 @@ export function PaymentForm() {
               name="cardholderName"
               required
               aria-invalid={errors?.cardholderName ? 'true' : 'false'}
-              aria-errormessage={errors?.cardholderName ? 'cardholderName-error' : undefined}
+              aria-errormessage={
+                errors?.cardholderName ? 'cardholderName-error' : undefined
+              }
               disabled={pending}
             />
             {errors?.cardholderName && (
@@ -88,7 +96,9 @@ export function PaymentForm() {
               disabled={pending}
               error={errors?.cardNumber?.[0]}
             />
-            {errors?.cardNumber && <p className="text-sm text-red-500">{errors.cardNumber[0]}</p>}
+            {errors?.cardNumber && (
+              <p className="text-sm text-red-500">{errors.cardNumber[0]}</p>
+            )}
           </div>
 
           <div className="grid grid-cols-3 gap-4">
@@ -145,7 +155,9 @@ export function PaymentForm() {
                 required
                 inputMode="numeric"
                 aria-invalid={errors?.securityCode ? 'true' : 'false'}
-                aria-errormessage={errors?.securityCode ? 'securityCode-error' : undefined}
+                aria-errormessage={
+                  errors?.securityCode ? 'securityCode-error' : undefined
+                }
                 disabled={pending}
               />
               {errors?.securityCode && (
@@ -165,7 +177,9 @@ export function PaymentForm() {
                 checked={billingSameAsShipping}
                 onCheckedChange={handleSameAsShippingChange}
               />
-              <Label htmlFor="billingSameAsShipping">Billing address same as shipping</Label>
+              <Label htmlFor="billingSameAsShipping">
+                Billing address same as shipping
+              </Label>
             </div>
             {errors?.billingSameAsShipping && (
               <p className="text-sm text-red-500">{errors.billingSameAsShipping[0]}</p>

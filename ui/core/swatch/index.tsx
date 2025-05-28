@@ -19,11 +19,23 @@ export interface ColorSwatch {
   interactiveWhenDisabled?: boolean
 }
 
-export type SwatchProps = HTMLStyledProps<'button'> & RecipeVariantProps<typeof swatch> & ColorSwatch & { selected?: boolean }
+export type SwatchProps = HTMLStyledProps<'button'> &
+  RecipeVariantProps<typeof swatch> &
+  ColorSwatch & { selected?: boolean }
 
 export const Swatch = forwardRef<HTMLButtonElement, SwatchProps>(
   (
-    { colorValue, imageUrl, name, selected = false, disabled = false, size = 'md', style, interactiveWhenDisabled = true, ...props },
+    {
+      colorValue,
+      imageUrl,
+      name,
+      selected = false,
+      disabled = false,
+      size = 'md',
+      style,
+      interactiveWhenDisabled = true,
+      ...props
+    },
     ref,
   ) => {
     const { formatMessage } = useIntl()
@@ -37,7 +49,10 @@ export const Swatch = forwardRef<HTMLButtonElement, SwatchProps>(
         data-selected={selected}
         data-disabled={disabled}
         disabled={!interactiveWhenDisabled ? disabled : false}
-        aria-label={formatMessage({ defaultMessage: 'Select {name} color', id: 'swatch.select' }, { name })}
+        aria-label={formatMessage(
+          { defaultMessage: 'Select {name} color', id: 'swatch.select' },
+          { name },
+        )}
         aria-disabled={disabled}
         style={{
           backgroundColor: colorValue,
@@ -45,7 +60,15 @@ export const Swatch = forwardRef<HTMLButtonElement, SwatchProps>(
         }}
         {...props}
       >
-        {imageUrl && <Image src={imageUrl} alt={name || colorValue || ''} unoptimized loading="lazy" fill />}
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt={name || colorValue || ''}
+            unoptimized
+            loading="lazy"
+            fill
+          />
+        )}
       </StyledButton>
     )
   },

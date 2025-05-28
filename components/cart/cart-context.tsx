@@ -80,7 +80,10 @@ function createOrUpdateCartItem(
 
 function updateCartTotals(lines: CartItem[]): Pick<Cart, 'totalQuantity' | 'cost'> {
   const totalQuantity = lines.reduce((sum, item) => sum + item.quantity, 0)
-  const totalAmount = lines.reduce((sum, item) => sum + Number(item.cost.totalAmount.amount), 0)
+  const totalAmount = lines.reduce(
+    (sum, item) => sum + Number(item.cost.totalAmount.amount),
+    0,
+  )
   const currencyCode = lines[0]?.cost.totalAmount.currencyCode ?? 'USD'
 
   return {
@@ -139,11 +142,15 @@ function cartReducer(state: Cart | undefined, action: CartAction): Cart {
     }
     case 'ADD_ITEM': {
       const { variant, product } = action.payload
-      const existingItem = currentCart.lines.find((item) => item.merchandise.id === variant.id)
+      const existingItem = currentCart.lines.find(
+        (item) => item.merchandise.id === variant.id,
+      )
       const updatedItem = createOrUpdateCartItem(existingItem, variant, product)
 
       const updatedLines = existingItem
-        ? currentCart.lines.map((item) => (item.merchandise.id === variant.id ? updatedItem : item))
+        ? currentCart.lines.map((item) =>
+            item.merchandise.id === variant.id ? updatedItem : item,
+          )
         : [...currentCart.lines, updatedItem]
 
       return {

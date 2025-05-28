@@ -1,4 +1,3 @@
-
 import Grid from 'components/grid'
 import ProductGridItems from 'components/layout/product-grid-items'
 import { getCollectionProducts } from 'lib/sfcc'

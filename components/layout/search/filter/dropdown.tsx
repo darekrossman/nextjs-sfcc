@@ -33,7 +33,8 @@ export default function FilterItemDropdown({ list }: { list: ListItem[] }) {
       if (
         ('path' in listItem && pathname === listItem.path) ||
         ('slug' in listItem &&
-          ((sort && sort === listItem.slug) || (!sort && defaultSort.slug === listItem.slug)))
+          ((sort && sort === listItem.slug) ||
+            (!sort && defaultSort.slug === listItem.slug)))
       ) {
         setActive(listItem.title)
       }

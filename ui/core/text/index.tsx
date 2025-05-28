@@ -19,7 +19,10 @@ export const Text = ({ as = 'p', children, className, ...props }: TextProps) => 
   const TextTag = as
 
   return (
-    <TextTag {...restProps} className={cx(text(recipeProps), css(styleProps, cssProp), className)}>
+    <TextTag
+      {...restProps}
+      className={cx(text(recipeProps), css(styleProps, cssProp), className)}
+    >
       {children}
     </TextTag>
   )

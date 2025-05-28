@@ -18,8 +18,10 @@ export const useIntl = () => {
       return message
     },
     // Add other intl functions as needed, mocking their behavior
-    formatDate: (date: Date | string | number): string => new Date(date).toLocaleDateString(),
-    formatTime: (date: Date | string | number): string => new Date(date).toLocaleTimeString(),
+    formatDate: (date: Date | string | number): string =>
+      new Date(date).toLocaleDateString(),
+    formatTime: (date: Date | string | number): string =>
+      new Date(date).toLocaleTimeString(),
     formatNumber: (num: number): string => String(num),
     // ... other properties/methods used by your components
   }

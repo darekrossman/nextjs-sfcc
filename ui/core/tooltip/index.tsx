@@ -24,42 +24,47 @@ const TooltipTriggerBase = React.forwardRef<
     className?: string
     asChild?: boolean
   }
->(({ onClick, onFocus, onBlur, onKeyUp, onKeyDown, children, asChild = true, className }, ref) => {
-  const [_open, setOpen] = React.useState(false)
+>(
+  (
+    { onClick, onFocus, onBlur, onKeyUp, onKeyDown, children, asChild = true, className },
+    ref,
+  ) => {
+    const [_open, setOpen] = React.useState(false)
 
-  const handleKeyEvents = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (onKeyUp) onKeyUp(event)
-    if (onKeyDown) onKeyDown(event)
-    if (event.key === 'Enter' || event.key === ' ') {
-      setOpen((prevOpen) => !prevOpen)
-    }
-  }
-
-  return (
-    <TooltipPrimitive.Trigger
-      ref={ref}
-      asChild={asChild}
-      tabIndex={0}
-      onClick={(e) => {
+    const handleKeyEvents = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (onKeyUp) onKeyUp(event)
+      if (onKeyDown) onKeyDown(event)
+      if (event.key === 'Enter' || event.key === ' ') {
         setOpen((prevOpen) => !prevOpen)
-        if (onClick) onClick(e)
-      }}
-      onFocus={(e) => {
-        setTimeout(() => setOpen(true), 0)
-        if (onFocus) onFocus(e)
-      }}
-      onBlur={(e) => {
-        setOpen(false)
-        if (onBlur) onBlur(e)
-      }}
-      onKeyUp={handleKeyEvents}
-      onKeyDown={handleKeyEvents}
-      className={className}
-    >
-      {children}
-    </TooltipPrimitive.Trigger>
-  )
-})
+      }
+    }
+
+    return (
+      <TooltipPrimitive.Trigger
+        ref={ref}
+        asChild={asChild}
+        tabIndex={0}
+        onClick={(e) => {
+          setOpen((prevOpen) => !prevOpen)
+          if (onClick) onClick(e)
+        }}
+        onFocus={(e) => {
+          setTimeout(() => setOpen(true), 0)
+          if (onFocus) onFocus(e)
+        }}
+        onBlur={(e) => {
+          setOpen(false)
+          if (onBlur) onBlur(e)
+        }}
+        onKeyUp={handleKeyEvents}
+        onKeyDown={handleKeyEvents}
+        className={className}
+      >
+        {children}
+      </TooltipPrimitive.Trigger>
+    )
+  },
+)
 
 export const TooltipTrigger = styled(withContext(TooltipTriggerBase, 'trigger'))
 
@@ -115,9 +120,8 @@ const TooltipBase = ({
 }
 TooltipBase.displayName = TooltipPrimitive.Root.displayName
 
-export const Tooltip: React.FC<JsxStyleProps & TooltipBaseProps & TooltipVariantProps> = styled(
-  withProvider(TooltipBase, 'root'),
-)
+export const Tooltip: React.FC<JsxStyleProps & TooltipBaseProps & TooltipVariantProps> =
+  styled(withProvider(TooltipBase, 'root'))
 
 const Content = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,

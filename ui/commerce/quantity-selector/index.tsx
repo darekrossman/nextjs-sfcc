@@ -27,7 +27,8 @@ type QuantitySelectorBaseProps = {
   error?: boolean
 }
 
-export type QuantitySelectorProps = QuantitySelectorBaseProps & Omit<HTMLStyledProps<'div'>, keyof QuantitySelectorBaseProps>
+export type QuantitySelectorProps = QuantitySelectorBaseProps &
+  Omit<HTMLStyledProps<'div'>, keyof QuantitySelectorBaseProps>
 
 /**
  * QuantitySelector component for incrementing/decrementing quantity values
@@ -80,12 +81,19 @@ const QuantitySelectorBase = ({
   const currentQuantity = value != null ? value : quantity
 
   return (
-    <HStack className={cx(classes.root, className)} tabIndex={disabled ? -1 : 0} data-test="quantity-selector" {...props}>
+    <HStack
+      className={cx(classes.root, className)}
+      tabIndex={disabled ? -1 : 0}
+      data-test="quantity-selector"
+      {...props}
+    >
       <Button
         variant="unstyled"
         aria-label={formatMessage({ defaultMessage: 'Decrease quantity' })}
         onClick={decreaseQuantity}
-        disabled={disabled || (minQuantity !== undefined && currentQuantity <= minQuantity)}
+        disabled={
+          disabled || (minQuantity !== undefined && currentQuantity <= minQuantity)
+        }
         className={classes.button}
         data-test="quantity-decrease"
       >
@@ -107,7 +115,9 @@ const QuantitySelectorBase = ({
         variant="unstyled"
         aria-label={formatMessage({ defaultMessage: 'Increase quantity' })}
         onClick={increaseQuantity}
-        disabled={disabled || (maxQuantity !== undefined && currentQuantity >= maxQuantity)}
+        disabled={
+          disabled || (maxQuantity !== undefined && currentQuantity >= maxQuantity)
+        }
         className={classes.button}
         data-test="quantity-increase"
       >

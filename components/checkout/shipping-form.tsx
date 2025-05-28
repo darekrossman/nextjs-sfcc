@@ -44,7 +44,9 @@ export function ShippingForm({ shippingMethodsPromise }: ShippingFormProps) {
             disabled={pending}
             aria-label="Available shipping methods"
             aria-invalid={errors?.shippingMethodId ? 'true' : 'false'}
-            aria-errormessage={errors?.shippingMethodId ? 'shipping-method-error' : undefined}
+            aria-errormessage={
+              errors?.shippingMethodId ? 'shipping-method-error' : undefined
+            }
           >
             {shippingMethods?.map((method) => (
               <Label key={method.id} className="cursor-pointer">

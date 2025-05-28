@@ -77,7 +77,8 @@ export function VariantSelector({
             )
             const isAvailableForSale = combinations.find((combination) =>
               filtered.every(
-                ([key, value]) => combination[key] === value && combination.availableForSale,
+                ([key, value]) =>
+                  combination[key] === value && combination.availableForSale,
               ),
             )
 

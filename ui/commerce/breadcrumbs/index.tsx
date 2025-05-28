@@ -45,7 +45,11 @@ const BreadcrumbItem = ({ item, lastItem }: { item: Breadcrumb; lastItem: boolea
       data-test="breadcrumb-item"
     >
       {item.href ? (
-        <Link href={item.href} data-test="breadcrumb-link" className={css({ display: 'block' })}>
+        <Link
+          href={item.href}
+          data-test="breadcrumb-link"
+          className={css({ display: 'block' })}
+        >
           {label}
         </Link>
       ) : (

@@ -43,7 +43,10 @@ async function cropImageToBounds(inputPath: string): Promise<CropResult> {
       throw new Error('Could not read trimmed image dimensions')
     }
 
-    const croppedDimensions = { width: trimmedMetadata.width, height: trimmedMetadata.height }
+    const croppedDimensions = {
+      width: trimmedMetadata.width,
+      height: trimmedMetadata.height,
+    }
 
     // Create output filename with dimensions
     const croppedFile = `${nameWithoutExt}_${croppedDimensions.width}x${croppedDimensions.height}${extension}`
@@ -85,11 +88,14 @@ async function cropAllImagesInDirectory(directoryPath: string): Promise<void> {
     // Filter for image files
     const imageExtensions = ['.webp', '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff']
     const imageFiles = files.filter(
-      (file) => imageExtensions.includes(extname(file).toLowerCase()) && !file.includes('_'), // Skip files that already have dimensions (avoid re-processing)
+      (file) =>
+        imageExtensions.includes(extname(file).toLowerCase()) && !file.includes('_'), // Skip files that already have dimensions (avoid re-processing)
     )
 
     if (imageFiles.length === 0) {
-      console.log('⚠️  No image files found in the directory (or all files already processed)')
+      console.log(
+        '⚠️  No image files found in the directory (or all files already processed)',
+      )
       return
     }
 
@@ -112,7 +118,8 @@ async function cropAllImagesInDirectory(directoryPath: string): Promise<void> {
           result.originalDimensions.width * result.originalDimensions.height -
           result.croppedDimensions.width * result.croppedDimensions.height
         const percentSaved = (
-          (savedSpace / (result.originalDimensions.width * result.originalDimensions.height)) *
+          (savedSpace /
+            (result.originalDimensions.width * result.originalDimensions.height)) *
           100
         ).toFixed(1)
 
@@ -139,11 +146,17 @@ async function cropAllImagesInDirectory(directoryPath: string): Promise<void> {
     if (successful > 0) {
       const totalOriginalPixels = results
         .filter((r) => r.success)
-        .reduce((sum, r) => sum + r.originalDimensions.width * r.originalDimensions.height, 0)
+        .reduce(
+          (sum, r) => sum + r.originalDimensions.width * r.originalDimensions.height,
+          0,
+        )
 
       const totalCroppedPixels = results
         .filter((r) => r.success)
-        .reduce((sum, r) => sum + r.croppedDimensions.width * r.croppedDimensions.height, 0)
+        .reduce(
+          (sum, r) => sum + r.croppedDimensions.width * r.croppedDimensions.height,
+          0,
+        )
 
       const overallReduction = (
         ((totalOriginalPixels - totalCroppedPixels) / totalOriginalPixels) *

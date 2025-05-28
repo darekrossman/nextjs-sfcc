@@ -2,7 +2,14 @@
 
 import { CheckoutStep, FormActionState, checkoutStepRoutes } from '@/lib/sfcc/constants'
 import { usePathname, useRouter } from 'next/navigation'
-import { ReactNode, createContext, useActionState, useContext, useMemo, useState } from 'react'
+import {
+  ReactNode,
+  createContext,
+  useActionState,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 import { z } from 'zod'
 
 type CheckoutContextType = {
@@ -58,7 +65,10 @@ export function useCheckout() {
 // Wraps `useActionState` for our checkout forms. It manages top-level errors
 // from actions and redirection to the next checkout step.
 export function useCheckoutActionState<T extends z.ZodTypeAny>(
-  action: (prevState: FormActionState<T>, formData: FormData) => Promise<FormActionState<T>>,
+  action: (
+    prevState: FormActionState<T>,
+    formData: FormData,
+  ) => Promise<FormActionState<T>>,
 ) {
   const { setGlobalError, goToNextStep } = useCheckout()
 

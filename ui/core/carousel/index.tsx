@@ -47,142 +47,149 @@ export function useCarousel() {
 
 const { withProvider, withContext } = createStyleContext(carousel)
 
-const BaseCarousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & CarouselProps>(
-  ({ opts, setApi, plugins, className, children, ...props }, ref) => {
-    const [carouselRef, api] = useEmblaCarousel(
-      {
-        ...opts,
-      },
-      plugins,
-    )
+const BaseCarousel = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & CarouselProps
+>(({ opts, setApi, plugins, className, children, ...props }, ref) => {
+  const [carouselRef, api] = useEmblaCarousel(
+    {
+      ...opts,
+    },
+    plugins,
+  )
 
-    const [pipPaginationRef, pipPaginationApi] = useEmblaCarousel({
-      axis: 'x',
-      containScroll: 'keepSnaps',
-      dragFree: true,
-      align: 'center',
-      slidesToScroll: 1,
-    })
+  const [pipPaginationRef, pipPaginationApi] = useEmblaCarousel({
+    axis: 'x',
+    containScroll: 'keepSnaps',
+    dragFree: true,
+    align: 'center',
+    slidesToScroll: 1,
+  })
 
-    const [selectedCarouselIndex, setSelectedCarouselIndex] = React.useState(0)
-    const [canScrollPrev, setCanScrollPrev] = React.useState(api?.canScrollPrev() ?? false)
-    const [canScrollNext, setCanScrollNext] = React.useState(api?.canScrollNext() ?? true)
+  const [selectedCarouselIndex, setSelectedCarouselIndex] = React.useState(0)
+  const [canScrollPrev, setCanScrollPrev] = React.useState(api?.canScrollPrev() ?? false)
+  const [canScrollNext, setCanScrollNext] = React.useState(api?.canScrollNext() ?? true)
 
-    const onSelect = React.useCallback(
-      (api: CarouselApi) => {
-        if (!api) {
-          return
-        }
-
-        setCanScrollPrev(api.canScrollPrev())
-        setCanScrollNext(api.canScrollNext())
-        setSelectedCarouselIndex(api.selectedScrollSnap())
-
-        if (pipPaginationApi) {
-          pipPaginationApi.scrollTo(api.selectedScrollSnap())
-        }
-      },
-      [api, pipPaginationApi],
-    )
-
-    const scrollPrev = React.useCallback(() => {
-      api?.scrollPrev()
-      pipPaginationApi?.scrollPrev()
-    }, [api])
-
-    const scrollNext = React.useCallback(() => {
-      api?.scrollNext()
-      pipPaginationApi?.scrollNext()
-    }, [api])
-
-    const scrollToIndex = React.useCallback(
-      (index: number) => {
-        api?.scrollTo(index)
-        pipPaginationApi?.scrollTo(index)
-      },
-      [api, pipPaginationApi],
-    )
-
-    const handleKeyDown = React.useCallback(
-      (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === 'ArrowLeft') {
-          event.preventDefault()
-          scrollPrev()
-        } else if (event.key === 'ArrowRight') {
-          event.preventDefault()
-          scrollNext()
-        }
-      },
-      [scrollPrev, scrollNext],
-    )
-
-    React.useEffect(() => {
-      if (!api || !setApi) {
-        return
-      }
-
-      setApi(api)
-    }, [api, setApi])
-
-    React.useEffect(() => {
+  const onSelect = React.useCallback(
+    (api: CarouselApi) => {
       if (!api) {
         return
       }
 
-      onSelect(api)
-      api.on('reInit', onSelect)
-      api.on('select', onSelect)
+      setCanScrollPrev(api.canScrollPrev())
+      setCanScrollNext(api.canScrollNext())
+      setSelectedCarouselIndex(api.selectedScrollSnap())
 
-      return () => {
-        api?.off('reInit', onSelect)
-        api?.off('select', onSelect)
+      if (pipPaginationApi) {
+        pipPaginationApi.scrollTo(api.selectedScrollSnap())
       }
-    }, [api, onSelect])
+    },
+    [api, pipPaginationApi],
+  )
 
-    return (
-      <CarouselContext.Provider
-        value={{
-          carouselRef,
-          api: api,
-          opts,
-          scrollToIndex,
-          scrollPrev,
-          scrollNext,
-          canScrollPrev,
-          canScrollNext,
-          pipPaginationRef,
-          pipPaginationApi,
-          selectedCarouselIndex,
-        }}
+  const scrollPrev = React.useCallback(() => {
+    api?.scrollPrev()
+    pipPaginationApi?.scrollPrev()
+  }, [api])
+
+  const scrollNext = React.useCallback(() => {
+    api?.scrollNext()
+    pipPaginationApi?.scrollNext()
+  }, [api])
+
+  const scrollToIndex = React.useCallback(
+    (index: number) => {
+      api?.scrollTo(index)
+      pipPaginationApi?.scrollTo(index)
+    },
+    [api, pipPaginationApi],
+  )
+
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        scrollPrev()
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        scrollNext()
+      }
+    },
+    [scrollPrev, scrollNext],
+  )
+
+  React.useEffect(() => {
+    if (!api || !setApi) {
+      return
+    }
+
+    setApi(api)
+  }, [api, setApi])
+
+  React.useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    onSelect(api)
+    api.on('reInit', onSelect)
+    api.on('select', onSelect)
+
+    return () => {
+      api?.off('reInit', onSelect)
+      api?.off('select', onSelect)
+    }
+  }, [api, onSelect])
+
+  return (
+    <CarouselContext.Provider
+      value={{
+        carouselRef,
+        api: api,
+        opts,
+        scrollToIndex,
+        scrollPrev,
+        scrollNext,
+        canScrollPrev,
+        canScrollNext,
+        pipPaginationRef,
+        pipPaginationApi,
+        selectedCarouselIndex,
+      }}
+    >
+      <styled.div
+        ref={ref}
+        onKeyDownCapture={handleKeyDown}
+        role="region"
+        aria-roledescription="carousel"
+        className={className}
+        {...props}
       >
-        <styled.div
-          ref={ref}
-          onKeyDownCapture={handleKeyDown}
-          role="region"
-          aria-roledescription="carousel"
-          className={className}
-          {...props}
-        >
-          {children}
-        </styled.div>
-      </CarouselContext.Provider>
-    )
+        {children}
+      </styled.div>
+    </CarouselContext.Provider>
+  )
+})
+
+const Viewport = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  (props, _ref) => {
+    const { carouselRef } = useCarousel()
+
+    return <div ref={carouselRef} {...props} />
   },
 )
 
-const Viewport = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, _ref) => {
-  const { carouselRef } = useCarousel()
+const Content = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  (props, ref) => {
+    return <div ref={ref} {...props} />
+  },
+)
 
-  return <div ref={carouselRef} {...props} />
-})
-
-const Content = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
-  return <div ref={ref} {...props} />
-})
-
-const Item = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
-  return <styled.div ref={ref} role="group" aria-roledescription="slide" {...props} />
-})
+const Item = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  (props, ref) => {
+    return <styled.div ref={ref} role="group" aria-roledescription="slide" {...props} />
+  },
+)
 
 type CarouselNavigationProps = ComponentProps<typeof Button>
 
@@ -191,7 +198,15 @@ const Previous = React.forwardRef<HTMLButtonElement, CarouselNavigationProps>(
     const { scrollPrev, canScrollPrev } = useCarousel()
 
     return (
-      <Button ref={ref} variant={variant} size={size} data-prev disabled={!canScrollPrev} onClick={scrollPrev} {...props}>
+      <Button
+        ref={ref}
+        variant={variant}
+        size={size}
+        data-prev
+        disabled={!canScrollPrev}
+        onClick={scrollPrev}
+        {...props}
+      >
         <Icon name="ChevronLeft" />
         <styled.span srOnly>Previous slide</styled.span>
       </Button>
@@ -204,7 +219,15 @@ const Next = React.forwardRef<HTMLButtonElement, CarouselNavigationProps>(
     const { scrollNext, canScrollNext } = useCarousel()
 
     return (
-      <Button ref={ref} variant={variant} size={size} data-next disabled={!canScrollNext} onClick={scrollNext} {...props}>
+      <Button
+        ref={ref}
+        variant={variant}
+        size={size}
+        data-next
+        disabled={!canScrollNext}
+        onClick={scrollNext}
+        {...props}
+      >
         <Icon name="ChevronRight" />
         <styled.span srOnly>Next slide</styled.span>
       </Button>

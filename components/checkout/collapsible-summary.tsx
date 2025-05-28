@@ -1,7 +1,11 @@
 import { CartSummary } from '@/components/checkout/checkout-cart'
 import { LoadingCart } from '@/components/checkout/loading-cart'
 import Price from '@/components/price'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 import { getCart } from '@/lib/sfcc'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { Suspense } from 'react'

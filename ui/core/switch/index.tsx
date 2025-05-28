@@ -11,7 +11,11 @@ const BaseSwitch = React.forwardRef<
   const styles = switchRecipe()
 
   return (
-    <SwitchPrimitive.Root className={cx('peer', styles.root, className)} {...props} ref={ref}>
+    <SwitchPrimitive.Root
+      className={cx('peer', styles.root, className)}
+      {...props}
+      ref={ref}
+    >
       <SwitchPrimitive.Thumb className={styles.thumb} />
     </SwitchPrimitive.Root>
   )
