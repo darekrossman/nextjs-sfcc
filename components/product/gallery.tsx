@@ -1,96 +1,169 @@
 'use client'
 
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
-import { GridTileImage } from 'components/grid/tile'
-import { useProduct, useUpdateURL } from 'components/product/product-context'
 import Image from 'next/image'
+import { useState, useRef, PropsWithChildren, useEffect } from 'react'
+import { Box, Center, Flex, HTMLStyledProps, Stack, styled } from '@/styled-system/jsx'
+import { ArrowLeft, ArrowRight, MoveLeft, MoveRight } from 'lucide-react'
+import { css } from '@/styled-system/css'
 
 export function Gallery({
   images,
-}: {
-  images: { src: string; altText: string }[]
-}) {
-  const { state, updateImage } = useProduct()
-  const updateURL = useUpdateURL()
-  const imageIndex = state.image ? parseInt(state.image) : 0
+  children,
+}: PropsWithChildren<{ images?: { link: string; alt?: string }[] }>) {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
 
-  const nextImageIndex = imageIndex + 1 < images.length ? imageIndex + 1 : 0
-  const previousImageIndex = imageIndex === 0 ? images.length - 1 : imageIndex - 1
+  if (!images || images.length === 0) return null
 
-  const buttonClassName =
-    'h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-black dark:hover:text-white flex items-center justify-center'
+  // Add scroll event listener to update currentIndex when manually scrolling
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft
+      const containerWidth = container.scrollWidth / images.length
+      const newIndex = Math.round(scrollLeft / containerWidth)
+
+      // Only update if index actually changed to avoid unnecessary re-renders
+      if (newIndex !== currentIndex && newIndex >= 0 && newIndex < images.length) {
+        setCurrentIndex(newIndex)
+      }
+    }
+
+    container.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll)
+    }
+  }, [currentIndex, images.length])
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      const newIndex = currentIndex - 1
+      setCurrentIndex(newIndex)
+      scrollToImage(newIndex)
+    }
+  }
+
+  const handleNext = () => {
+    if (currentIndex < images.length - 1) {
+      const newIndex = currentIndex + 1
+      setCurrentIndex(newIndex)
+      scrollToImage(newIndex)
+    }
+  }
+
+  const scrollToImage = (index: number) => {
+    if (!scrollContainerRef.current) return
+
+    const container = scrollContainerRef.current
+    const imageWidth = container.scrollWidth / images.length
+    const scrollPosition = imageWidth * index
+
+    container.scrollTo({
+      left: scrollPosition,
+      behavior: 'smooth',
+    })
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent, action: () => void) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      action()
+    }
+  }
 
   return (
-    <form>
-      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
-        {images[imageIndex] && (
-          <Image
-            className="h-full w-full object-contain"
-            fill
-            sizes="(min-width: 1024px) 66vw, 100vw"
-            alt={images[imageIndex]?.altText as string}
-            src={images[imageIndex]?.src as string}
-            priority={true}
-          />
-        )}
+    <Box position="relative">
+      <Box
+        ref={scrollContainerRef}
+        w="100vw"
+        overflow="scroll"
+        scrollSnapType="x mandatory"
+        scrollbar="hidden"
+      >
+        <Flex align="center" gap={{ base: '0', md: '36vw' }}>
+          {/* {children} */}
 
-        {images.length > 1 ? (
-          <div className="absolute bottom-[15%] flex w-full justify-center">
-            <div className="mx-auto flex h-11 items-center rounded-full border border-white bg-neutral-50/80 text-neutral-500 backdrop-blur-sm dark:border-black dark:bg-neutral-900/80">
-              <button
-                formAction={() => {
-                  const newState = updateImage(previousImageIndex.toString())
-                  updateURL(newState)
-                }}
-                aria-label="Previous product image"
-                className={buttonClassName}
-              >
-                <ArrowLeftIcon className="h-5" />
-              </button>
-              <div className="mx-1 h-6 w-px bg-neutral-500"></div>
-              <button
-                formAction={() => {
-                  const newState = updateImage(nextImageIndex.toString())
-                  updateURL(newState)
-                }}
-                aria-label="Next product image"
-                className={buttonClassName}
-              >
-                <ArrowRightIcon className="h-5" />
-              </button>
-            </div>
-          </div>
-        ) : null}
-      </div>
+          {currentIndex > 0 && (
+            <GalleryButton
+              left="0"
+              aria-label="Previous image"
+              onClick={handlePrev}
+              onKeyDown={(e) => handleKeyDown(e, handlePrev)}
+            >
+              <ArrowLeft size={20} strokeWidth={1} className={css({ y: '0.5px' })} />
+            </GalleryButton>
+          )}
 
-      {images.length > 1 ? (
-        <ul className="my-12 flex items-center flex-wrap justify-center gap-2 py-1 lg:mb-0">
-          {images.map((image, index) => {
-            const isActive = index === imageIndex
+          {currentIndex < images.length - 1 && (
+            <GalleryButton
+              right="0"
+              aria-label="Next image"
+              onClick={handleNext}
+              onKeyDown={(e) => handleKeyDown(e, handleNext)}
+            >
+              <ArrowRight size={20} strokeWidth={1} className={css({ y: '0.5px' })} />
+            </GalleryButton>
+          )}
 
+          {images?.map((image) => {
             return (
-              <li key={image.src} className="h-20 w-20">
-                <button
-                  formAction={() => {
-                    const newState = updateImage(index.toString())
-                    updateURL(newState)
-                  }}
-                  aria-label="Select product image"
-                  className="h-full w-full"
+              <Box
+                key={image.link}
+                position="relative"
+                flex="1 0 auto"
+                w={{ base: '100vw', lg: '64vw' }}
+                scrollSnapAlign="start"
+                zIndex="1"
+              >
+                <Box
+                  position="relative"
+                  w={{ base: '100vw', md: '640px' }}
+                  mx="auto"
+                  aspectRatio={1}
                 >
-                  <GridTileImage
-                    alt={image.altText}
-                    src={image.src}
-                    width={80}
-                    height={80}
-                    active={isActive}
-                  />
-                </button>
-              </li>
+                  <Image src={image.link} alt={image.alt || ''} fill />
+                </Box>
+              </Box>
             )
           })}
-        </ul>
-      ) : null}
-    </form>
+
+          <Box
+            position="relative"
+            flex="1 0 auto"
+            hideBelow="md"
+            w="640px"
+            aspectRatio={1}
+          />
+        </Flex>
+      </Box>
+    </Box>
+  )
+}
+
+function GalleryButton(props: HTMLStyledProps<'button'>) {
+  return (
+    <styled.button
+      hideBelow="md"
+      mixBlendMode="multiply"
+      cursor="pointer"
+      display="inline-flex"
+      position="absolute"
+      top="50%"
+      transform="translateY(-50%)"
+      w="11"
+      h="11"
+      alignItems="center"
+      justifyContent="center"
+      zIndex="2"
+      bg="transparent"
+      color="gray.500"
+      boxShadow={{ md: '0 0 0 1px {colors.gray.300/30}' }}
+      _hover={{ color: 'gray.800' }}
+      tabIndex={0}
+      {...props}
+    />
   )
 }

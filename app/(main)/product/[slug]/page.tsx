@@ -8,9 +8,15 @@ import { ProductProvider } from 'components/product/product-context'
 import { ProductDescription } from 'components/product/product-description'
 import { HIDDEN_PRODUCT_TAG } from 'lib/constants'
 import { getProduct, getProductRecommendations } from 'lib/sfcc'
-import { Image } from 'lib/sfcc/types'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { PageContainer } from '@/components/page-container'
+import { Box, Center, Flex, Stack, styled } from '@/styled-system/jsx'
+import { Text } from '@/ui/core'
+import Image from 'next/image'
+import { formatPrice } from '@/lib/helpers'
+import { css } from '@/styled-system/css'
+import { PlusIcon } from 'lucide-react'
 
 // export async function generateMetadata(props: {
 //   params: Promise<{ handle: string }>
@@ -57,6 +63,8 @@ export default async function ProductPage(props: {
 
   if (!product) return notFound()
 
+  console.log(product)
+
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -74,82 +82,120 @@ export default async function ProductPage(props: {
     // },
   }
 
+  const imageGroup = product.imageGroups?.[0]?.images
+
   return (
-    <div>
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(productJsonLd),
         }}
       />
-      {/* <div className="mx-auto max-w-(--breakpoint-2xl) px-4">
-        <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row lg:gap-8 dark:border-neutral-800 dark:bg-black">
-          <div className="h-full w-full basis-full lg:basis-4/6">
-            <Suspense
-              fallback={
-                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden" />
-              }
-            >
-              <ProductProvider>
-                <Gallery
-                  images={product.images.slice(0, 5).map((image: Image) => ({
-                    src: image.url,
-                    altText: image.altText,
-                  }))}
-                />
-              </ProductProvider>
-            </Suspense>
-          </div>
 
-          <div className="basis-full lg:basis-2/6">
-            <Suspense fallback={null}>
-              <ProductProvider>
-                <ProductDescription product={product} />
-              </ProductProvider>
-            </Suspense>
-          </div>
-        </div>
-        <RelatedProducts id={product.id} />
-      </div> */}
-    </div>
+      <PageContainer
+        position="relative"
+        bg="var(--bg)"
+        className={css({
+          '--bg': '{colors.stone.300}',
+        })}
+      >
+        <Box
+          pt={{ base: '60px', md: '0' }}
+          borderBottom="1px solid {colors.stone.400/50}"
+        >
+          <Gallery images={imageGroup}></Gallery>
+        </Box>
+
+        <Center
+          position={{ base: 'relative', lg: 'absolute' }}
+          top="0"
+          right="0"
+          flexDirection={{ base: 'column' }}
+          w={{ base: '100vw', lg: '36vw' }}
+          h={{ base: 'auto', lg: '640px' }}
+          pr={{ base: '0', lg: '89px' }}
+          pl={{ lg: '24px' }}
+          bg="var(--bg)/60"
+          borderLeft={{ lg: '1px solid {colors.stone.400/50}' }}
+          zIndex="1"
+          style={{
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          <Box w="100%">
+            <Stack gap="6">
+              <styled.h1
+                color="neutral.800"
+                fontSize="3xl"
+                lineHeight="1.1"
+                fontWeight="light"
+                textWrap="balance"
+                textBoxEdge="cap alphabetic"
+                textBoxTrim="trim-both"
+              >
+                {product.name}
+              </styled.h1>
+
+              <styled.p
+                color="neutral.800"
+                fontSize="sm"
+                lineHeight="1"
+                textBoxEdge="cap alphabetic"
+                textBoxTrim="trim-both"
+              >
+                {formatPrice(product.price!.toString(), product.currency!)}
+              </styled.p>
+
+              <styled.p
+                color="neutral.600"
+                fontSize="sm"
+                lineHeight="1.4"
+                textBoxEdge="cap alphabetic"
+                textBoxTrim="trim-both"
+                textWrap="balance"
+              >
+                {product.shortDescription}
+              </styled.p>
+            </Stack>
+          </Box>
+
+          <styled.button
+            position={{ lg: 'absolute' }}
+            left="-45px"
+            bottom="11"
+            display="inline-flex"
+            alignItems="center"
+            justifyContent="center"
+            h="11"
+            gap="2"
+            fontSize="sm"
+            bg="neutral.800"
+            color="neutral.100"
+            lineHeight="1"
+            textBoxEdge="cap alphabetic"
+            textBoxTrim="trim-both"
+            cursor="pointer"
+            _hover={{
+              '--accent': '{colors.green.500}',
+            }}
+            className={css({
+              '--accent': '{colors.neutral.600}',
+            })}
+          >
+            <Center w="11" h="11" bg="var(--accent)" transition="all 0.2s ease-in-out">
+              <PlusIcon
+                size={16}
+                strokeWidth={1}
+                className={css({ y: '-0.5px', x: '0.5px' })}
+              />
+            </Center>
+            <Box pr="4" pl="3">
+              Add to Cart
+            </Box>
+          </styled.button>
+        </Center>
+      </PageContainer>
+    </>
   )
 }
-
-// async function RelatedProducts({ id }: { id: string }) {
-//   const relatedProducts = await getProductRecommendations(id)
-
-//   if (!relatedProducts.length) return null
-
-//   return (
-//     <div className="py-8">
-//       <h2 className="mb-4 text-2xl font-bold">Related Products</h2>
-//       <ul className="flex w-full gap-4 overflow-x-auto pt-1">
-//         {relatedProducts.map((product) => (
-//           <li
-//             key={product.handle}
-//             className="aspect-square w-full flex-none min-[475px]:w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5"
-//           >
-//             <Link
-//               className="relative h-full w-full"
-//               href={`/product/${product.handle}`}
-//               prefetch={true}
-//             >
-//               <GridTileImage
-//                 alt={product.title}
-//                 label={{
-//                   title: product.title,
-//                   amountMin: product.priceRange.minVariantPrice.amount,
-//                   amountMax: product.priceRange.maxVariantPrice.amount,
-//                   currencyCode: product.currencyCode,
-//                 }}
-//                 src={product.featuredImage?.url}
-//                 fill
-//                 sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
-//               />
-//             </Link>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   )
-// }

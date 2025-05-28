@@ -31,7 +31,7 @@ export default async function CategoryPage({
     <PageContainer>
       <Center
         pos="relative"
-        bg="gray.900"
+        bg="neutral.200"
         h={{ base: '375px', md: '375px' }}
         position="sticky"
         top="0"

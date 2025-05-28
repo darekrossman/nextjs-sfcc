@@ -17,14 +17,20 @@ export default function SearchResults({
 
   return (
     <PageContainer
-      flex="1"
       bg="var(--bg)"
       className={css({
         '--bg': '{colors.neutral.200}',
         '--borderBase': '{colors.neutral.400/60}',
       })}
     >
-      <Grid gridTemplateColumns={{ base: '1fr', md: '89px 1fr' }} gap="0">
+      <Grid
+        gridTemplateColumns={{ base: '1fr', md: '89px 1fr' }}
+        gap="0"
+        flex="1"
+        borderTop="1px solid"
+        borderColor="var(--borderBase)"
+        mt="-1px"
+      >
         <Box>
           <Stack position="sticky" top="166px" zIndex="sticky">
             <Text variant="static14" color="neutral.600">
