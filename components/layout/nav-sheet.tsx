@@ -25,7 +25,7 @@ const StyledMotionContent = styled(
       top: { base: '4', md: '6' },
       left: 0,
       maxWidth: '100vw',
-      bg: 'gray.800',
+      bg: 'gray.900',
       color: 'gray.100',
       overflow: 'hidden',
       zIndex: 'sheet',
@@ -43,7 +43,7 @@ const contentVariants = {
     width: '0px',
     height: sm ? '44px' : '143px',
     transition: {
-      width: { type: 'spring', bounce: 0, visualDuration: 0.25, delay: 0.25 },
+      width: { type: 'spring', bounce: 0, visualDuration: 0.2, delay: sm ? 0.25 : 0.15 },
       height: { type: 'spring', bounce: 0, visualDuration: 0.1 },
       top: { type: 'spring', bounce: 0, visualDuration: 0.15 },
     },
@@ -62,7 +62,7 @@ const contentVariants = {
 
 const listVariants = {
   open: {
-    transition: { staggerChildren: 0.07, delayChildren: 0.3 },
+    transition: { staggerChildren: 0.04, delayChildren: 0.3 },
   },
   closed: {
     transition: { staggerChildren: 0.05, staggerDirection: -1 },
@@ -153,7 +153,7 @@ function NavContent({
   const navItems = use(navPromise)
 
   return (
-    <Dialog.Content asChild>
+    <Dialog.Content asChild aria-describedby={undefined}>
       <StyledMotionContent
         variants={contentVariants}
         initial="closed"
@@ -178,13 +178,11 @@ function NavContent({
                 <Link
                   href={`/category/${item.slug.current}`}
                   onClick={() => setOpen(false)}
-                  display="inline-block"
-                  py="3"
+                  display="flex"
+                  alignItems="center"
+                  h="11"
                   fontSize="24px"
-                  lineHeight="1"
                   fontWeight="light"
-                  textBoxEdge="cap alphabetic"
-                  textBoxTrim="trim-both"
                   tabIndex={open ? 0 : -1}
                 >
                   {item.title}
@@ -195,7 +193,7 @@ function NavContent({
         </motion.ul>
 
         <VisuallyHidden>
-          <Dialog.Title>Navigation</Dialog.Title>
+          <Dialog.Title>Main Navigation</Dialog.Title>
         </VisuallyHidden>
       </StyledMotionContent>
     </Dialog.Content>

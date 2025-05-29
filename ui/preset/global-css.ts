@@ -12,4 +12,12 @@ export const globalCss = defineGlobalStyles({
     fontFamily: 'sans',
     overscrollBehavior: 'none',
   },
+  '*': {
+    textBoxEdge: 'cap alphabetic',
+    textBoxTrim: 'trim-both',
+    textWrap: 'balance',
+  },
+  button: {
+    cursor: 'pointer',
+  },
 })

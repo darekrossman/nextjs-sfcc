@@ -23,4 +23,8 @@ export const gradients = defineTokens.gradients({
   CalendarGradient: {
     value: 'linear-gradient(90deg, #004E96 0%, #FFF 100%)',
   },
+  PeachTree: {
+    value:
+      'linear-gradient(160deg, rgb(152, 158, 203) 0%, rgb(141, 166, 194) 25%, rgb(167, 172, 180) 50%, rgb(210, 175, 163) 75%, rgb(238, 174, 147) 100%)',
+  },
 })

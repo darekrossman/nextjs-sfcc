@@ -78,9 +78,10 @@ export async function getCollection(handle: string) {
 }
 
 export async function getProduct(id: string) {
-  // 'use cache'
-  // cacheTag(TAGS.products)
-  // cacheLife('days')
+  'use cache'
+  cacheTag(TAGS.products)
+  cacheLife('days')
+  console.log('getProduct')
   const config = await getGuestUserConfig()
   const productsClient = new ShopperProducts(config)
 
@@ -103,9 +104,10 @@ export async function getCollectionProducts({
   limit?: number
   sortKey?: string
 }) {
-  // 'use cache'
-  // cacheTag(TAGS.products, TAGS.collections)
-  // cacheLife('days')
+  'use cache'
+  cacheTag(TAGS.products, TAGS.collections)
+  cacheLife('days')
+  console.log('getCollectionProducts')
   return await searchProducts({ categoryId: collection, limit, sortKey })
 }
 

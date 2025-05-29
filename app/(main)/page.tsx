@@ -1,6 +1,9 @@
 import { PageContainer } from '@/components/page-container'
-import { getCollectionProducts, getProducts, searchAllProducts } from '@/lib/sfcc'
+import { getCollectionProducts, getProducts } from '@/lib/sfcc'
 import { Product } from '@/lib/sfcc/types'
+import { urlFor } from '@/sanity/lib/image'
+import { sanityFetch } from '@/sanity/lib/live'
+import { PAGE_QUERY } from '@/sanity/lib/queries'
 import { css } from '@/styled-system/css'
 import { Box, Center, Container, Grid, HStack, Stack } from '@/styled-system/jsx'
 import { Text } from '@/ui/core'
@@ -16,29 +19,49 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
+  const { data: page } = await sanityFetch({
+    query: PAGE_QUERY,
+    params: { slug: 'home' },
+  })
+
+  const hero = page?.heroBanner
+
   return (
     <PageContainer>
-      <Box
-        position="relative"
-        w="100vw"
-        // h={{ base: '375px', md: '400px' }}
-        minH="400px"
-        aspectRatio="1536 / 1024"
-        overflow="hidden"
+      <Center pos="relative" bg="neutral.200" h={{ base: '375px', md: '100dvh' }}>
+        {hero?.landscapeImage ? (
+          <Image
+            src={urlFor(hero.landscapeImage)
+              .width(1536)
+              .height(1024)
+              .crop('entropy')
+              .fit('min')
+              .quality(100)
+              .auto('format')
+              .url()}
+            alt={hero.landscapeImage.alt || ''}
+            fill
+            className={css({
+              display: 'block',
+              w: 'auto',
+              h: 'full',
+              objectFit: 'cover',
+            })}
+          />
+        ) : null}
+
+        {/* <Center
+        position="absolute"
+        top="50%"
+        left="50%"
+        transform="translate(-50%, -50%)"
+        zIndex="1"
       >
-        <Image
-          src="/cms/home-banner-3.webp"
-          alt="banner"
-          width={1536}
-          height={1024}
-          className={css({
-            display: 'block',
-            w: 'full',
-            h: 'auto',
-            objectFit: 'cover',
-          })}
-        />
-      </Box>
+        <Text as="h1" fontWeight="light" variant="heading2" color="white">
+          {category?.title}
+        </Text>
+      </Center> */}
+      </Center>
     </PageContainer>
   )
 }

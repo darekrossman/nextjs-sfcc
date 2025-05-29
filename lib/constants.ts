@@ -1,4 +1,4 @@
-export const SITE_NAME = 'Arcel'
+export const SITE_NAME = 'Acme'
 
 export const TAGS = {
   collections: 'collections',

@@ -32,6 +32,42 @@ export type BlockContent = Array<{
   _key: string;
 }>;
 
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  status?: "draft" | "published";
+  excerpt?: string;
+  heroBanner?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "heroBanner";
+  }>;
+  content?: BlockContent;
+  seo?: {
+    title?: string;
+    description?: string;
+    noIndex?: boolean;
+  };
+};
+
+export type Locale = {
+  _id: string;
+  _type: "locale";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  id?: string;
+  isDefault?: boolean;
+};
+
 export type Category = {
   _id: string;
   _type: "category";
@@ -249,7 +285,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = BlockContent | Category | HeroBanner | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = BlockContent | Page | Locale | Category | HeroBanner | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
 // Variable: CATEGORIES_QUERY
@@ -330,6 +366,81 @@ export type CATEGORY_QUERYResult = {
     }> | null;
   } | null;
 } | null;
+// Variable: PAGE_QUERY
+// Query: *[    _type == "page"    && slug.current == $slug  ][0]{    _id,    title,    slug,    status,    excerpt,    content,    seo{      title,      description,      noIndex    },    heroBanner[0]->{      _id,      title,      slug,      landscapeImage{        asset->{          _id,          url        },        alt,        hotspot,        crop      },      portraitImage{        asset->{          _id,          url        },        alt,        hotspot,        crop      },      overlay{        headline,        subheadline,        content,        textPosition,        textColor      },      callToActions[]{        label,        linkType,        internalLink,        externalUrl,        categoryReference->{          _id,          slug,          title        },        style,        priority      }    }  }
+export type PAGE_QUERYResult = {
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  status: "draft" | "published" | null;
+  excerpt: string | null;
+  content: BlockContent | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    noIndex: boolean | null;
+  } | null;
+  heroBanner: {
+    _id: string;
+    title: string | null;
+    slug: Slug | null;
+    landscapeImage: {
+      asset: {
+        _id: string;
+        url: string | null;
+      } | null;
+      alt: string | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+    } | null;
+    portraitImage: {
+      asset: {
+        _id: string;
+        url: string | null;
+      } | null;
+      alt: string | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+    } | null;
+    overlay: {
+      headline: string | null;
+      subheadline: string | null;
+      content: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "h2" | "h3" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }> | null;
+      textPosition: "center" | "left" | "right" | null;
+      textColor: "black" | "primary" | "secondary" | "white" | null;
+    } | null;
+    callToActions: Array<{
+      label: string | null;
+      linkType: "category" | "external" | "internal" | null;
+      internalLink: string | null;
+      externalUrl: string | null;
+      categoryReference: {
+        _id: string;
+        slug: Slug | null;
+        title: string | null;
+      } | null;
+      style: "ghost" | "outline" | "primary" | "secondary" | null;
+      priority: null;
+    }> | null;
+  } | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
@@ -337,5 +448,6 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"category\"]{ _id, categoryId, slug, title }": CATEGORIES_QUERYResult;
     "*[\n    _type == \"category\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    categoryId,\n    slug,\n    title,\n    body,\n    publishedAt,\n    heroBanner->{\n      _id,\n      title,\n      slug,\n      landscapeImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      portraitImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      overlay{\n        headline,\n        subheadline,\n        content,\n        textPosition,\n        textColor\n      },\n      callToActions[]{\n        label,\n        linkType,\n        internalLink,\n        externalUrl,\n        categoryReference->{\n          _id,\n          slug,\n          title\n        },\n        style,\n        priority\n      }\n    }\n  }": CATEGORY_QUERYResult;
+    "*[\n    _type == \"page\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt,\n    content,\n    seo{\n      title,\n      description,\n      noIndex\n    },\n    heroBanner[0]->{\n      _id,\n      title,\n      slug,\n      landscapeImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      portraitImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      overlay{\n        headline,\n        subheadline,\n        content,\n        textPosition,\n        textColor\n      },\n      callToActions[]{\n        label,\n        linkType,\n        internalLink,\n        externalUrl,\n        categoryReference->{\n          _id,\n          slug,\n          title\n        },\n        style,\n        priority\n      }\n    }\n  }": PAGE_QUERYResult;
   }
 }

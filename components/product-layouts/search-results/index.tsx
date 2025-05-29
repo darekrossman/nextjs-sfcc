@@ -13,7 +13,7 @@ export default function SearchResults({
 }: { searchResultPromise: Promise<ProductSearchResult> }) {
   const results = use(searchResultPromise)
 
-  console.log(results)
+  // console.log(results)
 
   return (
     <PageContainer
@@ -24,7 +24,7 @@ export default function SearchResults({
       })}
     >
       <Grid
-        gridTemplateColumns={{ base: '1fr', md: '89px 1fr' }}
+        gridTemplateColumns={{ base: '1fr', md: '88px 1fr' }}
         gap="0"
         flex="1"
         borderTop="1px solid"
@@ -66,31 +66,30 @@ export default function SearchResults({
           >
             {results.products.map((product) => {
               return (
-                <Link href={`/product/${product.id}`} key={product.id}>
-                  <Stack
-                    key={product.id}
-                    gap="0"
-                    borderRight="1px solid var(--borderBase)"
-                    borderBottom="1px dotted {colors.neutral.400/40}"
-                    // borderColor="var(--borderBase)"
-                  >
-                    <Box p="5">
-                      <Box pos="relative" w="full" aspectRatio={1}>
-                        <Image
-                          src={product.imageGroups?.[0]?.images?.[0]?.link || ''}
-                          alt={product.imageGroups?.[0]?.images?.[0]?.alt || ''}
-                          fill
-                        />
-                      </Box>
+                <Link
+                  href={`/product/${product.id}`}
+                  key={product.id}
+                  display="flex"
+                  flexDirection="column"
+                  borderRight="1px solid var(--borderBase)"
+                  borderBottom="1px dotted {colors.neutral.400/40}"
+                >
+                  <Box p="5">
+                    <Box pos="relative" w="full" aspectRatio={1}>
+                      <Image
+                        src={product.imageGroups?.[0]?.images?.[0]?.link || ''}
+                        alt={product.imageGroups?.[0]?.images?.[0]?.alt || ''}
+                        fill
+                      />
                     </Box>
-                    <Stack px="5" pb="4" gap="0" flex="1" textWrap="balance">
-                      <Text color="neutral.600" variant="static14">
-                        {product.name}
-                      </Text>
-                      <Text color="neutral.400" variant="static14">
-                        {product.price}
-                      </Text>
-                    </Stack>
+                  </Box>
+                  <Stack px="5" pb="4" gap="0" flex="1" textWrap="balance">
+                    <Text color="neutral.600" variant="static14">
+                      {product.name}
+                    </Text>
+                    <Text color="neutral.400" variant="static14">
+                      {product.price}
+                    </Text>
                   </Stack>
                 </Link>
               )

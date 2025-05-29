@@ -1,58 +1,37 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { createContext, useContext, useMemo, useOptimistic } from 'react'
+import {
+  createContext,
+  useContext,
+  PropsWithChildren,
+  use,
+  useMemo,
+  useOptimistic,
+  startTransition,
+  useState,
+  useEffect,
+} from 'react'
 
-type ProductState = {
-  [key: string]: string
-} & {
-  image?: string
-}
+type ProductSelections = Record<string, string | number | undefined>
 
 type ProductContextType = {
-  state: ProductState
-  updateOption: (name: string, value: string) => ProductState
-  updateImage: (index: string) => ProductState
+  state: ProductSelections
+  setState: (state: ProductSelections) => void
 }
 
-const ProductContext = createContext<ProductContextType | undefined>(undefined)
+export const ProductContext = createContext<ProductContextType | undefined>(undefined)
 
-export function ProductProvider({ children }: { children: React.ReactNode }) {
-  const searchParams = useSearchParams()
-
-  const getInitialState = () => {
-    const params: ProductState = {}
-    for (const [key, value] of searchParams.entries()) {
-      params[key] = value
-    }
-    return params
-  }
-
-  const [state, setOptimisticState] = useOptimistic(
-    getInitialState(),
-    (prevState: ProductState, update: ProductState) => ({
-      ...prevState,
-      ...update,
-    }),
-  )
-
-  const updateOption = (name: string, value: string) => {
-    const newState = { [name]: value }
-    setOptimisticState(newState)
-    return { ...state, ...newState }
-  }
-
-  const updateImage = (index: string) => {
-    const newState = { image: index }
-    setOptimisticState(newState)
-    return { ...state, ...newState }
-  }
+export function ProductProvider({
+  defaultColor,
+  children,
+}: PropsWithChildren<{ defaultColor?: string | undefined }>) {
+  const [state, setState] = useState(defaultColor ? { color: defaultColor } : {})
 
   const value = useMemo(
     () => ({
       state,
-      updateOption,
-      updateImage,
+      setState,
     }),
     [state],
   )
@@ -62,10 +41,52 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
 
 export function useProduct() {
   const context = useContext(ProductContext)
-  if (context === undefined) {
+  const updateURL = useUpdateURL()
+
+  if (!context) {
     throw new Error('useProduct must be used within a ProductProvider')
   }
-  return context
+
+  const searchParams = useSearchParams()
+
+  const selectionsFromSearchParams: ProductSelections = {}
+
+  for (const [key, value] of searchParams.entries()) {
+    selectionsFromSearchParams[key] = value
+  }
+
+  const [optimisticState, setOptimisticState] = useOptimistic(
+    { ...context.state, ...selectionsFromSearchParams },
+    (prevState, newState: ProductSelections) => ({
+      ...prevState,
+      ...newState,
+    }),
+  )
+
+  const updateSelections = (values: ProductSelections) => {
+    startTransition(() => {
+      setOptimisticState(values)
+      updateURL(values)
+
+      const selectionsFromSearchParams: ProductSelections = {}
+
+      for (const [key, value] of searchParams.entries()) {
+        selectionsFromSearchParams[key] = value
+      }
+
+      context.setState(selectionsFromSearchParams)
+    })
+  }
+
+  const value = useMemo(
+    () => ({
+      state: optimisticState,
+      updateSelections,
+    }),
+    [optimisticState],
+  )
+
+  return value
 }
 
 // Updates the url with given state. Defaults to 'replace' so that changing product
@@ -74,10 +95,14 @@ export function useProduct() {
 export function useUpdateURL() {
   const router = useRouter()
 
-  return (state: ProductState, useReplace = true) => {
+  return (state: ProductSelections, useReplace = true) => {
     const newParams = new URLSearchParams(window.location.search)
     Object.entries(state).forEach(([key, value]) => {
-      newParams.set(key, value)
+      if (value) {
+        newParams.set(key, value.toString())
+      } else {
+        newParams.delete(key)
+      }
     })
 
     const url = `?${newParams.toString()}`

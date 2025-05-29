@@ -1,19 +1,32 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, useRef, PropsWithChildren, useEffect } from 'react'
-import { Box, Center, Flex, HTMLStyledProps, Stack, styled } from '@/styled-system/jsx'
-import { ArrowLeft, ArrowRight, MoveLeft, MoveRight } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import { Box, Flex, HTMLStyledProps, styled } from '@/styled-system/jsx'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { css } from '@/styled-system/css'
+import { Product } from '@/lib/sfcc/types'
+import { useSearchParams } from 'next/navigation'
+import { token } from '@/styled-system/tokens'
+import { useProduct } from './product-context'
 
-export function Gallery({
-  images,
-  children,
-}: PropsWithChildren<{ images?: { link: string; alt?: string }[] }>) {
+export function Gallery({ imageGroups }: { imageGroups?: Product['imageGroups'] }) {
+  const { state } = useProduct()
   const [currentIndex, setCurrentIndex] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
-  if (!images || images.length === 0) return null
+  if (!imageGroups) return null
+
+  const color = state.color
+  const defaultImageGroup = imageGroups[0]
+  const images =
+    imageGroups.find(
+      (group) =>
+        group.variationAttributes?.find((attribute) => attribute.id === 'color')
+          ?.values?.[0]?.value === color,
+    )?.images ||
+    defaultImageGroup?.images ||
+    []
 
   // Add scroll event listener to update currentIndex when manually scrolling
   useEffect(() => {
@@ -84,8 +97,6 @@ export function Gallery({
         scrollbar="hidden"
       >
         <Flex align="center" gap={{ base: '0', md: '36vw' }}>
-          {/* {children} */}
-
           {currentIndex > 0 && (
             <GalleryButton
               left="0"
@@ -108,7 +119,7 @@ export function Gallery({
             </GalleryButton>
           )}
 
-          {images?.map((image) => {
+          {images?.map((image, i) => {
             return (
               <Box
                 key={image.link}
@@ -121,10 +132,17 @@ export function Gallery({
                 <Box
                   position="relative"
                   w={{ base: '100vw', md: '640px' }}
+                  maxW={{ md: '90%' }}
                   mx="auto"
                   aspectRatio={1}
                 >
-                  <Image src={image.link} alt={image.alt || ''} fill />
+                  <Image
+                    src={image.link}
+                    alt={image.alt || ''}
+                    fill
+                    priority={i === 0}
+                    sizes={`(max-width: ${token('breakpoints.md')}) 100vw, 640px`}
+                  />
                 </Box>
               </Box>
             )

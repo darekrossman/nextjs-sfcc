@@ -4,19 +4,22 @@ import { notFound } from 'next/navigation'
 import { GridTileImage } from 'components/grid/tile'
 import Footer from 'components/layout/footer'
 import { Gallery } from 'components/product/gallery'
-import { ProductProvider } from 'components/product/product-context'
 import { ProductDescription } from 'components/product/product-description'
 import { HIDDEN_PRODUCT_TAG } from 'lib/constants'
 import { getProduct, getProductRecommendations } from 'lib/sfcc'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { PageContainer } from '@/components/page-container'
-import { Box, Center, Flex, Stack, styled } from '@/styled-system/jsx'
+import { Box, Center, Flex, HStack, Stack, styled } from '@/styled-system/jsx'
 import { Text } from '@/ui/core'
 import Image from 'next/image'
 import { formatPrice } from '@/lib/helpers'
 import { css } from '@/styled-system/css'
 import { PlusIcon } from 'lucide-react'
+import { VariantSelector } from '@/components/product/variant-selector'
+import { ProductProvider } from '@/components/product/product-context'
+import { getDefaultProductColor } from '@/lib/sfcc/product-helpers'
+import { AddToCart } from '@/components/cart/add-to-cart'
 
 // export async function generateMetadata(props: {
 //   params: Promise<{ handle: string }>
@@ -82,7 +85,7 @@ export default async function ProductPage(props: {
     // },
   }
 
-  const imageGroup = product.imageGroups?.[0]?.images
+  const productImages = product.imageGroups?.filter((group) => group.viewType === 'large')
 
   return (
     <>
@@ -100,101 +103,86 @@ export default async function ProductPage(props: {
           '--bg': '{colors.stone.300}',
         })}
       >
-        <Box
-          pt={{ base: '60px', md: '0' }}
-          borderBottom="1px solid {colors.stone.400/50}"
-        >
-          <Gallery images={imageGroup}></Gallery>
-        </Box>
-
-        <Center
-          position={{ base: 'relative', lg: 'absolute' }}
-          top="0"
-          right="0"
-          flexDirection={{ base: 'column' }}
-          w={{ base: '100vw', lg: '36vw' }}
-          h={{ base: 'auto', lg: '640px' }}
-          pr={{ base: '0', lg: '89px' }}
-          pl={{ lg: '24px' }}
-          bg="var(--bg)/60"
-          borderLeft={{ lg: '1px solid {colors.stone.400/50}' }}
-          zIndex="1"
-          style={{
-            backdropFilter: 'blur(8px)',
-          }}
-        >
-          <Box w="100%">
-            <Stack gap="6">
-              <styled.h1
-                color="neutral.800"
-                fontSize="3xl"
-                lineHeight="1.1"
-                fontWeight="light"
-                textWrap="balance"
-                textBoxEdge="cap alphabetic"
-                textBoxTrim="trim-both"
-              >
-                {product.name}
-              </styled.h1>
-
-              <styled.p
-                color="neutral.800"
-                fontSize="sm"
-                lineHeight="1"
-                textBoxEdge="cap alphabetic"
-                textBoxTrim="trim-both"
-              >
-                {formatPrice(product.price!.toString(), product.currency!)}
-              </styled.p>
-
-              <styled.p
-                color="neutral.600"
-                fontSize="sm"
-                lineHeight="1.4"
-                textBoxEdge="cap alphabetic"
-                textBoxTrim="trim-both"
-                textWrap="balance"
-              >
-                {product.shortDescription}
-              </styled.p>
-            </Stack>
-          </Box>
-
-          <styled.button
-            position={{ lg: 'absolute' }}
-            left="-45px"
-            bottom="11"
-            display="inline-flex"
-            alignItems="center"
-            justifyContent="center"
-            h="11"
-            gap="2"
-            fontSize="sm"
-            bg="neutral.800"
-            color="neutral.100"
-            lineHeight="1"
-            textBoxEdge="cap alphabetic"
-            textBoxTrim="trim-both"
-            cursor="pointer"
-            _hover={{
-              '--accent': '{colors.green.500}',
-            }}
-            className={css({
-              '--accent': '{colors.neutral.600}',
-            })}
-          >
-            <Center w="11" h="11" bg="var(--accent)" transition="all 0.2s ease-in-out">
-              <PlusIcon
-                size={16}
-                strokeWidth={1}
-                className={css({ y: '-0.5px', x: '0.5px' })}
-              />
-            </Center>
-            <Box pr="4" pl="3">
-              Add to Cart
+        <ProductProvider defaultColor={getDefaultProductColor(product.variants)}>
+          <Stack gap={{ base: '8', lg: '0' }}>
+            <Box
+              pt={{ base: '12', md: '0' }}
+              borderBottom="1px solid {colors.stone.400/50}"
+            >
+              <Suspense fallback={'gallery loading fallback'}>
+                <Gallery imageGroups={productImages}></Gallery>
+              </Suspense>
             </Box>
-          </styled.button>
-        </Center>
+
+            <Center
+              position={{ base: 'relative', lg: 'absolute' }}
+              top="0"
+              right="0"
+              flexDirection={{ base: 'column' }}
+              alignItems={{ lgDown: 'flex-start' }}
+              gap={{ lgDown: '11' }}
+              w={{ base: '100vw', lg: '36vw' }}
+              h={{ base: 'auto', lg: '640px' }}
+              maxW={{ lgDown: '425px' }}
+              mx={{ lgDown: 'auto' }}
+              pr={{ base: '6', lg: '89px' }}
+              pl={{ base: '6', lg: '24px' }}
+              bg="var(--bg)/60"
+              borderLeft={{ lg: '1px solid {colors.stone.400/50}' }}
+              zIndex="1"
+              style={{
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <Box w="100%">
+                <Stack gap="6">
+                  <styled.h1
+                    color="neutral.800"
+                    fontSize="3xl"
+                    lineHeight="1.1"
+                    fontWeight="light"
+                  >
+                    {product.name}
+                  </styled.h1>
+
+                  <styled.p
+                    color="neutral.800"
+                    fontSize="sm"
+                    lineHeight="1"
+                    textWrap="pretty"
+                  >
+                    {formatPrice(product.price!.toString(), product.currency!)}
+                  </styled.p>
+
+                  <styled.p color="neutral.600" fontSize="sm" lineHeight="1.4">
+                    {product.shortDescription}
+                  </styled.p>
+                </Stack>
+
+                <Box h="8" />
+
+                <Suspense fallback={'variant selector loading fallback'}>
+                  <VariantSelector
+                    attributes={product.variationAttributes}
+                    variants={product.variants}
+                  />
+                </Suspense>
+              </Box>
+
+              <Box
+                position={{ lg: 'absolute' }}
+                left={{ lg: '-45px' }}
+                bottom={{ lg: '11' }}
+              >
+                <Suspense fallback={null}>
+                  <AddToCart variants={product.variants} />
+                </Suspense>
+              </Box>
+            </Center>
+          </Stack>
+        </ProductProvider>
+
+        <Box h="400px" />
       </PageContainer>
     </>
   )

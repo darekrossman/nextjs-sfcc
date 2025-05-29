@@ -60,3 +60,65 @@ export const CATEGORY_QUERY = defineQuery(
     }
   }`,
 )
+
+export const PAGE_QUERY = defineQuery(
+  `*[
+    _type == "page"
+    && slug.current == $slug
+  ][0]{
+    _id,
+    title,
+    slug,
+    status,
+    excerpt,
+    content,
+    seo{
+      title,
+      description,
+      noIndex
+    },
+    heroBanner[0]->{
+      _id,
+      title,
+      slug,
+      landscapeImage{
+        asset->{
+          _id,
+          url
+        },
+        alt,
+        hotspot,
+        crop
+      },
+      portraitImage{
+        asset->{
+          _id,
+          url
+        },
+        alt,
+        hotspot,
+        crop
+      },
+      overlay{
+        headline,
+        subheadline,
+        content,
+        textPosition,
+        textColor
+      },
+      callToActions[]{
+        label,
+        linkType,
+        internalLink,
+        externalUrl,
+        categoryReference->{
+          _id,
+          slug,
+          title
+        },
+        style,
+        priority
+      }
+    }
+  }`,
+)
