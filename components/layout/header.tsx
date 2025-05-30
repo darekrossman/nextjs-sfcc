@@ -25,6 +25,10 @@ export function Header() {
           '--border': '{colors.gray.200}',
           '--logo-fill': '{colors.gray.900}',
         },
+
+        // '.search-focused &': {
+        //   opacity: 0,
+        // },
       })}
     >
       <Box
@@ -77,12 +81,14 @@ export function Header() {
             transition="var(--transition)"
           />
           <Text
-            color="var(--fg)"
+            w="40px"
+            mb={{ md: '-2px' }}
+            textAlign="center"
             fontSize="13px"
             lineHeight="1"
             fontFamily="major"
             fontWeight="bold"
-            mb={{ md: '-2px' }}
+            color="var(--fg)"
             transition="var(--transition)"
           >
             {SITE_NAME}

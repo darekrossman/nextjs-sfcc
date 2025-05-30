@@ -7,7 +7,7 @@ import { CATEGORY_QUERY } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
 import Image from 'next/image'
 import { css } from '@/styled-system/css'
-import { getCollectionProducts } from '@/lib/sfcc'
+import { searchProducts } from '@/lib/sfcc'
 import SearchResults from '@/components/product-layouts/search-results'
 import { Suspense } from 'react'
 
@@ -23,7 +23,7 @@ export default async function CategoryPage({
     params: { slug },
   })
 
-  const productSearchPromise = getCollectionProducts({ collection: slug })
+  const productSearchPromise = searchProducts({ refine: [`cgid=${slug}`] })
 
   const hero = category?.heroBanner
 

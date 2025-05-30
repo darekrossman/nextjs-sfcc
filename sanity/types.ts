@@ -32,6 +32,35 @@ export type BlockContent = Array<{
   _key: string;
 }>;
 
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  siteName?: string;
+  homePage?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "page";
+  };
+  navigation?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "page";
+  }>;
+  footerNavigation?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "page";
+  }>;
+};
+
 export type Page = {
   _id: string;
   _type: "page";
@@ -285,9 +314,68 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = BlockContent | Page | Locale | Category | HeroBanner | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = BlockContent | SiteSettings | Page | Locale | Category | HeroBanner | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
+// Variable: SITE_SETTINGS_QUERY
+// Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0]{    _id,    siteName,    homePage->{      _id,      title,      slug,      status    },    navigation[]->{      _id,      title,      slug,      status    },    footerNavigation[]->{      _id,      title,      slug,      status    }  }
+export type SITE_SETTINGS_QUERYResult = {
+  _id: string;
+  siteName: string | null;
+  homePage: {
+    _id: string;
+    title: string | null;
+    slug: Slug | null;
+    status: "draft" | "published" | null;
+  } | null;
+  navigation: Array<{
+    _id: string;
+    title: string | null;
+    slug: Slug | null;
+    status: "draft" | "published" | null;
+  }> | null;
+  footerNavigation: Array<{
+    _id: string;
+    title: string | null;
+    slug: Slug | null;
+    status: "draft" | "published" | null;
+  }> | null;
+} | null;
+// Variable: SITE_NAME_QUERY
+// Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].siteName
+export type SITE_NAME_QUERYResult = string | null;
+// Variable: HOMEPAGE_QUERY
+// Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].homePage->{    _id,    title,    slug,    status,    excerpt,    seo{      title,      description,      noIndex    }  }
+export type HOMEPAGE_QUERYResult = {
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  status: "draft" | "published" | null;
+  excerpt: string | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    noIndex: boolean | null;
+  } | null;
+} | null;
+// Variable: SITE_NAVIGATION_QUERY
+// Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].navigation[]->{    _id,    title,    slug,    status,    excerpt  }
+export type SITE_NAVIGATION_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  status: "draft" | "published" | null;
+  excerpt: string | null;
+}> | null;
+// Variable: SITE_FOOTER_NAVIGATION_QUERY
+// Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].footerNavigation[]->{    _id,    title,    slug,    status,    excerpt  }
+export type SITE_FOOTER_NAVIGATION_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  status: "draft" | "published" | null;
+  excerpt: string | null;
+}> | null;
 // Variable: CATEGORIES_QUERY
 // Query: *[_type == "category"]{ _id, categoryId, slug, title }
 export type CATEGORIES_QUERYResult = Array<{
@@ -446,6 +534,11 @@ export type PAGE_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0]{\n    _id,\n    siteName,\n    homePage->{\n      _id,\n      title,\n      slug,\n      status\n    },\n    navigation[]->{\n      _id,\n      title,\n      slug,\n      status\n    },\n    footerNavigation[]->{\n      _id,\n      title,\n      slug,\n      status\n    }\n  }": SITE_SETTINGS_QUERYResult;
+    "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].siteName": SITE_NAME_QUERYResult;
+    "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].homePage->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt,\n    seo{\n      title,\n      description,\n      noIndex\n    }\n  }": HOMEPAGE_QUERYResult;
+    "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].navigation[]->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt\n  }": SITE_NAVIGATION_QUERYResult;
+    "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].footerNavigation[]->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt\n  }": SITE_FOOTER_NAVIGATION_QUERYResult;
     "*[_type == \"category\"]{ _id, categoryId, slug, title }": CATEGORIES_QUERYResult;
     "*[\n    _type == \"category\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    categoryId,\n    slug,\n    title,\n    body,\n    publishedAt,\n    heroBanner->{\n      _id,\n      title,\n      slug,\n      landscapeImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      portraitImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      overlay{\n        headline,\n        subheadline,\n        content,\n        textPosition,\n        textColor\n      },\n      callToActions[]{\n        label,\n        linkType,\n        internalLink,\n        externalUrl,\n        categoryReference->{\n          _id,\n          slug,\n          title\n        },\n        style,\n        priority\n      }\n    }\n  }": CATEGORY_QUERYResult;
     "*[\n    _type == \"page\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt,\n    content,\n    seo{\n      title,\n      description,\n      noIndex\n    },\n    heroBanner[0]->{\n      _id,\n      title,\n      slug,\n      landscapeImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      portraitImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      overlay{\n        headline,\n        subheadline,\n        content,\n        textPosition,\n        textColor\n      },\n      callToActions[]{\n        label,\n        linkType,\n        internalLink,\n        externalUrl,\n        categoryReference->{\n          _id,\n          slug,\n          title\n        },\n        style,\n        priority\n      }\n    }\n  }": PAGE_QUERYResult;

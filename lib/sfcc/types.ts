@@ -194,9 +194,21 @@ export type SortedProductResult = {
   index: number
 }
 
-/** @todo - need to fix this or remove this component */
-export type ProductSearchHit = any
+export type ProductSearchResult = ShopperSearchTypes.ProductSearchResult
 
-export type ProductSearchResult = ShopperSearchTypes.ProductSearchResult & {
-  products: ShopperProductsTypes.Product[]
+export type ProductSearchHit = ShopperSearchTypes.ProductSearchHit
+
+export type SearchProductsParameters = {
+  select?: string
+  q?: string
+  refine?: Array<string>
+  sort?: string
+  currency?: string
+  locale?: string
+  expand?: Array<string>
+  allImages?: boolean
+  perPricebook?: boolean
+  allVariationProperties?: boolean
+  offset?: number
+  limit?: number
 }

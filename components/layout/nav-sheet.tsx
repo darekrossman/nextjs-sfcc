@@ -1,10 +1,10 @@
 'use client'
 
-import { VisuallyHidden } from '@/styled-system/jsx'
+import { Stack, VisuallyHidden, styled } from '@/styled-system/jsx'
 import { Link } from '@/ui/core'
+import { useBreakpoint } from '@/ui/core/hooks/use-breakpoint'
 import { CATEGORIES_QUERYResult } from '@/sanity/types'
-import { isCssProperty, styled } from '@/styled-system/jsx'
-import { AnimatePresence, isValidMotionProp } from 'motion/react'
+import { AnimatePresence } from 'motion/react'
 import * as motion from 'motion/react-client'
 import { Dialog } from 'radix-ui'
 import { PropsWithChildren, Suspense, use, useState, useEffect } from 'react'
@@ -12,30 +12,11 @@ import { token } from '@/styled-system/tokens'
 import { css } from '@/styled-system/css'
 import { NavButton } from './nav-button'
 import { Menu, X } from 'lucide-react'
+import { Search } from './search'
 
 type NavSheetProps = PropsWithChildren<{
   navPromise: Promise<CATEGORIES_QUERYResult>
 }>
-
-const StyledMotionContent = styled(
-  motion.div,
-  {
-    base: {
-      position: 'fixed',
-      top: { base: '4', md: '6' },
-      left: 0,
-      maxWidth: '100vw',
-      bg: 'gray.900',
-      color: 'gray.100',
-      overflow: 'hidden',
-      zIndex: 'sheet',
-    },
-  },
-  {
-    shouldForwardProp: (prop, variantKeys) =>
-      isValidMotionProp(prop) || (!variantKeys.includes(prop) && !isCssProperty(prop)),
-  },
-)
 
 const contentVariants = {
   closed: (sm = false) => ({
@@ -44,7 +25,7 @@ const contentVariants = {
     height: sm ? '44px' : '143px',
     transition: {
       width: { type: 'spring', bounce: 0, visualDuration: 0.2, delay: sm ? 0.25 : 0.15 },
-      height: { type: 'spring', bounce: 0, visualDuration: 0.1 },
+      height: { type: 'spring', bounce: 0, visualDuration: 0.1, when: 'afterChildren' },
       top: { type: 'spring', bounce: 0, visualDuration: 0.15 },
     },
   }),
@@ -65,7 +46,7 @@ const listVariants = {
     transition: { staggerChildren: 0.04, delayChildren: 0.3 },
   },
   closed: {
-    transition: { staggerChildren: 0.05, staggerDirection: -1 },
+    transition: {},
   },
 }
 
@@ -82,9 +63,154 @@ const itemVariants = {
   },
 }
 
-export function NavSheet({ navPromise, children }: PropsWithChildren<NavSheetProps>) {
-  const isMobile = useIsMobile()
+const searchVariants = {
+  initial: {
+    opacity: 0,
+    x: '100%',
+    width: 44,
+  },
+  open: {
+    opacity: 1,
+    x: '0%',
+    width: 44,
+    transition: { type: 'spring', bounce: 0, visualDuration: 0.15, delay: 0.25 },
+  },
+  focus: {
+    opacity: 1,
+    x: '0%',
+    width: 234 - 44,
+    transition: { type: 'spring', bounce: 0, visualDuration: 0.15 },
+  },
+  closed: {
+    opacity: 0,
+    x: '50%',
+    width: 44,
+    transition: { type: 'spring', bounce: 0, visualDuration: 0.1, delay: 0 },
+  },
+}
+
+function NavContent({
+  navPromise,
+  open,
+  setOpen,
+  isMobile,
+  searchFocused,
+  handleSearchFocus,
+  handleSearchBlur,
+}: {
+  navPromise: NavSheetProps['navPromise']
+  open: boolean
+  setOpen: (open: boolean) => void
+  isMobile: boolean
+  searchFocused: boolean
+  handleSearchFocus: () => void
+  handleSearchBlur: () => void
+}) {
+  const navItems = use(navPromise)
+
+  return (
+    <Dialog.Content
+      asChild
+      aria-describedby={undefined}
+      onOpenAutoFocus={(e) => e.preventDefault()}
+      onCloseAutoFocus={(e) => e.preventDefault()}
+      onInteractOutside={(e) => {
+        // Check if the clicked element is within the search button in the header
+        const searchButton = document.querySelector('[data-search-button]')
+        if (searchButton && searchButton.contains(e.target as Node)) {
+          e.preventDefault()
+        }
+      }}
+    >
+      <motion.div
+        variants={contentVariants}
+        initial="closed"
+        animate="open"
+        exit="closed"
+        custom={isMobile}
+        className={css({
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          maxWidth: '100vw',
+          bg: 'gray.900',
+          color: 'gray.100',
+          overflow: 'hidden',
+          zIndex: 'sheet',
+        })}
+      >
+        <motion.div
+          initial="initial"
+          animate={searchFocused ? 'focus' : 'open'}
+          exit="closed"
+          variants={searchVariants}
+          className={css({
+            hideFrom: 'md',
+            position: 'fixed',
+            top: '4',
+            right: 0,
+          })}
+        >
+          <Search
+            id="mobile-search"
+            onFocus={handleSearchFocus}
+            onBlur={handleSearchBlur}
+            onSubmit={() => setOpen(false)}
+          />
+        </motion.div>
+
+        <styled.div translateY={{ base: '92px', md: '200px' }}>
+          <motion.ul
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={listVariants}
+            className={css({ px: '6' })}
+          >
+            {navItems.map((item) => {
+              if (!item.slug?.current) return null
+              return (
+                <motion.li key={item._id} variants={itemVariants}>
+                  <Link
+                    href={`/category/${item.slug.current}`}
+                    onClick={() => setOpen(false)}
+                    display="flex"
+                    alignItems="center"
+                    h="11"
+                    fontSize="24px"
+                    fontWeight="light"
+                    tabIndex={open ? 0 : -1}
+                  >
+                    {item.title}
+                  </Link>
+                </motion.li>
+              )
+            })}
+          </motion.ul>
+        </styled.div>
+
+        <VisuallyHidden>
+          <Dialog.Title>Main Navigation</Dialog.Title>
+        </VisuallyHidden>
+      </motion.div>
+    </Dialog.Content>
+  )
+}
+
+export function NavSheet({ navPromise }: NavSheetProps) {
+  const isMobile = useBreakpoint(token('breakpoints.md'))
   const [open, setOpen] = useState(false)
+  const [searchFocused, setSearchFocused] = useState(false)
+
+  const handleSearchFocus = () => {
+    console.log('searchFocused')
+    setSearchFocused(true)
+  }
+
+  const handleSearchBlur = () => {
+    console.log('searchBlurred')
+    setSearchFocused(false)
+  }
 
   useEffect(() => {
     if (open) {
@@ -96,6 +222,17 @@ export function NavSheet({ navPromise, children }: PropsWithChildren<NavSheetPro
       document.body.classList.remove('nav-open')
     }
   }, [open])
+
+  useEffect(() => {
+    if (searchFocused) {
+      document.body.classList.add('search-focused')
+    } else {
+      document.body.classList.remove('search-focused')
+    }
+    return () => {
+      document.body.classList.remove('search-focused')
+    }
+  }, [searchFocused])
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen} modal={false}>
@@ -130,6 +267,9 @@ export function NavSheet({ navPromise, children }: PropsWithChildren<NavSheetPro
                 open={open}
                 setOpen={setOpen}
                 isMobile={isMobile}
+                searchFocused={searchFocused}
+                handleSearchFocus={handleSearchFocus}
+                handleSearchBlur={handleSearchBlur}
               />
             </Suspense>
           </Dialog.Portal>
@@ -137,90 +277,4 @@ export function NavSheet({ navPromise, children }: PropsWithChildren<NavSheetPro
       </AnimatePresence>
     </Dialog.Root>
   )
-}
-
-function NavContent({
-  navPromise,
-  open,
-  setOpen,
-  isMobile,
-}: {
-  navPromise: NavSheetProps['navPromise']
-  open: boolean
-  setOpen: (open: boolean) => void
-  isMobile: boolean
-}) {
-  const navItems = use(navPromise)
-
-  return (
-    <Dialog.Content asChild aria-describedby={undefined}>
-      <StyledMotionContent
-        variants={contentVariants}
-        initial="closed"
-        animate="open"
-        exit="closed"
-        custom={isMobile}
-      >
-        <motion.ul
-          initial="closed"
-          animate="open"
-          exit="closed"
-          variants={listVariants}
-          style={{ y: isMobile ? 100 : 200 }}
-          className={css({
-            px: '4',
-          })}
-        >
-          {navItems.map((item) => {
-            if (!item.slug?.current) return null
-            return (
-              <motion.li key={item._id} variants={itemVariants}>
-                <Link
-                  href={`/category/${item.slug.current}`}
-                  onClick={() => setOpen(false)}
-                  display="flex"
-                  alignItems="center"
-                  h="11"
-                  fontSize="24px"
-                  fontWeight="light"
-                  tabIndex={open ? 0 : -1}
-                >
-                  {item.title}
-                </Link>
-              </motion.li>
-            )
-          })}
-        </motion.ul>
-
-        <VisuallyHidden>
-          <Dialog.Title>Main Navigation</Dialog.Title>
-        </VisuallyHidden>
-      </StyledMotionContent>
-    </Dialog.Content>
-  )
-}
-
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(`(min-width: ${token('breakpoints.md')})`)
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsMobile(!e.matches)
-    }
-
-    // Set initial value
-    setIsMobile(!mediaQuery.matches)
-
-    // Add listener
-    mediaQuery.addEventListener('change', handleChange)
-
-    // Cleanup
-    return () => {
-      mediaQuery.removeEventListener('change', handleChange)
-    }
-  }, [])
-
-  return isMobile
 }

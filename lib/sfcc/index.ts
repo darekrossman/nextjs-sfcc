@@ -28,7 +28,7 @@ import {
   reshapeShippingMethods,
 } from './reshape'
 import { ensureSDKResponseError } from './type-guards'
-import { CartItem, Product, ProductSearchResult } from './types'
+import { CartItem, Product, ProductSearchResult, SearchProductsParameters } from './types'
 import { getCardType, maskCardNumber } from './utils'
 
 const apiConfig = {
@@ -65,17 +65,17 @@ async function getGuestUserConfig(token?: string) {
   }
 }
 
-export async function getCollections() {
-  // 'use cache'
-  // cacheTag(TAGS.collections)
-  // cacheLife('days')
-  return await getSFCCCollections()
-}
+// export async function getCollections() {
+//   // 'use cache'
+//   // cacheTag(TAGS.collections)
+//   // cacheLife('days')
+//   return await getSFCCCollections()
+// }
 
-export async function getCollection(handle: string) {
-  const collections = await getCollections()
-  return collections.find((c) => c.handle === handle)
-}
+// export async function getCollection(handle: string) {
+//   const collections = await getCollections()
+//   return collections.find((c) => c.handle === handle)
+// }
 
 export async function getProduct(id: string) {
   'use cache'
@@ -95,35 +95,35 @@ export async function getProduct(id: string) {
   return product as unknown as Product
 }
 
-export async function getCollectionProducts({
-  collection,
-  limit = 100,
-  sortKey,
-}: {
-  collection: string
-  limit?: number
-  sortKey?: string
-}) {
-  'use cache'
-  cacheTag(TAGS.products, TAGS.collections)
-  cacheLife('days')
-  console.log('getCollectionProducts')
-  return await searchProducts({ categoryId: collection, limit, sortKey })
-}
+// export async function getCollectionProducts({
+//   collection,
+//   limit = 100,
+//   sortKey,
+// }: {
+//   collection: string
+//   limit?: number
+//   sortKey?: string
+// }) {
+//   'use cache'
+//   cacheTag(TAGS.products, TAGS.collections)
+//   cacheLife('days')
+//   console.log('getCollectionProducts')
+//   return await searchProducts({ categoryId: collection, limit, sortKey })
+// }
 
-export async function getProducts({
-  query,
-  sortKey,
-}: {
-  query?: string
-  sortKey?: string
-  reverse?: boolean
-}) {
-  // 'use cache'
-  // cacheTag(TAGS.products)
-  // cacheLife('days')
-  return await searchProducts({ query, sortKey })
-}
+// export async function getProducts({
+//   query,
+//   sortKey,
+// }: {
+//   query?: string
+//   sortKey?: string
+//   reverse?: boolean
+// }) {
+//   'use cache'
+//   cacheTag(TAGS.products)
+//   cacheLife('days')
+//   return await searchProducts({ query, sortKey })
+// }
 
 export async function createCart() {
   let guestToken = (await cookies()).get('guest_token')?.value
@@ -308,13 +308,13 @@ export async function getProductRecommendations(productId: string) {
 
   if (!categoryId) return []
 
-  const results = await getCollectionProducts({
-    collection: categoryId,
+  const results = await searchProducts({
+    refine: [`cgid=${categoryId}`],
     limit: 11,
   })
 
   // Filter out the product we're already looking at.
-  return results.products.filter((product) => product.id !== productId)
+  return results.hits.filter((product) => product.id !== productId)
 }
 
 export async function revalidate(req: NextRequest) {
@@ -363,36 +363,32 @@ async function getSFCCCollections() {
   return reshapeCategories(result?.data || [])
 }
 
-async function searchProducts(options: {
-  query?: string
-  categoryId?: string
-  sortKey?: string
-  limit?: number
-}): Promise<ProductSearchResult> {
-  const { query, categoryId, sortKey = defaultSort.sortKey, limit = 100 } = options
+export async function searchProducts({
+  q = '',
+  refine = [],
+  sort = defaultSort.sortKey,
+  limit = 24,
+}: SearchProductsParameters): Promise<ProductSearchResult> {
   const config = await getGuestUserConfig()
 
   const searchClient = new ShopperSearch(config)
 
   const searchResults = (await searchClient.productSearch({
     parameters: {
-      q: query || '',
-      refine: categoryId ? [`cgid=${categoryId}`] : [],
-      sort: sortKey,
+      q,
+      refine,
+      sort,
       limit,
     },
   })) as unknown as ShopperSearchTypes.ProductSearchResult
 
-  const products = await Promise.all(
-    (searchResults.hits || []).map((product) => {
-      return getProduct(product.productId)
-    }),
-  )
+  // const products = await Promise.all(
+  //   (searchResults.hits || []).map((product) => {
+  //     return getProduct(product.productId)
+  //   }),
+  // )
 
-  return {
-    ...searchResults,
-    products,
-  }
+  return searchResults
 }
 
 async function getCartItems(createdBasket: ShopperBasketsTypes.Basket) {
