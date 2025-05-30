@@ -9,10 +9,10 @@ import Image from 'next/image'
 import { css } from '@/styled-system/css'
 import { searchProducts } from '@/lib/sfcc'
 import SearchResults from '@/components/product-layouts/search-results'
-import { Suspense } from 'react'
+import { PropsWithChildren, Suspense } from 'react'
 
-export default async function Layout() {
-  return null
+export default async function Layout({ children }: PropsWithChildren) {
+  return children
 
   // const { data: category } = await sanityFetch({
   //   query: CATEGORY_QUERY,

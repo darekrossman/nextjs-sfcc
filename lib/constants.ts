@@ -3,6 +3,7 @@ export const SITE_NAME = 'Acme'
 export const TAGS = {
   collections: 'collections',
   products: 'products',
+  search: 'search',
   cart: 'cart',
 }
 

@@ -9,7 +9,7 @@ import * as motion from 'motion/react-client'
 import { Box } from '@/styled-system/jsx'
 
 export function NavSearch() {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <Box position="relative" display="flex">

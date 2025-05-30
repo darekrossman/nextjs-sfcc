@@ -23,8 +23,6 @@ export default async function CategoryPage({
     params: { slug },
   })
 
-  const productSearchPromise = searchProducts({ refine: [`cgid=${slug}`] })
-
   const hero = category?.heroBanner
 
   return (
@@ -32,7 +30,7 @@ export default async function CategoryPage({
       <Center
         pos="relative"
         bg="neutral.200"
-        h={{ base: '375px', md: '375px' }}
+        h={{ base: '192px', md: '192px' }}
         position="sticky"
         top="0"
         zIndex="docked"
@@ -41,15 +39,16 @@ export default async function CategoryPage({
           <Image
             src={urlFor(hero.landscapeImage)
               .width(1600)
-              .height(375)
+              .height(192)
               .crop('entropy')
               .fit('min')
               .quality(100)
               .auto('format')
               .url()}
             alt={hero.landscapeImage.alt || ''}
+            priority={true}
             width="1600"
-            height="375"
+            height="192"
             className={css({
               display: 'block',
               w: 'auto',
@@ -74,7 +73,7 @@ export default async function CategoryPage({
 
       <PageContainer zIndex="grid" flex="1">
         <Suspense fallback={<div>Loading...</div>}>
-          <SearchResults searchResultPromise={productSearchPromise} />
+          <SearchResults params={{ refine: [`cgid=${slug}`] }} />
         </Suspense>
       </PageContainer>
     </PageContainer>

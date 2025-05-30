@@ -1,20 +1,25 @@
 import { ProductSearchHit } from '@/components/layout/product-search-hit'
 import { PageContainer } from '@/components/page-container'
-import { ProductSearchResult } from '@/lib/sfcc/types'
+import { ProductSearchResult, SearchProductsParameters } from '@/lib/sfcc/types'
 import { css } from '@/styled-system/css'
 import { Divider, Flex, Grid } from '@/styled-system/jsx'
 import { Stack } from '@/styled-system/jsx'
 import { Box } from '@/styled-system/jsx'
 import { Link, Text } from '@/ui/core'
 import Image from 'next/image'
-import { use } from 'react'
+import { searchProducts } from '@/lib/sfcc'
+import { token } from '@/styled-system/tokens'
 
-export default function SearchResults({
-  searchResultPromise,
-}: { searchResultPromise: Promise<ProductSearchResult> }) {
-  const results = use(searchResultPromise)
+export default async function SearchResults({
+  params,
+}: {
+  params: SearchProductsParameters & { [key: string]: string | string[] | undefined }
+}) {
+  const searchResults = await searchProducts(params)
 
-  // console.log(results)
+  if (!searchResults.hits?.length) {
+    return <div>No results found</div>
+  }
 
   return (
     <PageContainer
@@ -34,9 +39,9 @@ export default function SearchResults({
       >
         <Box>
           <Stack position="sticky" top="166px" zIndex="sticky">
-            <Text variant="static14" color="neutral.600">
+            {/* <Text variant="static14" color="neutral.600">
               Filters
-            </Text>
+            </Text> */}
           </Stack>
         </Box>
 
@@ -64,9 +69,18 @@ export default function SearchResults({
               xl: 'repeat(4, 1fr)',
             }}
             gap="0"
+            className={css({
+              '--img-sizes': [
+                `(max-width: ${token('breakpoints.md')}px) 50vw`,
+                `(max-width: ${token('breakpoints.xl')}px) 33vw`,
+                `25vw`,
+              ].join(','),
+            })}
           >
-            {results.hits.map((hit) => {
-              return <ProductSearchHit key={hit.productId} hit={hit} />
+            {searchResults.hits.map((hit, i) => {
+              return (
+                <ProductSearchHit key={hit.productId} hit={hit} imagePriority={i < 4} />
+              )
             })}
           </Grid>
         </Box>

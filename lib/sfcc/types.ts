@@ -194,7 +194,9 @@ export type SortedProductResult = {
   index: number
 }
 
-export type ProductSearchResult = ShopperSearchTypes.ProductSearchResult
+export type ProductSearchResult = Omit<ShopperSearchTypes.ProductSearchResult, 'hits'> & {
+  hits?: ProductSearchHit[]
+}
 
 export type ProductSearchHit = ShopperSearchTypes.ProductSearchHit
 

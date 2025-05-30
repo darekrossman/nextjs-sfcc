@@ -78,9 +78,9 @@ async function getGuestUserConfig(token?: string) {
 // }
 
 export async function getProduct(id: string) {
-  'use cache'
-  cacheTag(TAGS.products)
-  cacheLife('days')
+  // 'use cache'
+  // cacheTag(TAGS.products)
+  // cacheLife('days')
   console.log('getProduct')
   const config = await getGuestUserConfig()
   const productsClient = new ShopperProducts(config)
@@ -314,7 +314,7 @@ export async function getProductRecommendations(productId: string) {
   })
 
   // Filter out the product we're already looking at.
-  return results.hits.filter((product) => product.id !== productId)
+  return results.hits?.filter((product) => product.id !== productId) || []
 }
 
 export async function revalidate(req: NextRequest) {
@@ -368,7 +368,14 @@ export async function searchProducts({
   refine = [],
   sort = defaultSort.sortKey,
   limit = 24,
+  allImages = true,
+  perPricebook = true,
+  allVariationProperties = true,
 }: SearchProductsParameters): Promise<ProductSearchResult> {
+  'use cache'
+  cacheTag(TAGS.search)
+  cacheLife('days')
+
   const config = await getGuestUserConfig()
 
   const searchClient = new ShopperSearch(config)
@@ -379,8 +386,11 @@ export async function searchProducts({
       refine,
       sort,
       limit,
+      allImages,
+      perPricebook,
+      allVariationProperties,
     },
-  })) as unknown as ShopperSearchTypes.ProductSearchResult
+  })) as unknown as ProductSearchResult
 
   // const products = await Promise.all(
   //   (searchResults.hits || []).map((product) => {
