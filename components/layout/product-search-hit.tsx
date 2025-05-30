@@ -7,6 +7,7 @@ import { Box, Flex, HStack } from '@/styled-system/jsx'
 import { Stack } from '@/styled-system/jsx'
 import { Link, Text } from '@/ui/core'
 import Image from 'next/image'
+import { ConfigResolutionError } from 'sanity'
 
 export function ProductSearchHit({
   hit,
@@ -15,9 +16,21 @@ export function ProductSearchHit({
   hit: ProductSearchHit
   imagePriority: boolean
 }) {
+  const defaultVariant =
+    hit.variants?.find((v) => v.productId === hit.representedProduct?.id) ||
+    hit.variants?.[0]
+  const defaultColor = defaultVariant?.variationValues?.color
+  const defaultImageGroup =
+    hit.imageGroups?.find((g) =>
+      g.variationAttributes?.find(
+        (attr) =>
+          attr.id === 'color' && attr.values?.some((val) => val.value === defaultColor),
+      ),
+    ) || hit.imageGroups?.[0]
+
   return (
     <Link
-      href={`/product/${hit.productId}`}
+      href={`/product/${hit.productId}?color=${defaultColor}`}
       display="flex"
       flexDirection="column"
       borderRight="1px solid var(--borderBase)"
@@ -28,8 +41,8 @@ export function ProductSearchHit({
       <Box p="5">
         <Box pos="relative" w="full" aspectRatio={1}>
           <Image
-            src={hit.imageGroups?.[0]?.images?.[0]?.link || ''}
-            alt={hit.imageGroups?.[0]?.images?.[0]?.alt || ''}
+            src={defaultImageGroup?.images?.[0]?.link || ''}
+            alt={defaultImageGroup?.images?.[0]?.alt || ''}
             fill
             sizes="var(--img-sizes, 100vw)"
             priority={imagePriority}

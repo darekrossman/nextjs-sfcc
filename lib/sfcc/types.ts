@@ -3,6 +3,7 @@ import {
   ShopperProductsTypes,
   ShopperSearchTypes,
 } from 'commerce-sdk-isomorphic'
+import { OmitFromKnownKeys } from '../type-utils'
 
 export type Connection<T> = {
   edges: Edge<T>[]
@@ -194,7 +195,10 @@ export type SortedProductResult = {
   index: number
 }
 
-export type ProductSearchResult = Omit<ShopperSearchTypes.ProductSearchResult, 'hits'> & {
+export type ProductSearchResult = OmitFromKnownKeys<
+  ShopperSearchTypes.ProductSearchResult,
+  'hits'
+> & {
   hits?: ProductSearchHit[]
 }
 

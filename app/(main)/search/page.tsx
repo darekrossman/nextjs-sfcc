@@ -1,5 +1,6 @@
 import { PageContainer } from '@/components/page-container'
 import SearchResults from '@/components/product-layouts/search-results'
+import { parseParamsFromUrl } from '@/lib/sfcc/product-helpers'
 import { Center, styled } from '@/styled-system/jsx'
 import Grid from 'components/grid'
 import ProductGridItems from 'components/layout/product-grid-items'
@@ -20,6 +21,8 @@ export default async function SearchPage(props: {
   const { sort, q: searchValue } = searchParams as { [key: string]: string }
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort
 
+  const productSearchParams = parseParamsFromUrl(searchParams)
+
   return (
     <PageContainer>
       <Center
@@ -38,15 +41,14 @@ export default async function SearchPage(props: {
           zIndex="1"
         >
           <styled.h1 fontWeight="light" color="white">
-            Search results for ALLLLL
+            Search results for all
           </styled.h1>
         </Center>
       </Center>
 
       <PageContainer zIndex="grid" flex="1">
         <Suspense fallback={<div>Loading...</div>}>
-          {/* <SearchResults params={searchParams} /> */}
-          <SearchResults params={{ refine: [`cgid=root`] }} />
+          <SearchResults params={productSearchParams} />
         </Suspense>
       </PageContainer>
     </PageContainer>
