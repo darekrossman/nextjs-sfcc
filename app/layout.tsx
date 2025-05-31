@@ -1,5 +1,7 @@
+import { CartProvider } from '@/components/cart/cart-context'
 import './globals.css'
 import { SITE_NAME } from '@/lib/constants'
+import { getCart } from '@/lib/sfcc'
 import { cx } from '@/styled-system/css'
 import { styled } from '@/styled-system/jsx'
 import { baseUrl } from 'lib/utils'
@@ -24,11 +26,6 @@ const geistSans = Geist({
   subsets: ['latin'],
 })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
-
 const silkscreen = Silkscreen({
   weight: ['400'],
   subsets: ['latin'],
@@ -42,19 +39,16 @@ const majorMonoDisplay = Major_Mono_Display({
 })
 
 export default async function RootLayout({ children }: PropsWithChildren) {
+  const cartPromise = getCart()
+
   return (
     <styled.html
       lang="en"
       minH="100dvh"
-      className={cx(
-        geistSans.variable,
-        geistMono.variable,
-        silkscreen.variable,
-        majorMonoDisplay.variable,
-      )}
+      className={cx(geistSans.variable, silkscreen.variable, majorMonoDisplay.variable)}
     >
       <styled.body minH="100dvh" display="flex" flexDir="column">
-        {children}
+        <CartProvider cartPromise={cartPromise}>{children}</CartProvider>
       </styled.body>
     </styled.html>
   )

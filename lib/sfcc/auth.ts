@@ -1,5 +1,7 @@
 import { ShopperLogin, helpers } from 'commerce-sdk-isomorphic'
+import jwt from 'jsonwebtoken'
 import { ensureSDKResponseError } from './type-guards'
+import { cookies } from 'next/headers'
 
 export const apiConfig = {
   throwOnBadResponse: true,
@@ -9,6 +11,55 @@ export const apiConfig = {
     shortCode: process.env.SFCC_SHORTCODE || '',
     siteId: process.env.SFCC_SITEID || '',
   },
+}
+
+// Validate JWT token without verifying signature (since we don't have the secret)
+export const isTokenValid = (token: string): boolean => {
+  try {
+    const decoded = jwt.decode(token, { complete: true })
+    if (!decoded || !decoded.payload || typeof decoded.payload === 'string') {
+      return false
+    }
+
+    const payload = decoded.payload as jwt.JwtPayload
+    const currentTime = Math.floor(Date.now() / 1000)
+
+    // Check if token has expired
+    if (payload.exp && payload.exp < currentTime) {
+      return false
+    }
+
+    // Check if token is not yet valid
+    if (payload.nbf && payload.nbf > currentTime) {
+      return false
+    }
+
+    // Check if token was issued in the future (basic sanity check)
+    if (payload.iat && payload.iat > currentTime + 60) {
+      return false
+    }
+
+    return true
+  } catch (error) {
+    console.error('Token validation error:', error)
+    return false
+  }
+}
+
+// Get time until token expires (in seconds)
+export const getTokenExpirationTime = (token: string): number | null => {
+  try {
+    const decoded = jwt.decode(token) as jwt.JwtPayload
+
+    if (!decoded?.exp) {
+      return null
+    }
+
+    const currentTime = Math.floor(Date.now() / 1000)
+    return Math.max(0, decoded.exp - currentTime)
+  } catch (error) {
+    return null
+  }
 }
 
 export async function getGuestUserAuthToken() {
@@ -22,6 +73,37 @@ export async function getGuestUserAuthToken() {
   } catch (e) {
     const error = await ensureSDKResponseError(e, 'Failed to retrieve access token')
     throw new Error(error)
+  }
+}
+
+export async function getValidGuestUserConfig() {
+  let guestToken = (await cookies()).get('guest_token')?.value
+
+  // If token is provided, validate it first
+  if (guestToken && !isTokenValid(guestToken)) {
+    console.log('Provided token is invalid or expired, fetching new token')
+    guestToken = undefined
+  }
+
+  // If no token or invalid token, get a new one
+  if (!guestToken) {
+    const tokenResponse = await getGuestUserAuthToken()
+    guestToken = tokenResponse.access_token
+    console.log('Setting guest token')
+    ;(await cookies()).set('guest_token', guestToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 30,
+      path: '/',
+    })
+  }
+
+  return {
+    ...apiConfig,
+    headers: {
+      authorization: `Bearer ${guestToken}`,
+    },
   }
 }
 

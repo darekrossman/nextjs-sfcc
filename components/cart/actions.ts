@@ -5,21 +5,42 @@ import { addToCart, createCart, getCart, removeFromCart, updateCart } from 'lib/
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { startTransition } from 'react'
 
-export async function addItem(prevState: any, selectedVariantId: string | undefined) {
-  if (!selectedVariantId) {
-    return 'Error adding item to cart'
+export async function addItem(item: {
+  productId: string
+  [key: string]: unknown
+}) {
+  if (!item.productId) {
+    return
   }
 
+  console.log('adding item', item)
+
   try {
-    await addToCart([{ merchandiseId: selectedVariantId, quantity: 1 }])
-    revalidateTag(TAGS.cart)
+    let cart = await addToCart([{ ...item, quantity: 1 }])
+    if (!cart?.basketId) {
+      console.log('no cart, creating one')
+      const newCart = await createCart()
+      if (newCart.basketId) {
+        ;(await cookies()).set('cartId', newCart.basketId)
+        cart = await addToCart([{ ...item, quantity: 1 }])
+      }
+    }
+    if (cart?.basketId) {
+      console.log('added item to cart')
+      revalidateTag(TAGS.cart)
+      return cart
+    }
+
+    return undefined
   } catch (e) {
-    return 'Error adding item to cart'
+    console.log(e)
+    return
   }
 }
 
-export async function removeItem(prevState: any, merchandiseId: string) {
+export async function removeItem(prevState: unknown, itemId: string) {
   try {
     const cart = await getCart()
 
@@ -27,7 +48,7 @@ export async function removeItem(prevState: any, merchandiseId: string) {
       return 'Error fetching cart'
     }
 
-    const lineItem = cart.lines.find((line) => line.merchandise.id === merchandiseId)
+    const lineItem = cart.productItems?.find((line) => line.itemId === itemId)
 
     if (lineItem && lineItem.id) {
       await removeFromCart([lineItem.id])
@@ -41,45 +62,40 @@ export async function removeItem(prevState: any, merchandiseId: string) {
 }
 
 export async function updateItemQuantity(
-  prevState: any,
+  prevState: unknown,
   payload: {
-    merchandiseId: string
+    itemId: string
     quantity: number
   },
 ) {
-  const { merchandiseId, quantity } = payload
-
-  try {
-    const cart = await getCart()
-
-    if (!cart) {
-      return 'Error fetching cart'
-    }
-
-    const lineItem = cart.lines.find((line) => line.merchandise.id === merchandiseId)
-
-    if (lineItem && lineItem.id) {
-      if (quantity === 0) {
-        await removeFromCart([lineItem.id])
-      } else {
-        await updateCart([
-          {
-            id: lineItem.id,
-            merchandiseId,
-            quantity,
-          },
-        ])
-      }
-    } else if (quantity > 0) {
-      // If the item doesn't exist in the cart and quantity > 0, add it
-      await addToCart([{ merchandiseId, quantity }])
-    }
-
-    revalidateTag(TAGS.cart)
-  } catch (e) {
-    console.error(e)
-    return 'Error updating item quantity'
-  }
+  // const { itemId, quantity } = payload
+  // try {
+  //   const cart = await getCart()
+  //   if (!cart) {
+  //     return 'Error fetching cart'
+  //   }
+  //   const lineItem = cart.productItems?.find((line) => line.itemId === itemId)
+  //   if (lineItem && lineItem.id) {
+  //     if (quantity === 0) {
+  //       await removeFromCart([lineItem.id])
+  //     } else {
+  //       await updateCart([
+  //         {
+  //           id: lineItem.id,
+  //           itemId,
+  //           quantity,
+  //         },
+  //       ])
+  //     }
+  //   } else if (quantity > 0) {
+  //     // If the item doesn't exist in the cart and quantity > 0, add it
+  //     await addToCart([{ itemId, quantity }])
+  //   }
+  //   revalidateTag(TAGS.cart)
+  // } catch (e) {
+  //   console.error(e)
+  //   return 'Error updating item quantity'
+  // }
 }
 
 export async function redirectToCheckout() {

@@ -1,46 +1,44 @@
 import { ShopperBaskets, ShopperBasketsTypes } from 'commerce-sdk-isomorphic'
 import { cookies } from 'next/headers'
-import { getGuestUserAuthToken, getGuestUserConfig } from './auth'
+import {
+  getGuestUserAuthToken,
+  getGuestUserConfig,
+  getValidGuestUserConfig,
+  isTokenValid,
+} from './auth'
 import { reshapeBasket } from './reshape'
 import { CartItem, Product } from './types'
 import { getProduct } from './products'
+import { ensureSDKResponseError } from './type-guards'
 
 export async function createCart() {
-  let guestToken = (await cookies()).get('guest_token')?.value
-
-  // if there is not a guest token, get one and store it in a cookie
-  if (!guestToken) {
-    const tokenResponse = await getGuestUserAuthToken()
-    guestToken = tokenResponse.access_token
-    ;(await cookies()).set('guest_token', guestToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 60 * 30,
-      path: '/',
-    })
-  }
-
   // get the guest config
-  const config = await getGuestUserConfig(guestToken)
+  const config = await getValidGuestUserConfig()
 
   // initialize the basket client
   const basketClient = new ShopperBaskets(config)
 
   // create an empty ShopperBaskets.Basket
-  const createdBasket = await basketClient.createBasket({
-    body: {},
-  })
+  const basket = await basketClient.createBasket({ body: {} })
 
-  const cartItems = await getCartItems(createdBasket)
-
-  return reshapeBasket(createdBasket, cartItems)
+  return basket
 }
 
 export async function getCart() {
+  console.log('getCart')
   const cartId = (await cookies()).get('cartId')?.value!
+
+  if (!cartId) {
+    return
+  }
+
   // get the guest token to get the correct guest cart
   const guestToken = (await cookies()).get('guest_token')?.value
+
+  if (!guestToken || !isTokenValid(guestToken)) {
+    console.log('Existing guest token is invalid or expired')
+    return
+  }
 
   const config = await getGuestUserConfig(guestToken)
 
@@ -57,41 +55,45 @@ export async function getCart() {
 
     if (!basket?.basketId) return
 
-    const cartItems = await getCartItems(basket)
-    return reshapeBasket(basket, cartItems)
-  } catch (e: any) {
-    console.log(await e.response.text())
+    return basket
+  } catch (e) {
+    const error = await ensureSDKResponseError(e, 'Error getting basket')
+    console.warn(error)
     return
   }
 }
 
-export async function addToCart(lines: { merchandiseId: string; quantity: number }[]) {
-  const cartId = (await cookies()).get('cartId')?.value!
-  // get the guest token to get the correct guest cart
-  const guestToken = (await cookies()).get('guest_token')?.value
-  const config = await getGuestUserConfig(guestToken)
+export async function addToCart(
+  items: {
+    productId: string
+    quantity: number
+    [key: string]: string | number
+  }[],
+) {
+  let cartId = (await cookies()).get('cartId')?.value
+
+  const config = await getValidGuestUserConfig()
 
   try {
     const basketClient = new ShopperBaskets(config)
 
     const basket = await basketClient.addItemToBasket({
       parameters: {
-        basketId: cartId,
+        basketId: cartId!,
       },
-      body: lines.map((line) => {
-        return {
-          productId: line.merchandiseId,
-          quantity: line.quantity,
-        }
-      }),
+      body: items,
     })
 
-    if (!basket?.basketId) return
+    if (!basket?.basketId) {
+      return
+    }
 
-    const cartItems = await getCartItems(basket)
-    return reshapeBasket(basket, cartItems)
-  } catch (e: any) {
-    console.log(await e.response.text())
+    console.log('basket', basket.productItems)
+
+    return basket
+  } catch (e) {
+    const error = await ensureSDKResponseError(e, 'Error adding item to cart')
+    console.warn(error)
     return
   }
 }

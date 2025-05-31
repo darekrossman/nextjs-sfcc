@@ -9,6 +9,7 @@ import { Product } from '@/lib/sfcc/types'
 import { useSearchParams } from 'next/navigation'
 import { token } from '@/styled-system/tokens'
 import { useProduct } from './product-context'
+import { getProductImagesForColor } from '@/lib/sfcc/product-helpers'
 
 export function Gallery({ imageGroups }: { imageGroups?: Product['imageGroups'] }) {
   const { state } = useProduct()
@@ -17,16 +18,7 @@ export function Gallery({ imageGroups }: { imageGroups?: Product['imageGroups'] 
 
   if (!imageGroups) return null
 
-  const color = state.color
-  const defaultImageGroup = imageGroups[0]
-  const images =
-    imageGroups.find(
-      (group) =>
-        group.variationAttributes?.find((attribute) => attribute.id === 'color')
-          ?.values?.[0]?.value === color,
-    )?.images ||
-    defaultImageGroup?.images ||
-    []
+  const images = getProductImagesForColor(imageGroups, state.color as string | undefined)
 
   // Add scroll event listener to update currentIndex when manually scrolling
   useEffect(() => {

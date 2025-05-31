@@ -14,21 +14,12 @@ export function Header() {
       left={{ base: '0', md: '0' }}
       zIndex="sticky"
       className={css({
-        '--transition': 'all 0.4s 0.1s',
-        '--fg': '{colors.gray.100}',
-        '--bg': '{colors.gray.900}',
-        '--border': '{colors.gray.700}',
-        '--logo-fill': 'white',
         '.nav-open &': {
           '--fg': '{colors.gray.800}',
           '--bg': '{colors.gray.100}',
           '--border': '{colors.gray.200}',
           '--logo-fill': '{colors.gray.900}',
         },
-
-        // '.search-focused &': {
-        //   opacity: 0,
-        // },
       })}
     >
       <Box

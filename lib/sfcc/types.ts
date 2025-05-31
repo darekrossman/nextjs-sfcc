@@ -46,21 +46,12 @@ export type SalesforceProduct = {
 }
 
 export type Product = ShopperProductsTypes.Product
-// export type Product = Omit<SalesforceProduct, 'variants' | 'images'> & {
-//   variants: ProductVariant[]
-//   images: Image[]
-// }
 
-export type ProductVariant = {
-  id: string
-  title: string
-  availableForSale: boolean
-  selectedOptions: {
-    name: string
-    value: string
-  }[]
-  price: Money
-}
+export type ProductImage = NonNullable<
+  NonNullable<Product['imageGroups']>[number]['images']
+>[number]
+
+export type ProductVariant = ShopperProductsTypes.Variant
 
 export type ProductOption = {
   id: string
@@ -126,37 +117,20 @@ export type Address = {
   phone?: string
 }
 
-export type Cart = Omit<SalesforceCart, 'lines'> & {
-  lines: CartItem[]
-}
+export type Cart = ShopperBasketsTypes.Basket
 
 export type Order = Cart & {
   orderNumber: string
 }
 
-export type CartItem = {
-  id: string | undefined
-  quantity: number
-  cost: {
-    totalAmount: Money
-  }
-  merchandise: {
-    id: string
-    title: string
-    selectedOptions: {
-      name: string
-      value: string
-    }[]
-    product: CartProduct
-  }
-}
+export type CartItem = ShopperBasketsTypes.ProductItem
 
-export type CartProduct = {
+export type CartProductPartial = {
   id: string
-  handle: string
-  title: string
-  description?: string
-  featuredImage: Image
+  name: string
+  image?: ProductImage
+  values: Record<string, string | number | undefined>
+  currency: string
 }
 
 export type ProductRecommendations = {

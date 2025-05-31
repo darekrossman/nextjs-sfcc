@@ -20,6 +20,7 @@ import { VariantSelector } from '@/components/product/variant-selector'
 import { ProductProvider } from '@/components/product/product-context'
 import { getDefaultProductColor } from '@/lib/sfcc/product-helpers'
 import { AddToCart } from '@/components/cart/add-to-cart'
+import ChildrenWrapper from '../../search/children-wrapper'
 
 // export async function generateMetadata(props: {
 //   params: Promise<{ handle: string }>
@@ -66,8 +67,6 @@ export default async function ProductPage(props: {
 
   if (!product) return notFound()
 
-  console.log(product)
-
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -109,7 +108,7 @@ export default async function ProductPage(props: {
               pt={{ base: '12', md: '0' }}
               borderBottom="1px solid {colors.stone.400/50}"
             >
-              <Suspense fallback={'gallery loading fallback'}>
+              <Suspense>
                 <Gallery imageGroups={productImages}></Gallery>
               </Suspense>
             </Box>
@@ -161,7 +160,7 @@ export default async function ProductPage(props: {
 
                 <Box h="8" />
 
-                <Suspense fallback={'variant selector loading fallback'}>
+                <Suspense>
                   <VariantSelector
                     attributes={product.variationAttributes}
                     variants={product.variants}
@@ -175,7 +174,12 @@ export default async function ProductPage(props: {
                 bottom={{ lg: '11' }}
               >
                 <Suspense fallback={null}>
-                  <AddToCart variants={product.variants} />
+                  <AddToCart
+                    variants={product.variants}
+                    productName={product.name!}
+                    productImages={productImages}
+                    currency={product.currency!}
+                  />
                 </Suspense>
               </Box>
             </Center>

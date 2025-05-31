@@ -47,9 +47,7 @@ export function VariantSelector({
               return (
                 <styled.button
                   onClick={() => {
-                    startTransition(() => {
-                      updateSelections({ [attr.id]: attrValue.value })
-                    })
+                    updateSelections({ [attr.id]: attrValue.value })
                   }}
                   key={attrValue.value}
                   aria-disabled={!selectable}

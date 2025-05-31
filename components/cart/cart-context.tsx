@@ -1,38 +1,58 @@
 'use client'
 
-import { Cart, CartItem, Product, ProductVariant } from 'lib/sfcc/types'
-import React, { createContext, use, useContext, useMemo, useOptimistic } from 'react'
+import {
+  Cart,
+  CartItem,
+  CartProductPartial,
+  Product,
+  ProductVariant,
+} from 'lib/sfcc/types'
+import React, {
+  createContext,
+  startTransition,
+  use,
+  useContext,
+  useEffect,
+  useMemo,
+  useOptimistic,
+  useState,
+} from 'react'
+import { addItem } from './actions'
 
 type UpdateType = 'plus' | 'minus' | 'delete'
 
 type CartAction =
   | {
       type: 'UPDATE_ITEM'
-      payload: { merchandiseId: string; updateType: UpdateType }
+      payload: { itemId: string; updateType: UpdateType }
     }
   | {
       type: 'ADD_ITEM'
-      payload: { variant: ProductVariant; product: Product }
+      payload: { variant: ProductVariant; product: CartProductPartial }
     }
 
 type CartContextType = {
   cartPromise: Promise<Cart | undefined>
+  cart: Cart | undefined
+  setCart: (cart: Cart | undefined) => void
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined)
+export const CartContext = createContext<CartContextType | undefined>(undefined)
 
-function calculateItemCost(quantity: number, price: string): string {
-  return (Number(price) * quantity).toString()
+function calculateItemCost(quantity: number, price?: number) {
+  return (price || 9999) * quantity
 }
 
 function updateCartItem(item: CartItem, updateType: UpdateType): CartItem | null {
   if (updateType === 'delete') return null
 
-  const newQuantity = updateType === 'plus' ? item.quantity + 1 : item.quantity - 1
+  const quantity = item.quantity ?? 1
+
+  const newQuantity = updateType === 'plus' ? quantity + 1 : quantity - 1
   if (newQuantity === 0) return null
 
-  const singleItemAmount = Number(item.cost.totalAmount.amount) / item.quantity
-  const newTotalAmount = calculateItemCost(newQuantity, singleItemAmount.toString())
+  const singleItemAmount = item.basePrice
+  const newTotalAmount = calculateItemCost(newQuantity, singleItemAmount)
 
   return {
     ...item,
@@ -50,64 +70,43 @@ function updateCartItem(item: CartItem, updateType: UpdateType): CartItem | null
 function createOrUpdateCartItem(
   existingItem: CartItem | undefined,
   variant: ProductVariant,
-  product: Product,
+  product: CartProductPartial,
 ): CartItem {
-  const quantity = existingItem ? existingItem.quantity + 1 : 1
-  const totalAmount = calculateItemCost(quantity, variant.price.amount)
+  const quantity = existingItem ? (existingItem.quantity ?? 1) + 1 : 1
+  const totalAmount = calculateItemCost(quantity, variant.price)
 
   return {
-    id: existingItem?.id,
+    productId: product.id,
+    basePrice: variant.price,
     quantity,
-    cost: {
-      totalAmount: {
-        amount: totalAmount,
-        currencyCode: variant.price.currencyCode,
-      },
-    },
-    merchandise: {
-      id: variant.id,
-      title: variant.title,
-      selectedOptions: variant.selectedOptions,
-      product: {
-        id: product.id,
-        handle: product.handle,
-        title: product.title,
-        featuredImage: product.featuredImage,
-      },
-    },
+    price: totalAmount,
+    itemText: product.name,
+    productName: product.name,
+    currency: product.currency,
+    c_image: JSON.stringify(product.image),
+    c_values: JSON.stringify(variant.variationValues),
   }
 }
 
-function updateCartTotals(lines: CartItem[]): Pick<Cart, 'totalQuantity' | 'cost'> {
-  const totalQuantity = lines.reduce((sum, item) => sum + item.quantity, 0)
-  const totalAmount = lines.reduce(
-    (sum, item) => sum + Number(item.cost.totalAmount.amount),
-    0,
-  )
-  const currencyCode = lines[0]?.cost.totalAmount.currencyCode ?? 'USD'
-
-  return {
-    totalQuantity,
-    cost: {
-      subtotalAmount: { amount: totalAmount.toString(), currencyCode },
-      totalAmount: { amount: totalAmount.toString(), currencyCode },
-      totalTaxAmount: { amount: '0', currencyCode },
-    },
-  }
+function updateCartTotals(items: CartItem[]) {
+  // const totalQuantity = lines.reduce((sum, item) => sum + (item.quantity ?? 1), 0)
+  // const totalAmount = lines.reduce(
+  //   (sum, item) => sum + Number(item.cost.totalAmount.amount),
+  //   0,
+  // )
+  // const currencyCode = lines[0]?.cost.totalAmount.currencyCode ?? 'USD'
+  // return {
+  //   totalQuantity,
+  //   cost: {
+  //     subtotalAmount: { amount: totalAmount.toString(), currencyCode },
+  //     totalAmount: { amount: totalAmount.toString(), currencyCode },
+  //     totalTaxAmount: { amount: '0', currencyCode },
+  //   },
+  // }
 }
 
 function createEmptyCart(): Cart {
-  return {
-    id: undefined,
-    checkoutUrl: '',
-    totalQuantity: 0,
-    lines: [],
-    cost: {
-      subtotalAmount: { amount: '0', currencyCode: 'USD' },
-      totalAmount: { amount: '0', currencyCode: 'USD' },
-      totalTaxAmount: { amount: '0', currencyCode: 'USD' },
-    },
-  }
+  return {}
 }
 
 function cartReducer(state: Cart | undefined, action: CartAction): Cart {
@@ -115,10 +114,10 @@ function cartReducer(state: Cart | undefined, action: CartAction): Cart {
 
   switch (action.type) {
     case 'UPDATE_ITEM': {
-      const { merchandiseId, updateType } = action.payload
-      const updatedLines = currentCart.lines
-        .map((item) =>
-          item.merchandise.id === merchandiseId ? updateCartItem(item, updateType) : item,
+      const { itemId, updateType } = action.payload
+      const updatedLines = currentCart.productItems
+        ?.map((item) =>
+          item.itemId === itemId ? updateCartItem(item, updateType) : item,
         )
         .filter(Boolean) as CartItem[]
 
@@ -134,31 +133,15 @@ function cartReducer(state: Cart | undefined, action: CartAction): Cart {
         }
       }
 
-      return {
-        ...currentCart,
-        ...updateCartTotals(updatedLines),
-        lines: updatedLines,
-      }
-    }
-    case 'ADD_ITEM': {
-      const { variant, product } = action.payload
-      const existingItem = currentCart.lines.find(
-        (item) => item.merchandise.id === variant.id,
-      )
-      const updatedItem = createOrUpdateCartItem(existingItem, variant, product)
+      return {}
 
-      const updatedLines = existingItem
-        ? currentCart.lines.map((item) =>
-            item.merchandise.id === variant.id ? updatedItem : item,
-          )
-        : [...currentCart.lines, updatedItem]
-
-      return {
-        ...currentCart,
-        ...updateCartTotals(updatedLines),
-        lines: updatedLines,
-      }
+      // return {
+      //   ...currentCart,
+      //   ...updateCartTotals(updatedLines),
+      //   lines: updatedLines,
+      // }
     }
+
     default:
       return currentCart
   }
@@ -171,35 +154,107 @@ export function CartProvider({
   children: React.ReactNode
   cartPromise: Promise<Cart | undefined>
 }) {
-  return <CartContext.Provider value={{ cartPromise }}>{children}</CartContext.Provider>
+  const [cart, setCart] = useState<Cart | undefined>(undefined)
+
+  return (
+    <CartContext.Provider value={{ cartPromise, cart, setCart }}>
+      {children}
+    </CartContext.Provider>
+  )
 }
 
 export function useCart() {
   const context = useContext(CartContext)
+
   if (context === undefined) {
     throw new Error('useCart must be used within a CartProvider')
   }
 
-  const initialCart = use(context.cartPromise)
-  const [optimisticCart, updateOptimisticCart] = useOptimistic(initialCart, cartReducer)
+  const [didSync, setDidSync] = useState(false)
 
-  const updateCartItem = (merchandiseId: string, updateType: UpdateType) => {
+  const getInitialCart = () => {
+    return use(context.cartPromise)
+  }
+
+  const initialCart = didSync ? {} : getInitialCart()
+
+  useEffect(() => {
+    if (!context.cart) {
+      setDidSync(true)
+      context.setCart({ ...initialCart })
+    }
+  }, [])
+
+  const [optimisticCart, updateOptimisticCart] = useOptimistic(
+    { ...context.cart, ...initialCart },
+    (prevCart: Cart | undefined, newCart: Cart) => {
+      return {
+        ...prevCart,
+        ...newCart,
+      }
+    },
+  )
+
+  const updateCartItem = (itemId: string, updateType: UpdateType) => {
     updateOptimisticCart({
       type: 'UPDATE_ITEM',
-      payload: { merchandiseId, updateType },
+      payload: { itemId, updateType },
     })
   }
 
-  const addCartItem = (variant: ProductVariant, product: Product) => {
-    updateOptimisticCart({ type: 'ADD_ITEM', payload: { variant, product } })
+  const addCartItemAction = async (
+    variant: ProductVariant,
+    product: CartProductPartial,
+  ) => {
+    const newCart = addItemOptimistically({ cart: optimisticCart, variant, product })
+    context.setCart(newCart)
+    startTransition(async () => {
+      const updatedCart = await addItem({
+        productId: variant.productId,
+        c_values: JSON.stringify(variant.variationValues),
+        c_image: JSON.stringify(product.image),
+      })
+      if (updatedCart) {
+        context.setCart(updatedCart)
+      }
+    })
   }
 
   return useMemo(
     () => ({
       cart: optimisticCart,
       updateCartItem,
-      addCartItem,
+      addCartItemAction,
     }),
     [optimisticCart],
   )
+}
+
+function addItemOptimistically({
+  cart,
+  variant,
+  product,
+}: {
+  cart?: Cart
+  variant: ProductVariant
+  product: CartProductPartial
+}) {
+  const currentCart = cart || createEmptyCart()
+
+  const existingItem = currentCart.productItems?.find(
+    (item) => item.productId === variant.productId,
+  )
+  const updatedItem = createOrUpdateCartItem(existingItem, variant, product)
+
+  const updatedLines = existingItem
+    ? currentCart.productItems?.map((item) =>
+        item.productId === variant.productId ? updatedItem : item,
+      )
+    : [...(currentCart.productItems || []), updatedItem]
+
+  return {
+    ...currentCart,
+    // ...updateCartTotals(updatedLines),
+    productItems: updatedLines,
+  }
 }

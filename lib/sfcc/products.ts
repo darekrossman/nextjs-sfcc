@@ -10,10 +10,10 @@ import { reshapeCategories } from './reshape'
 import { Product, ProductSearchResult, SearchProductsParameters } from './types'
 
 export async function getProduct(id: string) {
-  // 'use cache'
-  // cacheTag(TAGS.products)
-  // cacheLife('days')
-  console.log('getProduct')
+  'use cache'
+  cacheTag(TAGS.products)
+  cacheLife('days')
+  console.log('getProduct', id)
   const config = await getGuestUserConfig()
   const productsClient = new ShopperProducts(config)
 
@@ -62,7 +62,6 @@ export async function searchProducts({
   // 'use cache'
   // cacheTag(TAGS.search)
   // cacheLife('days')
-  console.log('searchProducts')
   const config = await getGuestUserConfig()
 
   const searchClient = new ShopperSearch(config)

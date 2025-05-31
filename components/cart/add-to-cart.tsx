@@ -3,61 +3,59 @@
 import { addItem } from 'components/cart/actions'
 import { useProduct } from 'components/product/product-context'
 import { Product, ProductVariant } from 'lib/sfcc/types'
-import { useActionState } from 'react'
+import { startTransition, useActionState } from 'react'
 import { useCart } from './cart-context'
 import { Center } from '@/styled-system/jsx'
 import { styled } from '@/styled-system/jsx'
 import { css } from '@/styled-system/css'
 import { PlusIcon } from 'lucide-react'
-import { findVariant } from '@/lib/sfcc/product-helpers'
+import { findVariant, getProductImagesForColor } from '@/lib/sfcc/product-helpers'
 
 function SubmitButton({
-  availableForSale,
-  selectedVariantId,
+  variant,
 }: {
-  availableForSale: boolean
-  selectedVariantId: string | undefined
+  variant?: ProductVariant
+}) {}
+
+export function AddToCart({
+  variants,
+  productName,
+  productImages,
+  currency,
+}: {
+  variants?: NonNullable<Product['variants']>
+  productName: string
+  productImages?: NonNullable<Product['imageGroups']>
+  currency: string
 }) {
-  // const buttonClasses =
-  //   'relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white'
-  // const disabledClasses = 'cursor-not-allowed opacity-60 hover:opacity-60'
+  const { addCartItemAction } = useCart()
+  const { state } = useProduct()
 
-  // if (!availableForSale) {
-  //   return (
-  //     <button disabled className={clsx(buttonClasses, disabledClasses)}>
-  //       Out Of Stock
-  //     </button>
-  //   )
-  // }
+  // const [message, formAction] = useActionState(addItemAction, null)
 
-  // if (!selectedVariantId) {
-  //   return (
-  //     <button
-  //       aria-label="Please select an option"
-  //       disabled
-  //       className={clsx(buttonClasses, disabledClasses)}
-  //     >
-  //       <div className="absolute left-0 ml-4">
-  //         <PlusIcon className="h-5" />
-  //       </div>
-  //       Add To Cart
-  //     </button>
-  //   )
-  // }
+  const variant = findVariant(variants, state)
 
-  // return (
-  //   <button
-  //     aria-label="Add to cart"
-  //     className={clsx(buttonClasses, {
-  //       'hover:opacity-90': true,
-  //     })}
-  //   >
-  //     <div className="absolute left-0 ml-4">
-  //       <PlusIcon className="h-5" />
-  //     </div>
-  //     Add To Cart
-  //   </button>
-  // )
+  const addItemToCart = () => {
+    const images = getProductImagesForColor(
+      productImages,
+      state.color as string | undefined,
+    )
+
+    if (!variant) {
+      return
+    }
+
+    addCartItemAction(variant, {
+      id: variant.productId,
+      values: state,
+      name: productName,
+      image: images[0],
+      currency,
+    })
+  }
+
+  const disabled = !variant
+  const unavailable = variant && !variant.orderable
 
   return (
     <styled.button
@@ -66,24 +64,29 @@ function SubmitButton({
       justifyContent="center"
       h="11"
       fontSize="sm"
-      // bg="neutral.900"
       color="neutral.100"
       lineHeight="1"
-      cursor="pointer"
+      cursor={disabled ? 'not-allowed' : 'pointer'}
+      disabled={disabled}
+      border={disabled ? '1px solid {colors.stone.400/50}' : 'none'}
       _hover={
         {
           // '--accent': '{gradients.PeachTree}',
         }
       }
       className={css({
-        '--accent': '{colors.stone.600}',
+        '--bg': disabled ? 'transparent' : '{colors.neutral.800}',
+        '--accentBg': disabled ? 'transparent' : '{colors.stone.600}',
+        '--fg': disabled ? '{colors.neutral.400}' : '{colors.neutral.100}',
+        '--accentFg': disabled ? '{colors.neutral.400}' : '{colors.stone.100}',
       })}
+      onClick={addItemToCart}
     >
       <Center
         w="11"
         h="11"
-        bg="var(--accent)"
-        // color="{colors.neutral.800}"
+        bg="var(--accentBg)"
+        color="var(--accentFg)"
         transition="all 0.2s ease-in-out"
       >
         <PlusIcon
@@ -92,38 +95,9 @@ function SubmitButton({
           className={css({ y: '-0.5px', x: '0.5px' })}
         />
       </Center>
-      <Center h="full" px="6" bg="neutral.800">
+      <Center h="full" px="6" bg="var(--bg)" color="var(--fg)">
         Add to Cart
       </Center>
     </styled.button>
-  )
-}
-
-export function AddToCart({ variants }: { variants?: NonNullable<Product['variants']> }) {
-  // const { addCartItem } = useCart()
-  const { state } = useProduct()
-  const [message, formAction] = useActionState(addItem, null)
-
-  const variant = findVariant(variants, state)
-  const defaultVariant = variants?.[0]?.id
-  const selectedVariant = variant || defaultVariant
-  const addItemAction = formAction.bind(null, selectedVariant?.id)
-
-  return (
-    <styled.form
-      display="flex"
-      // action={async () => {
-      //   addCartItem(finalVariant, product)
-      //   addItemAction()
-      // }}
-    >
-      <SubmitButton
-        availableForSale={Boolean(variant?.orderable)}
-        selectedVariantId={selectedVariant?.id}
-      />
-      <p aria-live="polite" className="sr-only" role="status">
-        {message}
-      </p>
-    </styled.form>
   )
 }

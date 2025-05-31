@@ -24,7 +24,7 @@ export function findVariants(
 
 export function getProductImagesForColor(
   imageGroups: Product['imageGroups'],
-  color: string,
+  color?: string,
 ) {
   return (
     imageGroups
@@ -33,7 +33,9 @@ export function getProductImagesForColor(
         (group) =>
           group.variationAttributes?.find((attribute) => attribute.id === 'color')
             ?.values?.[0]?.value === color,
-      )?.images || []
+      )?.images ||
+    imageGroups?.[0]?.images ||
+    []
   )
 }
 

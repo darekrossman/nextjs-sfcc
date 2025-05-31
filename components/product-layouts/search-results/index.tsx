@@ -24,8 +24,6 @@ export default async function SearchResults({
     return <div>No results found</div>
   }
 
-  console.log(searchResults.refinements, searchResults.selectedRefinements, params)
-
   const selectedColors =
     searchResults.selectedRefinements?.c_refinementColor?.split('|') || []
 

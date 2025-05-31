@@ -179,7 +179,6 @@ function NavContent({
                     h="11"
                     fontSize="24px"
                     fontWeight="light"
-                    tabIndex={open ? 0 : -1}
                   >
                     {item.title}
                   </Link>
@@ -243,7 +242,7 @@ export function NavSheet({ navPromise }: NavSheetProps) {
             className={css({
               position: 'absolute',
               opacity: open ? 1 : 0,
-              transition: 'opacity 0.2s',
+              transition: 'opacity 0.1s 0.2s',
             })}
           />
           <Menu
@@ -253,7 +252,7 @@ export function NavSheet({ navPromise }: NavSheetProps) {
               h: { base: '5', md: '6' },
               transform: 'translateY(0.5px)',
               opacity: open ? 0 : 1,
-              transition: 'opacity 0.2s',
+              transition: 'opacity 0.1s 0.2s',
             })}
           />
         </NavButton>
@@ -261,6 +260,23 @@ export function NavSheet({ navPromise }: NavSheetProps) {
       <AnimatePresence>
         {open && (
           <Dialog.Portal forceMount>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ type: 'spring', bounce: 0, visualDuration: 0.2 }}
+              className={css({
+                bg: 'stone.500/50',
+                position: 'fixed',
+                inset: 0,
+                width: '100vw',
+                height: '100dvh',
+                zIndex: 'sheet',
+              })}
+              style={{
+                backdropFilter: 'blur(5px)',
+              }}
+            />
             <Suspense fallback={null}>
               <NavContent
                 navPromise={navPromise}
