@@ -5,6 +5,7 @@ export const TAGS = {
   products: 'products',
   search: 'search',
   cart: 'cart',
+  productRecommendations: 'product-recommendations',
 }
 
 export const HIDDEN_PRODUCT_TAG = 'nextjs-frontend-hidden'

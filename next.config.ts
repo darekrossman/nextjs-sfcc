@@ -2,13 +2,7 @@ export default {
   experimental: {
     ppr: true,
     inlineCss: true,
-    useCache: true,
     clientSegmentCache: true,
-  },
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
   },
   images: {
     formats: ['image/avif', 'image/webp'],
