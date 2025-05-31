@@ -5,6 +5,11 @@ export default {
     useCache: true,
     clientSegmentCache: true,
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
