@@ -6,7 +6,8 @@ import { cx } from '@/styled-system/css'
 import { styled } from '@/styled-system/jsx'
 import { baseUrl } from 'lib/utils'
 import { Metadata } from 'next'
-import { Geist, Geist_Mono, Major_Mono_Display, Silkscreen } from 'next/font/google'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Geist, Major_Mono_Display, Silkscreen } from 'next/font/google'
 import { PropsWithChildren } from 'react'
 
 export const metadata: Metadata = {
@@ -49,6 +50,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     >
       <styled.body minH="100dvh" display="flex" flexDir="column">
         <CartProvider cartPromise={cartPromise}>{children}</CartProvider>
+        <SpeedInsights />
       </styled.body>
     </styled.html>
   )
