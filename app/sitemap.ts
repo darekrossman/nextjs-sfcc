@@ -1,4 +1,3 @@
-import { getCollections, getProducts } from 'lib/sfcc'
 import { getPages } from 'lib/sfcc/content'
 import { baseUrl } from 'lib/utils'
 import { MetadataRoute } from 'next'
@@ -9,6 +8,16 @@ type Route = {
 }
 
 export const dynamic = 'force-dynamic'
+
+/** @todo: replace with actual data */
+
+const getCollections = async () => {
+  return [] as any[]
+}
+
+const getProducts = async () => {
+  return [] as any[]
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routesMap = [''].map((route) => ({
@@ -23,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   )
 
-  const productsPromise = getProducts({}).then((products) =>
+  const productsPromise = getProducts().then((products) =>
     products.map((product) => ({
       url: `${baseUrl}/product/${product.handle}`,
       lastModified: product.updatedAt,

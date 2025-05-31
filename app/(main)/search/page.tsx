@@ -2,10 +2,6 @@ import { PageContainer } from '@/components/page-container'
 import SearchResults from '@/components/product-layouts/search-results'
 import { parseParamsFromUrl } from '@/lib/sfcc/product-helpers'
 import { Center, styled } from '@/styled-system/jsx'
-import Grid from 'components/grid'
-import ProductGridItems from 'components/layout/product-grid-items'
-import { searchProducts } from 'lib/sfcc'
-import { defaultSort, sorting } from 'lib/sfcc/constants'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 
@@ -18,8 +14,7 @@ export default async function SearchPage(props: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const searchParams = (await props.searchParams) || { q: '' }
-  const { sort, q: searchValue } = searchParams as { [key: string]: string }
-  const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort
+  /** @todo: implement sorting */
 
   const productSearchParams = parseParamsFromUrl(searchParams)
 

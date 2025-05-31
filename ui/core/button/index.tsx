@@ -3,8 +3,8 @@
 import { Box, type HTMLStyledProps, styled } from '@/styled-system/jsx'
 import { button } from '@/styled-system/recipes'
 import { Slot } from '@radix-ui/react-slot'
+import { Loader } from 'lucide-react'
 import * as React from 'react'
-import { Loader } from '../loader'
 
 const BaseButton = React.forwardRef<
   HTMLButtonElement,

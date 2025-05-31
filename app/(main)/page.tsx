@@ -1,6 +1,4 @@
 import { PageContainer } from '@/components/page-container'
-import { getCollectionProducts, getProducts } from '@/lib/sfcc'
-import { Product } from '@/lib/sfcc/types'
 import { urlFor } from '@/sanity/lib/image'
 import { sanityFetch } from '@/sanity/lib/live'
 import { PAGE_QUERY } from '@/sanity/lib/queries'

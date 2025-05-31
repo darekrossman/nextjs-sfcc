@@ -27,6 +27,7 @@ function SubmitButton({ type }: { type: 'plus' | 'minus' }) {
   )
 }
 
+/** @todo: implement */
 export function EditItemQuantityButton({
   item,
   type,
@@ -38,22 +39,22 @@ export function EditItemQuantityButton({
 }) {
   const [message, formAction] = useActionState(updateItemQuantity, null)
   const payload = {
-    merchandiseId: item.merchandise.id,
-    quantity: type === 'plus' ? item.quantity + 1 : item.quantity - 1,
+    itemId: item.id,
+    quantity: type === 'plus' ? (item.quantity ?? 1) + 1 : (item.quantity ?? 1) - 1,
   }
   const updateItemQuantityAction = formAction.bind(null, payload)
 
   return (
     <form
       action={async () => {
-        optimisticUpdate(payload.merchandiseId, type)
+        optimisticUpdate(payload.itemId, type)
         updateItemQuantityAction()
       }}
     >
       <SubmitButton type={type} />
-      <p aria-live="polite" className="sr-only" role="status">
+      {/* <p aria-live="polite" className="sr-only" role="status">
         {message}
-      </p>
+      </p> */}
     </form>
   )
 }

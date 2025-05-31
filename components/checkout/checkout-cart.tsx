@@ -17,14 +17,16 @@ export async function CartSummary() {
   return <Summary data={cart} />
 }
 
+/** @todo: implement */
+
 export const Summary = ({ data }: { data: Cart | Order }) => {
   const { cost } = data
 
   return (
     <div className="space-y-4">
-      {data.lines.map((line) => (
+      {/* {data.lines.map((line) => (
         <Line key={line.id} line={line} />
-      ))}
+      ))} */}
       <Separator />
       <div className="flex justify-between">
         <span>Taxes</span>
@@ -89,7 +91,7 @@ function Line({ line }: { line: CartItem }) {
       />
       <div className="flex-grow">
         <h3 className="font-semibold">{line.merchandise.title}</h3>
-        {line.merchandise.selectedOptions &&
+        {/* {line.merchandise.selectedOptions &&
           line.merchandise.selectedOptions.length > 0 && (
             <div className="mt-1 text-sm text-gray-500">
               {line.merchandise.selectedOptions.map((option, index) => (
@@ -98,7 +100,7 @@ function Line({ line }: { line: CartItem }) {
                 </div>
               ))}
             </div>
-          )}
+          )} */}
       </div>
       <div className="text-right">
         <div className="font-semibold">
