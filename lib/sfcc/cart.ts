@@ -25,7 +25,6 @@ export async function createCart() {
 }
 
 export async function getCart() {
-  console.log('getCart')
   const cartId = (await cookies()).get('cartId')?.value!
 
   if (!cartId) {
@@ -46,7 +45,7 @@ export async function getCart() {
 
   try {
     const basketClient = new ShopperBaskets(config)
-
+    console.log('fetching basket')
     const basket = await basketClient.getBasket({
       parameters: {
         basketId: cartId,
@@ -54,7 +53,7 @@ export async function getCart() {
     })
 
     if (!basket?.basketId) return
-
+    console.log('fetched basket', basket.basketId)
     return basket
   } catch (e) {
     const error = await ensureSDKResponseError(e, 'Error getting basket')
