@@ -13,6 +13,43 @@
  */
 
 // Source: schema.json
+export type PageBuilder = Array<{
+  _key: string;
+} & Hero | {
+  _key: string;
+} & SplitImage | {
+  _key: string;
+} & Features | {
+  _key: string;
+} & Faqs>;
+
+export type Faq = {
+  _id: string;
+  _type: "faq";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+};
+
 export type BlockContent = Array<{
   children?: Array<{
     marks?: Array<string>;
@@ -31,6 +68,65 @@ export type BlockContent = Array<{
   _type: "block";
   _key: string;
 }>;
+
+export type SplitImage = {
+  _type: "splitImage";
+  orientation?: "imageLeft" | "imageRight";
+  title?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+};
+
+export type Hero = {
+  _type: "hero";
+  title?: string;
+  text?: BlockContent;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+};
+
+export type Features = {
+  _type: "features";
+  title?: string;
+  features?: Array<{
+    title?: string;
+    text?: string;
+    _type: "feature";
+    _key: string;
+  }>;
+};
+
+export type Faqs = {
+  _type: "faqs";
+  title?: string;
+  faqs?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "faq";
+  }>;
+};
 
 export type SiteSettings = {
   _id: string;
@@ -69,20 +165,18 @@ export type Page = {
   _rev: string;
   title?: string;
   slug?: Slug;
-  status?: "draft" | "published";
-  excerpt?: string;
-  heroBanner?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "heroBanner";
-  }>;
-  content?: BlockContent;
-  seo?: {
-    title?: string;
-    description?: string;
-    noIndex?: boolean;
+  content?: PageBuilder;
+  mainImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
   };
 };
 
@@ -101,30 +195,6 @@ export type Locale = {
     [internalGroqTypeReferenceTo]?: "locale";
   };
   default?: boolean;
-};
-
-export type HeroBanner = {
-  _id: string;
-  _type: "heroBanner";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  Image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
-    _type: "image";
-  };
 };
 
 export type Category = {
@@ -283,7 +353,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = BlockContent | SiteSettings | Page | Locale | HeroBanner | Category | InternationalizedArrayStringValue | InternationalizedArrayString | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = PageBuilder | Faq | BlockContent | SplitImage | Hero | Features | Faqs | SiteSettings | Page | Locale | Category | InternationalizedArrayStringValue | InternationalizedArrayString | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
@@ -295,19 +365,19 @@ export type SITE_SETTINGS_QUERYResult = {
     _id: string;
     title: string | null;
     slug: Slug | null;
-    status: "draft" | "published" | null;
+    status: null;
   } | null;
   navigation: Array<{
     _id: string;
     title: string | null;
     slug: Slug | null;
-    status: "draft" | "published" | null;
+    status: null;
   }> | null;
   footerNavigation: Array<{
     _id: string;
     title: string | null;
     slug: Slug | null;
-    status: "draft" | "published" | null;
+    status: null;
   }> | null;
 } | null;
 // Variable: SITE_NAME_QUERY
@@ -319,13 +389,9 @@ export type HOMEPAGE_QUERYResult = {
   _id: string;
   title: string | null;
   slug: Slug | null;
-  status: "draft" | "published" | null;
-  excerpt: string | null;
-  seo: {
-    title: string | null;
-    description: string | null;
-    noIndex: boolean | null;
-  } | null;
+  status: null;
+  excerpt: null;
+  seo: null;
 } | null;
 // Variable: SITE_NAVIGATION_QUERY
 // Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].navigation[]->{    _id,    title,    slug,    status,    excerpt  }
@@ -333,8 +399,8 @@ export type SITE_NAVIGATION_QUERYResult = Array<{
   _id: string;
   title: string | null;
   slug: Slug | null;
-  status: "draft" | "published" | null;
-  excerpt: string | null;
+  status: null;
+  excerpt: null;
 }> | null;
 // Variable: SITE_FOOTER_NAVIGATION_QUERY
 // Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].footerNavigation[]->{    _id,    title,    slug,    status,    excerpt  }
@@ -342,66 +408,110 @@ export type SITE_FOOTER_NAVIGATION_QUERYResult = Array<{
   _id: string;
   title: string | null;
   slug: Slug | null;
-  status: "draft" | "published" | null;
-  excerpt: string | null;
+  status: null;
+  excerpt: null;
 }> | null;
 // Variable: CATEGORIES_QUERY
-// Query: *[_type == "category"]{     _id,     categoryId,     slug,     title[]{      _key,      value    }  }
+// Query: *[_type == "category"]{     _id,     categoryId,     slug,     "title": coalesce(      title[_key == $locale][0].value,      title[_key == "en"][0].value,      title[0].value    )  }
 export type CATEGORIES_QUERYResult = Array<{
   _id: string;
   categoryId: string | null;
   slug: Slug | null;
-  title: Array<{
-    _key: string;
-    value: string | null;
-  }> | null;
+  title: string | null;
 }>;
 // Variable: CATEGORY_QUERY
-// Query: *[    _type == "category"    && slug.current == $slug  ][0]{    _id,    categoryId,    slug,    title[]{      _key,      value    },    body,    bannerImage{      asset->{        _id,        url      },      alt[]{        _key,        value      },      hotspot,      crop    }  }
+// Query: *[    _type == "category"    && slug.current == $slug  ][0]{    _id,    categoryId,    slug,    "title": coalesce(      title[_key == $locale][0].value,      title[_key == "en"][0].value,      title[0].value    ),    body,    bannerImage{      asset->{        _id,        url      },      "alt": coalesce(        alt[_key == $locale][0].value,        alt[_key == "en"][0].value,        alt[0].value      ),      hotspot,      crop    }  }
 export type CATEGORY_QUERYResult = {
   _id: string;
   categoryId: string | null;
   slug: Slug | null;
-  title: Array<{
-    _key: string;
-    value: string | null;
-  }> | null;
+  title: string | null;
   body: BlockContent | null;
   bannerImage: {
     asset: {
       _id: string;
       url: string | null;
     } | null;
-    alt: Array<{
-      _key: string;
-      value: string | null;
-    }> | null;
+    alt: string | null;
     hotspot: SanityImageHotspot | null;
     crop: SanityImageCrop | null;
   } | null;
 } | null;
 // Variable: PAGE_QUERY
-// Query: *[    _type == "page"    && slug.current == $slug  ][0]{    _id,    title,    slug,    status,    excerpt,    content,    seo{      title,      description,      noIndex    },    heroBanner[0]->{      _id,      title,      slug,      landscapeImage{        asset->{          _id,          url        },        alt,        hotspot,        crop      },      portraitImage{        asset->{          _id,          url        },        alt,        hotspot,        crop      },      overlay{        headline,        subheadline,        content,        textPosition,        textColor      },      callToActions[]{        label,        linkType,        internalLink,        externalUrl,        categoryReference->{          _id,          slug,          title        },        style,        priority      }    }  }
+// Query: *[    _type == "page"    && slug.current == $slug  ][0]{    _id,    title,    slug,    content[]{      _type,      _key,      _type == "hero" => {        title,        text,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "splitImage" => {        orientation,        title,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "features" => {        title,        features[]{          _key,          title,          text        }      },      _type == "faqs" => {        title,        faqs[]->{          _id,          title,          body        }      }    },    mainImage{      asset->{        _id,        url      },      hotspot,      crop    }  }
 export type PAGE_QUERYResult = {
   _id: string;
   title: string | null;
   slug: Slug | null;
-  status: "draft" | "published" | null;
-  excerpt: string | null;
-  content: BlockContent | null;
-  seo: {
+  content: Array<{
+    _type: "faqs";
+    _key: string;
     title: string | null;
-    description: string | null;
-    noIndex: boolean | null;
-  } | null;
-  heroBanner: {
-    _id: string;
+    faqs: Array<{
+      _id: string;
+      title: string | null;
+      body: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }> | null;
+    }> | null;
+  } | {
+    _type: "features";
+    _key: string;
     title: string | null;
-    slug: null;
-    landscapeImage: null;
-    portraitImage: null;
-    overlay: null;
-    callToActions: null;
+    features: Array<{
+      _key: string;
+      title: string | null;
+      text: string | null;
+    }> | null;
+  } | {
+    _type: "hero";
+    _key: string;
+    title: string | null;
+    text: BlockContent | null;
+    image: {
+      asset: {
+        _id: string;
+        url: string | null;
+      } | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+    } | null;
+  } | {
+    _type: "splitImage";
+    _key: string;
+    orientation: "imageLeft" | "imageRight" | null;
+    title: string | null;
+    image: {
+      asset: {
+        _id: string;
+        url: string | null;
+      } | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+    } | null;
+  }> | null;
+  mainImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+    } | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
   } | null;
 } | null;
 
@@ -414,8 +524,8 @@ declare module "@sanity/client" {
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].homePage->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt,\n    seo{\n      title,\n      description,\n      noIndex\n    }\n  }": HOMEPAGE_QUERYResult;
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].navigation[]->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt\n  }": SITE_NAVIGATION_QUERYResult;
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].footerNavigation[]->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt\n  }": SITE_FOOTER_NAVIGATION_QUERYResult;
-    "*[_type == \"category\"]{ \n    _id, \n    categoryId, \n    slug, \n    title[]{\n      _key,\n      value\n    }\n  }": CATEGORIES_QUERYResult;
-    "*[\n    _type == \"category\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    categoryId,\n    slug,\n    title[]{\n      _key,\n      value\n    },\n    body,\n    bannerImage{\n      asset->{\n        _id,\n        url\n      },\n      alt[]{\n        _key,\n        value\n      },\n      hotspot,\n      crop\n    }\n  }": CATEGORY_QUERYResult;
-    "*[\n    _type == \"page\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt,\n    content,\n    seo{\n      title,\n      description,\n      noIndex\n    },\n    heroBanner[0]->{\n      _id,\n      title,\n      slug,\n      landscapeImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      portraitImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      overlay{\n        headline,\n        subheadline,\n        content,\n        textPosition,\n        textColor\n      },\n      callToActions[]{\n        label,\n        linkType,\n        internalLink,\n        externalUrl,\n        categoryReference->{\n          _id,\n          slug,\n          title\n        },\n        style,\n        priority\n      }\n    }\n  }": PAGE_QUERYResult;
+    "*[_type == \"category\"]{ \n    _id, \n    categoryId, \n    slug, \n    \"title\": coalesce(\n      title[_key == $locale][0].value,\n      title[_key == \"en\"][0].value,\n      title[0].value\n    )\n  }": CATEGORIES_QUERYResult;
+    "*[\n    _type == \"category\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    categoryId,\n    slug,\n    \"title\": coalesce(\n      title[_key == $locale][0].value,\n      title[_key == \"en\"][0].value,\n      title[0].value\n    ),\n    body,\n    bannerImage{\n      asset->{\n        _id,\n        url\n      },\n      \"alt\": coalesce(\n        alt[_key == $locale][0].value,\n        alt[_key == \"en\"][0].value,\n        alt[0].value\n      ),\n      hotspot,\n      crop\n    }\n  }": CATEGORY_QUERYResult;
+    "*[\n    _type == \"page\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    title,\n    slug,\n    content[]{\n      _type,\n      _key,\n      _type == \"hero\" => {\n        title,\n        text,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"splitImage\" => {\n        orientation,\n        title,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"features\" => {\n        title,\n        features[]{\n          _key,\n          title,\n          text\n        }\n      },\n      _type == \"faqs\" => {\n        title,\n        faqs[]->{\n          _id,\n          title,\n          body\n        }\n      }\n    },\n    mainImage{\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    }\n  }": PAGE_QUERYResult;
   }
 }

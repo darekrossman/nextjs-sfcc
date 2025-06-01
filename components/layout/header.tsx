@@ -6,7 +6,7 @@ import { Link, Text } from '@/ui/core'
 import LogoIcon from '../icons/logo'
 import { Nav } from './nav'
 
-export function Header() {
+export function Header({ locale }: { locale: string }) {
   return (
     <Box
       position="fixed"
@@ -42,7 +42,7 @@ export function Header() {
         bg="var(--bg)"
         transition="var(--transition)"
       >
-        <Nav />
+        <Nav locale={locale} />
 
         <Divider
           orientation="vertical"

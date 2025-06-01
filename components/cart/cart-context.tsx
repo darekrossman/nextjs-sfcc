@@ -205,15 +205,19 @@ export function useCart() {
   const addCartItemAction = async (
     variant: ProductVariant,
     product: CartProductPartial,
+    locale?: string,
   ) => {
     const newCart = addItemOptimistically({ cart: optimisticCart, variant, product })
     context.setCart(newCart)
     startTransition(async () => {
-      const updatedCart = await addItem({
-        productId: variant.productId,
-        c_values: JSON.stringify(variant.variationValues),
-        c_image: JSON.stringify(product.image),
-      })
+      const updatedCart = await addItem(
+        {
+          productId: variant.productId,
+          c_values: JSON.stringify(variant.variationValues),
+          c_image: JSON.stringify(product.image),
+        },
+        locale,
+      )
       if (updatedCart) {
         context.setCart(updatedCart)
       }

@@ -5,26 +5,31 @@ import { addToCart, createCart, getCart, removeFromCart, updateCart } from 'lib/
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { startTransition } from 'react'
 
-export async function addItem(item: {
-  productId: string
-  [key: string]: unknown
-}) {
+export async function addItem(
+  item: {
+    productId: string
+    [key: string]: unknown
+  },
+  locale?: string,
+) {
   if (!item.productId) {
     return
   }
 
-  console.log('adding item', item)
-
   try {
-    let cart = await addToCart([{ ...item, quantity: 1 }])
+    let cart = await addToCart([{ ...item, quantity: 1 }], locale)
     if (!cart?.basketId) {
       console.log('no cart, creating one')
-      const newCart = await createCart()
+      const newCart = await createCart(locale)
       if (newCart.basketId) {
-        ;(await cookies()).set('cartId', newCart.basketId)
-        cart = await addToCart([{ ...item, quantity: 1 }])
+        ;(await cookies()).set('cartId', newCart.basketId, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+          path: `/${locale || 'en'}`,
+        })
+        cart = await addToCart([{ ...item, quantity: 1 }], locale)
       }
     }
     if (cart?.basketId) {

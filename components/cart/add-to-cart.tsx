@@ -10,24 +10,18 @@ import { styled } from '@/styled-system/jsx'
 import { css } from '@/styled-system/css'
 import { PlusIcon } from 'lucide-react'
 import { findVariant, getProductImagesForColor } from '@/lib/sfcc/product-helpers'
-
-function SubmitButton({
-  variant,
-}: {
-  variant?: ProductVariant
-}) {}
+import { useLocale } from '@/components/locale-context'
 
 export function AddToCart({
   variants,
   productName,
   productImages,
-  currency,
 }: {
   variants?: NonNullable<Product['variants']>
   productName: string
   productImages?: NonNullable<Product['imageGroups']>
-  currency: string
 }) {
+  const { locale, currency } = useLocale()
   const { addCartItemAction } = useCart()
   const { state } = useProduct()
 
@@ -45,13 +39,17 @@ export function AddToCart({
       return
     }
 
-    addCartItemAction(variant, {
-      id: variant.productId,
-      values: state,
-      name: productName,
-      image: images[0],
-      currency,
-    })
+    addCartItemAction(
+      variant,
+      {
+        id: variant.productId,
+        values: state,
+        name: productName,
+        image: images[0],
+        currency,
+      },
+      locale,
+    )
   }
 
   const disabled = !variant

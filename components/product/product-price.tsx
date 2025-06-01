@@ -1,28 +1,33 @@
-// 'use client'
+'use client'
 
-// import Price from 'components/price'
-// import { Product } from 'lib/sfcc/types'
-// import { useProduct } from './product-context'
+import { Price } from '@/components/price'
+import { findVariant } from '@/lib/sfcc/product-helpers'
+import { Product } from '@/lib/sfcc/types'
+import { useProduct } from './product-context'
+import { HTMLStyledProps } from '@/styled-system/types'
+import { styled } from '@/styled-system/jsx'
 
-// export function ProductPrice({ product }: { product: Product }) {
-//   const { state } = useProduct()
-//   const { priceRange, currencyCode, variants } = product
+function ProductPriceBase({
+  price,
+  priceRanges,
+  variants,
+  ...props
+}: {
+  price: number
+  priceRanges: Product['priceRanges']
+  variants: Product['variants']
+}) {
+  const { state } = useProduct()
 
-//   const selectedVariant = variants?.find((variant) =>
-//     variant.selectedOptions.every(
-//       (option) => option.value === state[option.name.toLowerCase()],
-//     ),
-//   )
+  const selectedVariant = findVariant(variants, state)
 
-//   if (selectedVariant) {
-//     return <Price amount={selectedVariant.price.amount} currencyCode={currencyCode} />
-//   }
+  if (selectedVariant) {
+    return <Price amount={selectedVariant.price} {...props} />
+  }
 
-//   return (
-//     <Price
-//       minAmount={priceRange.minVariantPrice.amount}
-//       maxAmount={priceRange.maxVariantPrice.amount}
-//       currencyCode={currencyCode}
-//     />
-//   )
-// }
+  const listRange = priceRanges?.find((range) => range.priceType === 'list')
+
+  return <Price amount={price} {...props} />
+}
+
+export const ProductPrice = styled(ProductPriceBase)

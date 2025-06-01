@@ -14,7 +14,7 @@ import { CreditCard } from 'lucide-react'
 import Link from 'next/link'
 import { useCart } from '../cart/cart-context'
 import { AmexIcon, DiscoverIcon, MasterCardIcon, VisaIcon } from '../icons/cc-icons'
-import Price from '../price'
+import { Price } from '../price'
 import { useCurrentCheckoutStep } from './checkout-context'
 
 export function CheckoutStatus({
@@ -97,7 +97,7 @@ export function CheckoutStatus({
               step={CheckoutStep.Shipping}
               editable={editable}
             >
-              <div>
+              {/* <div>
                 {shippingMethod.name} -{' '}
                 {shippingMethod.price && (
                   <Price
@@ -107,7 +107,7 @@ export function CheckoutStatus({
                     className="inline-block"
                   />
                 )}
-              </div>
+              </div> */}
               <p className="text-sm text-neutral-400">{shippingMethod.description}</p>
             </LineItem>
           </>

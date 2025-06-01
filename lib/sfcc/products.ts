@@ -3,38 +3,56 @@ import { TAGS } from 'lib/constants'
 import { unstable_cache as cache } from 'next/cache'
 import { getGuestUserConfig } from './auth'
 import { defaultSort } from './constants'
-import { Product, ProductSearchResult, SearchProductsParameters } from './types'
+import { Product, ProductSearchResult, ProductSearchParams } from './types'
+import { ensureSDKResponseError } from './type-guards'
 
 export const getProduct = cache(
-  async (id: string) => {
+  async ({ id, locale }: { id: string; locale: string }) => {
     const config = await getGuestUserConfig()
     const productsClient = new ShopperProducts(config)
+    try {
+      const product = await productsClient.getProduct({
+        parameters: {
+          id,
+          allImages: true,
+          perPricebook: true,
+          expand: [
+            'prices',
+            'variations',
+            'recommendations',
+            'availability',
+            'images',
+            'promotions',
+          ],
+          locale: locale === 'fr' ? 'fr-FR' : 'default',
+          currency: locale === 'fr' ? 'EUR' : 'USD',
+        },
+      })
 
-    const product = await productsClient.getProduct({
-      parameters: {
-        id,
-        allImages: true,
-      },
-    })
-
-    return product as unknown as Product
+      return product as unknown as Product
+    } catch (error) {
+      console.log(await ensureSDKResponseError(error, 'Failed to fetch product'))
+      return
+    }
   },
   ['get-product'],
   { tags: [TAGS.products] },
 )
 
 export const getProductRecommendations = cache(
-  async (productId: string) => {
-    const categoryId = (await getProduct(productId)).categoryId
+  async ({ productId, locale }: { productId: string; locale: string }) => {
+    const product = await getProduct({ id: productId, locale })
+    const categoryId = product?.categoryId
 
     if (!categoryId) return []
 
     const results = await searchProducts({
       refine: [`cgid=${categoryId}`],
       limit: 11,
+      locale,
     })
 
-    return results.hits?.filter((product) => product.id !== productId) || []
+    return results?.hits?.filter((product) => product.id !== productId) || []
   },
   ['get-product-recommendations'],
   { tags: [TAGS.productRecommendations] },
@@ -42,6 +60,7 @@ export const getProductRecommendations = cache(
 
 export const searchProducts = cache(
   async ({
+    locale = 'default',
     q = '',
     refine = [],
     sort = defaultSort.sortKey,
@@ -49,23 +68,30 @@ export const searchProducts = cache(
     allImages = true,
     perPricebook = true,
     allVariationProperties = true,
-  }: SearchProductsParameters) => {
+  }: ProductSearchParams) => {
     const config = await getGuestUserConfig()
     const searchClient = new ShopperSearch(config)
 
-    const searchResults = (await searchClient.productSearch({
-      parameters: {
-        q,
-        refine,
-        sort,
-        limit,
-        allImages,
-        perPricebook,
-        allVariationProperties,
-      },
-    })) as unknown as ProductSearchResult
+    try {
+      const searchResults = (await searchClient.productSearch({
+        parameters: {
+          q,
+          refine,
+          sort,
+          limit,
+          allImages,
+          perPricebook,
+          allVariationProperties,
+          locale: locale === 'fr' ? 'fr-FR' : 'default',
+          currency: locale === 'fr' ? 'EUR' : 'USD',
+        },
+      })) as unknown as ProductSearchResult
 
-    return searchResults
+      return searchResults
+    } catch (error) {
+      console.log(await ensureSDKResponseError(error, 'Failed to search products'))
+      return
+    }
   },
   ['search-products'],
   { tags: [TAGS.search] },

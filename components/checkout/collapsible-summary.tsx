@@ -1,6 +1,6 @@
 import { CartSummary } from '@/components/checkout/checkout-cart'
 import { LoadingCart } from '@/components/checkout/loading-cart'
-import Price from '@/components/price'
+import { Price } from '@/components/price'
 import {
   Collapsible,
   CollapsibleContent,
@@ -26,12 +26,7 @@ export async function CollapsibleSummary() {
           <ChevronUp className="h-5 w-5 group-data-[state=closed]:hidden" />
           <span className="font-medium">Order Summary</span>
         </div>
-        <Price
-          amount={cart.cost.totalAmount.amount}
-          currencyCode={cart.cost.totalAmount.currencyCode}
-          className="font-semibold"
-          currencyCodeClassName="sr-only"
-        />
+        <Price amount={cart.totalAmount} currency={cart.currency} />
       </CollapsibleTrigger>
 
       <CollapsibleContent className="p-6  pt-0 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">

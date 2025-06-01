@@ -1,37 +1,29 @@
-import { ShopperBaskets, ShopperBasketsTypes } from 'commerce-sdk-isomorphic'
+import { ShopperBaskets } from 'commerce-sdk-isomorphic'
 import { cookies } from 'next/headers'
-import {
-  getGuestUserAuthToken,
-  getGuestUserConfig,
-  getValidGuestUserConfig,
-  isTokenValid,
-} from './auth'
-import { reshapeBasket } from './reshape'
-import { CartItem, Product } from './types'
-import { getProduct } from './products'
+import { getGuestUserConfig, getValidGuestUserConfig, isTokenValid } from './auth'
 import { ensureSDKResponseError } from './type-guards'
 
-export async function createCart() {
-  // get the guest config
+export async function createCart(locale?: string) {
   const config = await getValidGuestUserConfig()
-
-  // initialize the basket client
   const basketClient = new ShopperBaskets(config)
 
-  // create an empty ShopperBaskets.Basket
-  const basket = await basketClient.createBasket({ body: {} })
+  const basket = await basketClient.createBasket({
+    parameters: {
+      locale: locale === 'fr' ? 'fr-FR' : 'default',
+    },
+    body: { currency: locale === 'fr' ? 'EUR' : 'USD' },
+  })
 
   return basket
 }
 
-export async function getCart() {
+export async function getCart(locale?: string) {
   const cartId = (await cookies()).get('cartId')?.value!
 
   if (!cartId) {
     return
   }
 
-  // get the guest token to get the correct guest cart
   const guestToken = (await cookies()).get('guest_token')?.value
 
   if (!guestToken) {
@@ -40,19 +32,19 @@ export async function getCart() {
 
   if (!isTokenValid(guestToken)) {
     /** @todo consider refreshing */
+    console.log('invalid guest token')
     return
   }
 
   const config = await getGuestUserConfig(guestToken)
 
-  if (!cartId) return
-
   try {
     const basketClient = new ShopperBaskets(config)
-    console.log('fetching basket')
+    console.log(`fetching basket with ${locale}`)
     const basket = await basketClient.getBasket({
       parameters: {
         basketId: cartId,
+        locale: locale === 'fr' ? 'fr-FR' : 'default',
       },
     })
 
@@ -72,6 +64,7 @@ export async function addToCart(
     quantity: number
     [key: string]: string | number
   }[],
+  locale?: string,
 ) {
   let cartId = (await cookies()).get('cartId')?.value
 
@@ -79,19 +72,14 @@ export async function addToCart(
 
   try {
     const basketClient = new ShopperBaskets(config)
-
+    console.log(`adding item to cart with ${locale}`, items)
     const basket = await basketClient.addItemToBasket({
       parameters: {
         basketId: cartId!,
+        locale: locale === 'fr' ? 'fr-FR' : 'default',
       },
       body: items,
     })
-
-    if (!basket?.basketId) {
-      return
-    }
-
-    console.log('basket', basket.productItems)
 
     return basket
   } catch (e) {
@@ -119,12 +107,11 @@ export async function removeFromCart(lineIds: string[]) {
     },
   })
 
-  const cartItems = await getCartItems(basket)
-  return reshapeBasket(basket, cartItems)
+  return basket
 }
 
 export async function updateCart(
-  lines: { id: string; merchandiseId: string; quantity: number }[],
+  lines: { id: string; itemId: string; quantity: number }[],
 ) {
   const cartId = (await cookies()).get('cartId')?.value!
   // get the guest token to get the correct guest cart
@@ -158,7 +145,7 @@ export async function updateCart(
       },
       body: [
         {
-          productId: line.merchandiseId,
+          productId: line.itemId,
           quantity: line.quantity,
         },
       ],
@@ -175,37 +162,5 @@ export async function updateCart(
     },
   })
 
-  const cartItems = await getCartItems(updatedBasket)
-  return reshapeBasket(updatedBasket, cartItems)
-}
-
-export async function getCartItems(createdBasket: ShopperBasketsTypes.Basket) {
-  const cartItems: CartItem[] = []
-
-  if (createdBasket.productItems) {
-    const productsInCart: Product[] = []
-
-    // Fetch all matching products for items in the cart
-    await Promise.all(
-      createdBasket.productItems
-        .filter((l) => l.productId)
-        .map(async (l) => {
-          const product = await getProduct(l.productId!)
-          productsInCart.push(product)
-        }),
-    )
-
-    // Reshape the sfcc items and push them onto the cartItems
-    // createdBasket.productItems.map((productItem) => {
-    //   cartItems.push(
-    //     reshapeProductItem(
-    //       productItem,
-    //       createdBasket.currency || 'USD',
-    //       productsInCart.find((p) => p.id === productItem.productId)!,
-    //     ),
-    //   )
-    // })
-  }
-
-  return cartItems
+  return updatedBasket
 }

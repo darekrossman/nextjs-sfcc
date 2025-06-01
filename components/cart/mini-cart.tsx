@@ -2,7 +2,7 @@
 
 import { Dialog } from 'radix-ui'
 import LoadingDots from 'components/loading-dots'
-import Price from 'components/price'
+import { Price } from 'components/price'
 import { DEFAULT_OPTION } from 'lib/constants'
 import { createUrl } from 'lib/utils'
 import Image from 'next/image'
@@ -33,7 +33,7 @@ import { ShoppingCartIcon, X } from 'lucide-react'
 import { css } from '@/styled-system/css'
 import { ProductImage, type CartItem } from '@/lib/sfcc/types'
 import { Text } from '@/ui/core'
-import { formatPrice, pluralizeWithCount } from '@/lib/helpers'
+import { pluralizeWithCount } from '@/lib/helpers'
 
 const contentVariants = {
   closed: (sm = false) => ({
@@ -165,15 +165,14 @@ function MiniCartContent({
             exit="closed"
             variants={listVariants}
           >
-            {cartItems.map((item) => {
+            {cartItems.map((item, i) => {
               return (
                 <motion.li
-                  key={item.itemId}
+                  key={`${item.productId}-${i}`}
                   variants={itemVariants}
                   className={css({
                     borderTop: '1px solid',
                     borderColor: 'gray.800',
-                    // _last: { border: 'none' },
                   })}
                 >
                   <CartItem item={item} currency={cart?.currency} />
@@ -191,7 +190,7 @@ function MiniCartContent({
   )
 }
 
-export default function MiniCart() {
+export default function MiniCart({ locale }: { locale: string }) {
   const { cart, updateCartItem } = useCart()
   const isMobile = useBreakpoint(token('breakpoints.md'))
   const [open, setOpen] = useState(false)
@@ -336,7 +335,6 @@ export default function MiniCart() {
 // }
 
 function CartItem({ item, currency }: { item: CartItem; currency?: string }) {
-  console.log(item)
   const values: Record<string, unknown> = item.c_values ? JSON.parse(item.c_values) : {}
   const image: ProductImage | undefined = item.c_image
     ? JSON.parse(item.c_image)
@@ -358,7 +356,6 @@ function CartItem({ item, currency }: { item: CartItem; currency?: string }) {
           alt={image?.altText || ''}
           width={100}
           height={100}
-          // className={css({ display: 'block', w: 'auto', objectFit: 'cover' })}
         />
       </Box>
 
@@ -374,9 +371,15 @@ function CartItem({ item, currency }: { item: CartItem; currency?: string }) {
           >
             {item.productName}
           </Text>
-          <Text fontSize="sm" fontWeight="medium" lineHeight="18px" color="gray.100">
-            {formatPrice(item.price!, item.currency || currency || 'USD')}
-          </Text>
+
+          <Price
+            amount={item.price}
+            currency={currency}
+            fontSize="sm"
+            fontWeight="medium"
+            lineHeight="18px"
+            color="gray.100"
+          />
         </Flex>
         <Text fontSize="xs" color="gray.200">
           {Object.entries(values)

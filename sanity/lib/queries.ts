@@ -1,7 +1,7 @@
 import { defineQuery } from 'next-sanity'
 
 // Site Settings Query - Singleton
-// Usage: const siteSettings = await sanityFetch({ query: SITE_SETTINGS_QUERY })
+// Usage: const siteSettings = await sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale: 'en' } })
 export const SITE_SETTINGS_QUERY = defineQuery(
   `*[
     _type == "siteSettings"
@@ -40,7 +40,7 @@ export const SITE_NAME_QUERY = defineQuery(
 )
 
 // Homepage Query - Get the homepage reference with full details
-// Usage: const homepage = await sanityFetch({ query: HOMEPAGE_QUERY })
+// Usage: const homepage = await sanityFetch({ query: HOMEPAGE_QUERY, params: { locale: 'en' } })
 export const HOMEPAGE_QUERY = defineQuery(
   `*[
     _type == "siteSettings"
@@ -60,7 +60,7 @@ export const HOMEPAGE_QUERY = defineQuery(
 )
 
 // Site Navigation Query - Get main navigation pages
-// Usage: const navigation = await sanityFetch({ query: SITE_NAVIGATION_QUERY })
+// Usage: const navigation = await sanityFetch({ query: SITE_NAVIGATION_QUERY, params: { locale: 'en' } })
 export const SITE_NAVIGATION_QUERY = defineQuery(
   `*[
     _type == "siteSettings"
@@ -75,7 +75,7 @@ export const SITE_NAVIGATION_QUERY = defineQuery(
 )
 
 // Site Footer Navigation Query - Get footer navigation pages
-// Usage: const footerNav = await sanityFetch({ query: SITE_FOOTER_NAVIGATION_QUERY })
+// Usage: const footerNav = await sanityFetch({ query: SITE_FOOTER_NAVIGATION_QUERY, params: { locale: 'en' } })
 export const SITE_FOOTER_NAVIGATION_QUERY = defineQuery(
   `*[
     _type == "siteSettings"
@@ -94,10 +94,11 @@ export const CATEGORIES_QUERY = defineQuery(
     _id, 
     categoryId, 
     slug, 
-    title[]{
-      _key,
-      value
-    }
+    "title": coalesce(
+      title[_key == $locale][0].value,
+      title[_key == "en"][0].value,
+      title[0].value
+    )
   }`,
 )
 
@@ -109,20 +110,22 @@ export const CATEGORY_QUERY = defineQuery(
     _id,
     categoryId,
     slug,
-    title[]{
-      _key,
-      value
-    },
+    "title": coalesce(
+      title[_key == $locale][0].value,
+      title[_key == "en"][0].value,
+      title[0].value
+    ),
     body,
     bannerImage{
       asset->{
         _id,
         url
       },
-      alt[]{
-        _key,
-        value
-      },
+      "alt": coalesce(
+        alt[_key == $locale][0].value,
+        alt[_key == "en"][0].value,
+        alt[0].value
+      ),
       hotspot,
       crop
     }
@@ -137,56 +140,57 @@ export const PAGE_QUERY = defineQuery(
     _id,
     title,
     slug,
-    status,
-    excerpt,
-    content,
-    seo{
-      title,
-      description,
-      noIndex
-    },
-    heroBanner[0]->{
-      _id,
-      title,
-      slug,
-      landscapeImage{
-        asset->{
-          _id,
-          url
-        },
-        alt,
-        hotspot,
-        crop
+    content[]{
+      _type,
+      _key,
+      _type == "hero" => {
+        title,
+        text,
+        image{
+          asset->{
+            _id,
+            url
+          },
+          hotspot,
+          crop
+        }
       },
-      portraitImage{
-        asset->{
-          _id,
-          url
-        },
-        alt,
-        hotspot,
-        crop
+      _type == "splitImage" => {
+        orientation,
+        title,
+        image{
+          asset->{
+            _id,
+            url
+          },
+          hotspot,
+          crop
+        }
       },
-      overlay{
-        headline,
-        subheadline,
-        content,
-        textPosition,
-        textColor
+      _type == "features" => {
+        title,
+        features[]{
+          _key,
+          title,
+          text
+        }
       },
-      callToActions[]{
-        label,
-        linkType,
-        internalLink,
-        externalUrl,
-        categoryReference->{
+      _type == "faqs" => {
+        title,
+        faqs[]->{
           _id,
-          slug,
-          title
-        },
-        style,
-        priority
+          title,
+          body
+        }
       }
+    },
+    mainImage{
+      asset->{
+        _id,
+        url
+      },
+      hotspot,
+      crop
     }
   }`,
 )

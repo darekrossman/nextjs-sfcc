@@ -1,7 +1,15 @@
-export const formatPrice = (amount: string | number, currencyCode: string) => {
-  return new Intl.NumberFormat(undefined, {
+export function formatPrice({
+  amount,
+  currency = 'USD',
+  locale = 'en',
+}: {
+  amount: number | string
+  currency?: string
+  locale?: string
+}) {
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency: currencyCode,
+    currency,
     currencyDisplay: 'narrowSymbol',
   }).format(typeof amount === 'number' ? amount : parseFloat(amount))
 }

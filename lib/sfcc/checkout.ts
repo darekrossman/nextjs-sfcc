@@ -9,7 +9,6 @@ import { getGuestUserConfig } from './auth'
 import { reshapeOrder, reshapeShippingMethods } from './reshape'
 import { ensureSDKResponseError } from './type-guards'
 import { getCardType, maskCardNumber } from './utils'
-import { getCartItems } from './cart'
 
 export async function updateCustomerInfo(email: string) {
   const cartId = (await cookies()).get('cartId')?.value!
@@ -185,8 +184,7 @@ export async function placeOrder() {
       body: { basketId: cartId },
     })) as ShopperOrdersTypes.Order
 
-    const cartItems = await getCartItems(order)
-    return reshapeOrder(order, cartItems)
+    return order
   } catch (e) {
     const error = await ensureSDKResponseError(e, 'Error placing order')
     throw new Error(error)
@@ -212,8 +210,7 @@ export async function getCheckoutOrder() {
       },
     })) as ShopperOrdersTypes.Order
 
-    const cartItems = await getCartItems(order)
-    return reshapeOrder(order, cartItems)
+    return order
   } catch (e) {
     const sdkError = await ensureSDKResponseError(e)
     if (sdkError) {

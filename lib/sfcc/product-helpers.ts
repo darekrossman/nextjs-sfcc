@@ -1,4 +1,4 @@
-import { Product, SearchProductsParameters } from './types'
+import { Product, ProductSearchParams } from './types'
 
 export function findVariant(
   variants: Product['variants'],
@@ -43,12 +43,12 @@ export function getDefaultProductColor(variants: Product['variants']) {
   return variants?.[0]?.variationValues?.color
 }
 
-export function addRefinementToQuery({
+export function toggleRefinementForQuery({
   params,
   attributeId,
   value,
 }: {
-  params: SearchProductsParameters
+  params: ProductSearchParams
   attributeId: string
   value: string
 }) {
@@ -63,20 +63,43 @@ export function addRefinementToQuery({
   let newRefine: string[]
 
   if (existingIndex >= 0) {
-    // Append to existing refinement with '|' separator
-    newRefine = [...existingRefine]
-    newRefine[existingIndex] = `${existingRefine[existingIndex]}|${value}`
+    // Check if the value already exists in this refinement
+    const currentRefinement = existingRefine[existingIndex]
+    if (!currentRefinement) {
+      newRefine = [...existingRefine]
+    } else {
+      const values = currentRefinement.substring(attributePattern.length).split('|')
+
+      if (values.includes(value)) {
+        // Value exists, remove it
+        const filteredValues = values.filter((v) => v !== value)
+
+        if (filteredValues.length === 0) {
+          // No values left, remove the entire refinement
+          newRefine = existingRefine.filter((_, index) => index !== existingIndex)
+        } else {
+          // Update the refinement with remaining values
+          newRefine = [...existingRefine]
+          newRefine[existingIndex] = `${attributeId}=${filteredValues.join('|')}`
+        }
+      } else {
+        // Value doesn't exist, add it
+        newRefine = [...existingRefine]
+        newRefine[existingIndex] = `${currentRefinement}|${value}`
+      }
+    }
   } else {
-    // Add new refinement
+    // No existing refinement for this attribute, add new one
     newRefine = [...existingRefine, `${attributeId}=${value}`]
   }
 
-  return { ...params, refine: newRefine }
+  const { locale, ...paramsWithoutLocale } = params
+  return { ...paramsWithoutLocale, refine: newRefine.length > 0 ? newRefine : undefined }
 }
 
 export function parseParamsFromUrl(
   urlParams: Record<string, string | string[] | undefined>,
-): SearchProductsParameters {
+): ProductSearchParams {
   const { refine, ...otherParams } = urlParams
 
   // Parse refine parameter
@@ -89,11 +112,11 @@ export function parseParamsFromUrl(
   return {
     ...otherParams,
     refine: refineArray.length > 0 ? refineArray : undefined,
-  } as SearchProductsParameters
+  } as ProductSearchParams
 }
 
 export function formatParamsForUrl(
-  searchParams: SearchProductsParameters,
+  searchParams: ProductSearchParams,
 ): Record<string, string | string[]> {
   const { refine, ...otherParams } = searchParams
 
@@ -120,10 +143,10 @@ export function formatParamsForUrl(
 }
 
 export function removeRefinementValue(
-  searchParams: SearchProductsParameters,
+  searchParams: ProductSearchParams,
   attributeId: string,
   valueToRemove: string,
-): SearchProductsParameters {
+): ProductSearchParams {
   const { refine = [], ...otherParams } = searchParams
   const attributePattern = `${attributeId}=`
 

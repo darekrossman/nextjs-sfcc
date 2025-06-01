@@ -9,7 +9,7 @@ import { Label } from '@radix-ui/react-label'
 import { use } from 'react'
 import { useCart } from '../cart/cart-context'
 import LoadingDots from '../loading-dots'
-import Price from '../price'
+import { Price } from '../price'
 
 // The 'shipping' form is the second step of the checkout process, meant
 // to capture the customer's shipping method before moving on to the
@@ -69,15 +69,14 @@ export function ShippingForm({ shippingMethodsPromise }: ShippingFormProps) {
                       </p>
                     </div>
                   </div>
-                  <span className="font-medium">
+                  {/* <span className="font-medium">
                     {method.price && (
                       <Price
-                        amount={method.price.amount}
-                        currencyCode={method.price.currencyCode}
-                        currencyCodeClassName="sr-only"
+                        amount={Number(method.price.amount)}
+                        currency={method.price.currencyCode}
                       />
                     )}
-                  </span>
+                  </span> */}
                 </div>
               </Label>
             ))}

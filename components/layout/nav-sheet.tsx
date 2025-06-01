@@ -180,7 +180,7 @@ function NavContent({
                     fontSize="24px"
                     fontWeight="light"
                   >
-                    {item.title?.[0]?.value}
+                    {item.title}
                   </Link>
                 </motion.li>
               )

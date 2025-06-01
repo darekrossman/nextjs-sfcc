@@ -3,7 +3,7 @@ import { Cart, CartItem, Order } from '@/lib/sfcc/types'
 import { ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Price from '../price'
+import { Price } from '../price'
 import { buttonVariants } from '../ui/button'
 import { Separator } from '../ui/separator'
 
@@ -24,41 +24,29 @@ export const Summary = ({ data }: { data: Cart | Order }) => {
 
   return (
     <div className="space-y-4">
-      {/* {data.lines.map((line) => (
-        <Line key={line.id} line={line} />
-      ))} */}
+      {data.productItems?.map((line) => (
+        <Line key={line.id} line={line} currency={data.currency} />
+      ))}
       <Separator />
       <div className="flex justify-between">
         <span>Taxes</span>
-        <Price
-          amount={cost.totalTaxAmount.amount}
-          currencyCode={cost.totalTaxAmount.currencyCode}
-        />
+        <Price amount={data.taxTotal} currency={data.currency} />
       </div>
       <div className="flex justify-between">
         <span>Subtotal</span>
-        <Price
-          amount={cost.subtotalAmount.amount}
-          currencyCode={cost.subtotalAmount.currencyCode}
-        />
+        <Price amount={data.productSubTotal} currency={data.currency} />
       </div>
       <div className="flex justify-between">
         <span>Shipping</span>
-        {cost.shippingAmount ? (
-          <Price
-            amount={cost.shippingAmount.amount}
-            currencyCode={cost.shippingAmount.currencyCode}
-          />
+        {data.shippingTotal ? (
+          <Price amount={data.shippingTotal} currency={data.currency} />
         ) : (
           <span className="text-gray-400">...</span>
         )}
       </div>
       <div className="flex justify-between font-bold">
         <span>Total</span>
-        <Price
-          amount={cost.totalAmount.amount}
-          currencyCode={cost.totalAmount.currencyCode}
-        />
+        <Price amount={data.totalAmount} currency={data.currency} />
       </div>
     </div>
   )
@@ -79,7 +67,7 @@ function EmptyCart() {
   )
 }
 
-function Line({ line }: { line: CartItem }) {
+function Line({ line, currency }: { line: CartItem; currency?: string }) {
   return (
     <div className="flex items-center space-x-4">
       <Image
@@ -104,10 +92,7 @@ function Line({ line }: { line: CartItem }) {
       </div>
       <div className="text-right">
         <div className="font-semibold">
-          <Price
-            amount={line.cost.totalAmount.amount}
-            currencyCode={line.cost.totalAmount.currencyCode}
-          />
+          <Price amount={line.price} currency={currency} />
         </div>
         <div className="text-sm text-gray-500">Qty: {line.quantity}</div>
       </div>

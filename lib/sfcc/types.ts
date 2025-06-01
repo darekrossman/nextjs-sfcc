@@ -119,9 +119,7 @@ export type Address = {
 
 export type Cart = ShopperBasketsTypes.Basket
 
-export type Order = Cart & {
-  orderNumber: string
-}
+export type Order = ShopperBasketsTypes.Order
 
 export type CartItem = ShopperBasketsTypes.ProductItem
 
@@ -178,7 +176,7 @@ export type ProductSearchResult = OmitFromKnownKeys<
 
 export type ProductSearchHit = ShopperSearchTypes.ProductSearchHit
 
-export type SearchProductsParameters = {
+export type ProductSearchParams = {
   select?: string
   q?: string
   refine?: Array<string>

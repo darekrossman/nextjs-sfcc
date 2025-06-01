@@ -8,8 +8,11 @@ import { CATEGORIES_QUERY } from '@/sanity/lib/queries'
 import { NavButton } from './nav-button'
 import { NavSearch } from './nav-search'
 
-export function Nav() {
-  const navPromise = sanityFetch({ query: CATEGORIES_QUERY }).then((res) => res.data)
+export function Nav({ locale }: { locale: string }) {
+  const navPromise = sanityFetch({
+    query: CATEGORIES_QUERY,
+    params: { locale },
+  }).then((res) => res.data)
 
   return (
     <Flex>
