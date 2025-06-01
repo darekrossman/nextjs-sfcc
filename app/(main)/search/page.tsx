@@ -36,7 +36,7 @@ export default async function SearchPage(props: {
           zIndex="1"
         >
           <styled.h1 fontWeight="light" color="white">
-            Search results for all
+            Search results for "{searchParams.q}"
           </styled.h1>
         </Center>
       </Center>

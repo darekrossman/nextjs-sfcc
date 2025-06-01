@@ -13,12 +13,19 @@ import { addRefinementToQuery } from '@/lib/sfcc/product-helpers'
 import { REFINEMENT_COLORS } from '@/lib/constants'
 
 export default async function SearchResults({
+  category,
   params,
 }: {
-  params: SearchProductsParameters
+  category?: string
+  params: Promise<SearchProductsParameters> | SearchProductsParameters
 }) {
-  console.log('params', params)
-  const searchResults = await searchProducts(params)
+  const searchParams = await params
+
+  if (category && !searchParams.refine?.includes(`cgid=${category}`)) {
+    searchParams.refine = [`cgid=${category}`, ...(searchParams.refine || [])]
+  }
+
+  const searchResults = await searchProducts(searchParams)
 
   if (!searchResults.hits?.length) {
     return <div>No results found</div>
@@ -53,7 +60,7 @@ export default async function SearchResults({
                     <Link
                       href={{
                         query: addRefinementToQuery({
-                          params,
+                          params: searchParams,
                           attributeId: 'c_refinementColor',
                           value: value.label,
                         }),

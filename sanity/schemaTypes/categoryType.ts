@@ -9,7 +9,7 @@ export const categoryType = defineType({
   fields: [
     defineField({
       name: 'title',
-      type: 'string',
+      type: 'internationalizedArrayString',
       description: 'The display name for this category',
       validation: (rule) =>
         rule
@@ -37,44 +37,60 @@ export const categoryType = defineType({
       name: 'slug',
       type: 'slug',
       description: 'URL-friendly version of the category name',
-      options: { source: 'title' },
+      options: {
+        source: (doc) => {
+          const title = doc.title
+          if (Array.isArray(title)) {
+            // Try English first, then fall back to the first available language
+            return (
+              title.find((item) => item._key === 'en')?.value ||
+              title[0]?.value ||
+              'untitled'
+            )
+          }
+          return title || 'untitled'
+        },
+      },
       validation: (rule) => rule.required().error('Slug is required for URL generation'),
     }),
     defineField({
-      name: 'heroBanner',
-      type: 'reference',
-      to: [{ type: 'heroBanner' }],
-      description: 'Hero banner to display for this category',
+      name: 'bannerImage',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'internationalizedArrayString',
+          title: 'Alternative Text',
+          description: 'Important for SEO and accessibility',
+        }),
+      ],
     }),
     defineField({
       name: 'body',
       type: 'blockContent',
       description: 'Rich text content describing this category',
     }),
-    defineField({
-      name: 'publishedAt',
-      type: 'datetime',
-      description: 'When this category was first published',
-      initialValue: () => new Date().toISOString(),
-      validation: (rule) =>
-        rule.required().error('Published date is required for content organization'),
-    }),
   ],
   preview: {
     select: {
       title: 'title',
       categoryId: 'categoryId',
-      heroBannerTitle: 'heroBanner.title',
-      publishedAt: 'publishedAt',
     },
-    prepare({ title, categoryId, heroBannerTitle, publishedAt }) {
-      const publishedDate = publishedAt
-        ? new Date(publishedAt).toLocaleDateString()
-        : 'Not published'
+    prepare({ title, categoryId }) {
+      // Extract the title from the internationalized array
+      // Try English first, then fall back to the first available language
+      const displayTitle = Array.isArray(title)
+        ? title.find((item) => item._key === 'en-US')?.value ||
+          title[0]?.value ||
+          'Untitled Category'
+        : title || 'Untitled Category'
 
       return {
-        title: title || 'Untitled Category',
-        subtitle: `ID: ${categoryId || 'No ID'} • Hero: ${heroBannerTitle || 'None'} • Published: ${publishedDate}`,
+        title: displayTitle,
+        subtitle: categoryId || 'No ID',
         media: TagIcon,
       }
     },

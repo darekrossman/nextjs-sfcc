@@ -10,50 +10,55 @@ import { css } from '@/styled-system/css'
 import { searchProducts } from '@/lib/sfcc'
 import SearchResults from '@/components/product-layouts/search-results'
 import { Suspense } from 'react'
+import { getLocalizedValue } from '@/lib/i18n'
+import { parseParamsFromUrl } from '@/lib/sfcc/product-helpers'
 
 export default async function CategoryPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ [key: string]: string }>
 }) {
   const { slug } = await params
+
+  const productSearchParams = parseParamsFromUrl(await searchParams)
 
   const { data: category } = await sanityFetch({
     query: CATEGORY_QUERY,
     params: { slug },
   })
 
-  const hero = category?.heroBanner
+  // Get localized title and alt text
+  const categoryTitle = getLocalizedValue(category?.title)
+  const bannerAlt = getLocalizedValue(category?.bannerImage?.alt)
 
   return (
     <PageContainer>
       <Center
         pos="relative"
-        bg="neutral.200"
+        bg="{gradients.PeachTree}"
+        w="100vw"
         h={{ base: '192px', md: '192px' }}
         position="sticky"
         top="0"
         zIndex="docked"
       >
-        {hero?.landscapeImage ? (
+        {category?.bannerImage ? (
           <Image
-            src={urlFor(hero.landscapeImage)
-              .width(1600)
-              .height(192)
-              .crop('entropy')
-              .fit('min')
-              .quality(100)
-              .auto('format')
-              .url()}
-            alt={hero.landscapeImage.alt || ''}
+            src={urlFor(category.bannerImage).width(1400).height(192).quality(100).url()}
+            alt={bannerAlt || categoryTitle || ''}
             priority={true}
-            width="1600"
+            quality={100}
+            width="1400"
             height="192"
             className={css({
-              display: 'block',
-              w: 'auto',
+              w: 'full',
               h: 'full',
               objectFit: 'cover',
+              objectPosition: 'center',
+              mixBlendMode: 'multiply',
+              filter: 'grayscale(100%)',
             })}
           />
         ) : null}
@@ -66,14 +71,14 @@ export default async function CategoryPage({
           zIndex="1"
         >
           <Text as="h1" fontWeight="light" variant="heading2" color="white">
-            {category?.title}
+            {categoryTitle || 'Category'}
           </Text>
         </Center>
       </Center>
 
       <PageContainer zIndex="grid" flex="1">
         <Suspense fallback={<div>Loading...</div>}>
-          <SearchResults params={{ refine: [`cgid=${slug}`] }} />
+          <SearchResults category={slug} params={searchParams} />
         </Suspense>
       </PageContainer>
     </PageContainer>

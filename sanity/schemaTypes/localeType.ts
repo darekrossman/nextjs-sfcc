@@ -1,49 +1,65 @@
+import { TranslateIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
-import { EarthGlobeIcon } from '@sanity/icons'
 
 export const localeType = defineType({
   name: 'locale',
-  title: 'Locale',
+  icon: TranslateIcon,
   type: 'document',
-  icon: EarthGlobeIcon,
   fields: [
     defineField({
-      name: 'title',
+      name: 'name',
       type: 'string',
-      validation: (rule) => rule.required().error('Title is required'),
+      description: 'The name of the language/locale, in the specified language.',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'id',
-      title: 'Language ID',
+      name: 'tag',
       type: 'string',
-      description: 'Language identifier (e.g., "en", "es", "fr")',
-      validation: (rule) =>
-        rule
-          .required()
-          .error('Language ID is required')
-          .regex(/^[a-z]{2}(-[A-Z]{2})?$/)
-          .error('Language ID must be in format "en" or "en-US"'),
+      description: 'The tag of the language or locale.',
+      validation: (Rule) =>
+        Rule.required()
+          .regex(
+            /^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}|\d{3}))?(?:-[a-zA-Z0-9]{5,8}|-[0-9][a-zA-Z0-9]{3})*$/,
+            {
+              name: 'IANA language tag',
+              invert: false,
+            },
+          )
+          .error('Must be a valid IANA language tag (e.g., en, en-US, zh-Hant-TW)'),
     }),
     defineField({
-      name: 'isDefault',
-      title: 'Default language',
+      name: 'fallback',
+      type: 'reference',
+      description: "Locale to show if content isn't available in this locale.",
+      to: [{ type: 'locale' }],
+    }),
+    defineField({
+      name: 'default',
       type: 'boolean',
-      description: 'Mark this as the default language for the site',
-      initialValue: false,
+      description: 'Is this the default locale?',
+      // Ensure only 1 default locale is set
+      validation: (Rule) =>
+        Rule.custom(async (value, context) => {
+          if (!value) return true // If not set to true, no validation needed
+
+          const { getClient } = context
+          const client = getClient({ apiVersion: '2025-04-14' })
+
+          const existingDefault = await client.fetch(
+            `*[_type == "locale" && default == true && _id != $id][0]`,
+            { id: context?.document?._id },
+          )
+
+          return existingDefault
+            ? `Only one locale can be set as the default. ${existingDefault.tag} currently set.`
+            : true
+        }),
     }),
   ],
   preview: {
     select: {
-      title: 'title',
-      id: 'id',
-      isDefault: 'isDefault',
-    },
-    prepare({ title, id, isDefault }) {
-      return {
-        title: title || id,
-        subtitle: `${id}${isDefault ? ' (default)' : ''}`,
-        media: EarthGlobeIcon,
-      }
+      title: 'name',
+      subtitle: 'tag',
     },
   },
 })

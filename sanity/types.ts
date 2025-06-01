@@ -92,28 +92,15 @@ export type Locale = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  id?: string;
-  isDefault?: boolean;
-};
-
-export type Category = {
-  _id: string;
-  _type: "category";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  categoryId?: string;
-  slug?: Slug;
-  heroBanner?: {
+  name?: string;
+  tag?: string;
+  fallback?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "heroBanner";
+    [internalGroqTypeReferenceTo]?: "locale";
   };
-  body?: BlockContent;
-  publishedAt?: string;
+  default?: boolean;
 };
 
 export type HeroBanner = {
@@ -123,8 +110,7 @@ export type HeroBanner = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  slug?: Slug;
-  landscapeImage?: {
+  Image?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -134,67 +120,50 @@ export type HeroBanner = {
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  portraitImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  overlay?: {
-    headline?: string;
-    subheadline?: string;
-    content?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal" | "h2" | "h3";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
+    alt?: Array<{
       _key: string;
-    }>;
-    textPosition?: "left" | "center" | "right";
-    textColor?: "white" | "black" | "primary" | "secondary";
+    } & InternationalizedArrayStringValue>;
+    _type: "image";
   };
-  callToActions?: Array<{
-    label?: string;
-    linkType?: "internal" | "external" | "category";
-    internalLink?: string;
-    externalUrl?: string;
-    categoryReference?: {
+};
+
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+  categoryId?: string;
+  slug?: Slug;
+  bannerImage?: {
+    asset?: {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "category";
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
-    style?: "primary" | "secondary" | "outline" | "ghost";
-    openInNewTab?: boolean;
-    _type: "ctaButton";
-    _key: string;
-  }>;
-  status?: "draft" | "active" | "scheduled" | "inactive";
-  priority?: number;
-  scheduledStart?: string;
-  scheduledEnd?: string;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    _type: "image";
+  };
+  body?: BlockContent;
 };
+
+export type InternationalizedArrayStringValue = {
+  _type: "internationalizedArrayStringValue";
+  value?: string;
+};
+
+export type InternationalizedArrayString = Array<{
+  _key: string;
+} & InternationalizedArrayStringValue>;
 
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
@@ -314,7 +283,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = BlockContent | SiteSettings | Page | Locale | Category | HeroBanner | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = BlockContent | SiteSettings | Page | Locale | HeroBanner | Category | InternationalizedArrayStringValue | InternationalizedArrayString | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
@@ -377,81 +346,38 @@ export type SITE_FOOTER_NAVIGATION_QUERYResult = Array<{
   excerpt: string | null;
 }> | null;
 // Variable: CATEGORIES_QUERY
-// Query: *[_type == "category"]{ _id, categoryId, slug, title }
+// Query: *[_type == "category"]{     _id,     categoryId,     slug,     title[]{      _key,      value    }  }
 export type CATEGORIES_QUERYResult = Array<{
   _id: string;
   categoryId: string | null;
   slug: Slug | null;
-  title: string | null;
+  title: Array<{
+    _key: string;
+    value: string | null;
+  }> | null;
 }>;
 // Variable: CATEGORY_QUERY
-// Query: *[    _type == "category"    && slug.current == $slug  ][0]{    _id,    categoryId,    slug,    title,    body,    publishedAt,    heroBanner->{      _id,      title,      slug,      landscapeImage{        asset->{          _id,          url        },        alt,        hotspot,        crop      },      portraitImage{        asset->{          _id,          url        },        alt,        hotspot,        crop      },      overlay{        headline,        subheadline,        content,        textPosition,        textColor      },      callToActions[]{        label,        linkType,        internalLink,        externalUrl,        categoryReference->{          _id,          slug,          title        },        style,        priority      }    }  }
+// Query: *[    _type == "category"    && slug.current == $slug  ][0]{    _id,    categoryId,    slug,    title[]{      _key,      value    },    body,    bannerImage{      asset->{        _id,        url      },      alt[]{        _key,        value      },      hotspot,      crop    }  }
 export type CATEGORY_QUERYResult = {
   _id: string;
   categoryId: string | null;
   slug: Slug | null;
-  title: string | null;
+  title: Array<{
+    _key: string;
+    value: string | null;
+  }> | null;
   body: BlockContent | null;
-  publishedAt: string | null;
-  heroBanner: {
-    _id: string;
-    title: string | null;
-    slug: Slug | null;
-    landscapeImage: {
-      asset: {
-        _id: string;
-        url: string | null;
-      } | null;
-      alt: string | null;
-      hotspot: SanityImageHotspot | null;
-      crop: SanityImageCrop | null;
+  bannerImage: {
+    asset: {
+      _id: string;
+      url: string | null;
     } | null;
-    portraitImage: {
-      asset: {
-        _id: string;
-        url: string | null;
-      } | null;
-      alt: string | null;
-      hotspot: SanityImageHotspot | null;
-      crop: SanityImageCrop | null;
-    } | null;
-    overlay: {
-      headline: string | null;
-      subheadline: string | null;
-      content: Array<{
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "h2" | "h3" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }> | null;
-      textPosition: "center" | "left" | "right" | null;
-      textColor: "black" | "primary" | "secondary" | "white" | null;
-    } | null;
-    callToActions: Array<{
-      label: string | null;
-      linkType: "category" | "external" | "internal" | null;
-      internalLink: string | null;
-      externalUrl: string | null;
-      categoryReference: {
-        _id: string;
-        slug: Slug | null;
-        title: string | null;
-      } | null;
-      style: "ghost" | "outline" | "primary" | "secondary" | null;
-      priority: null;
+    alt: Array<{
+      _key: string;
+      value: string | null;
     }> | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
   } | null;
 } | null;
 // Variable: PAGE_QUERY
@@ -471,62 +397,11 @@ export type PAGE_QUERYResult = {
   heroBanner: {
     _id: string;
     title: string | null;
-    slug: Slug | null;
-    landscapeImage: {
-      asset: {
-        _id: string;
-        url: string | null;
-      } | null;
-      alt: string | null;
-      hotspot: SanityImageHotspot | null;
-      crop: SanityImageCrop | null;
-    } | null;
-    portraitImage: {
-      asset: {
-        _id: string;
-        url: string | null;
-      } | null;
-      alt: string | null;
-      hotspot: SanityImageHotspot | null;
-      crop: SanityImageCrop | null;
-    } | null;
-    overlay: {
-      headline: string | null;
-      subheadline: string | null;
-      content: Array<{
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "h2" | "h3" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }> | null;
-      textPosition: "center" | "left" | "right" | null;
-      textColor: "black" | "primary" | "secondary" | "white" | null;
-    } | null;
-    callToActions: Array<{
-      label: string | null;
-      linkType: "category" | "external" | "internal" | null;
-      internalLink: string | null;
-      externalUrl: string | null;
-      categoryReference: {
-        _id: string;
-        slug: Slug | null;
-        title: string | null;
-      } | null;
-      style: "ghost" | "outline" | "primary" | "secondary" | null;
-      priority: null;
-    }> | null;
+    slug: null;
+    landscapeImage: null;
+    portraitImage: null;
+    overlay: null;
+    callToActions: null;
   } | null;
 } | null;
 
@@ -539,8 +414,8 @@ declare module "@sanity/client" {
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].homePage->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt,\n    seo{\n      title,\n      description,\n      noIndex\n    }\n  }": HOMEPAGE_QUERYResult;
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].navigation[]->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt\n  }": SITE_NAVIGATION_QUERYResult;
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].footerNavigation[]->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt\n  }": SITE_FOOTER_NAVIGATION_QUERYResult;
-    "*[_type == \"category\"]{ _id, categoryId, slug, title }": CATEGORIES_QUERYResult;
-    "*[\n    _type == \"category\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    categoryId,\n    slug,\n    title,\n    body,\n    publishedAt,\n    heroBanner->{\n      _id,\n      title,\n      slug,\n      landscapeImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      portraitImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      overlay{\n        headline,\n        subheadline,\n        content,\n        textPosition,\n        textColor\n      },\n      callToActions[]{\n        label,\n        linkType,\n        internalLink,\n        externalUrl,\n        categoryReference->{\n          _id,\n          slug,\n          title\n        },\n        style,\n        priority\n      }\n    }\n  }": CATEGORY_QUERYResult;
+    "*[_type == \"category\"]{ \n    _id, \n    categoryId, \n    slug, \n    title[]{\n      _key,\n      value\n    }\n  }": CATEGORIES_QUERYResult;
+    "*[\n    _type == \"category\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    categoryId,\n    slug,\n    title[]{\n      _key,\n      value\n    },\n    body,\n    bannerImage{\n      asset->{\n        _id,\n        url\n      },\n      alt[]{\n        _key,\n        value\n      },\n      hotspot,\n      crop\n    }\n  }": CATEGORY_QUERYResult;
     "*[\n    _type == \"page\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt,\n    content,\n    seo{\n      title,\n      description,\n      noIndex\n    },\n    heroBanner[0]->{\n      _id,\n      title,\n      slug,\n      landscapeImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      portraitImage{\n        asset->{\n          _id,\n          url\n        },\n        alt,\n        hotspot,\n        crop\n      },\n      overlay{\n        headline,\n        subheadline,\n        content,\n        textPosition,\n        textColor\n      },\n      callToActions[]{\n        label,\n        linkType,\n        internalLink,\n        externalUrl,\n        categoryReference->{\n          _id,\n          slug,\n          title\n        },\n        style,\n        priority\n      }\n    }\n  }": PAGE_QUERYResult;
   }
 }

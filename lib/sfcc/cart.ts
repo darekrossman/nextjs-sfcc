@@ -34,8 +34,12 @@ export async function getCart() {
   // get the guest token to get the correct guest cart
   const guestToken = (await cookies()).get('guest_token')?.value
 
-  if (!guestToken || !isTokenValid(guestToken)) {
-    console.log('Existing guest token is invalid or expired')
+  if (!guestToken) {
+    return
+  }
+
+  if (!isTokenValid(guestToken)) {
+    /** @todo consider refreshing */
     return
   }
 

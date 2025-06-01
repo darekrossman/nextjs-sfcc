@@ -90,7 +90,15 @@ export const SITE_FOOTER_NAVIGATION_QUERY = defineQuery(
 )
 
 export const CATEGORIES_QUERY = defineQuery(
-  `*[_type == "category"]{ _id, categoryId, slug, title }`,
+  `*[_type == "category"]{ 
+    _id, 
+    categoryId, 
+    slug, 
+    title[]{
+      _key,
+      value
+    }
+  }`,
 )
 
 export const CATEGORY_QUERY = defineQuery(
@@ -101,51 +109,22 @@ export const CATEGORY_QUERY = defineQuery(
     _id,
     categoryId,
     slug,
-    title,
+    title[]{
+      _key,
+      value
+    },
     body,
-    publishedAt,
-    heroBanner->{
-      _id,
-      title,
-      slug,
-      landscapeImage{
-        asset->{
-          _id,
-          url
-        },
-        alt,
-        hotspot,
-        crop
+    bannerImage{
+      asset->{
+        _id,
+        url
       },
-      portraitImage{
-        asset->{
-          _id,
-          url
-        },
-        alt,
-        hotspot,
-        crop
+      alt[]{
+        _key,
+        value
       },
-      overlay{
-        headline,
-        subheadline,
-        content,
-        textPosition,
-        textColor
-      },
-      callToActions[]{
-        label,
-        linkType,
-        internalLink,
-        externalUrl,
-        categoryReference->{
-          _id,
-          slug,
-          title
-        },
-        style,
-        priority
-      }
+      hotspot,
+      crop
     }
   }`,
 )
