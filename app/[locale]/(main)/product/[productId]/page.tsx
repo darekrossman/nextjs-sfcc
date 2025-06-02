@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Gallery } from 'components/product/gallery'
-import { getProduct } from 'lib/sfcc'
+import { getProduct } from '@/lib/sfcc'
 import { Suspense } from 'react'
 import { PageContainer } from '@/components/page-container'
 import { Box, Center, Flex, HStack, Stack, styled } from '@/styled-system/jsx'
