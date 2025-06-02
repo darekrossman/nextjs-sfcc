@@ -4,15 +4,16 @@ import { SITE_NAME } from '@/lib/constants'
 import { getCart } from '@/lib/sfcc'
 import { cx } from '@/styled-system/css'
 import { styled } from '@/styled-system/jsx'
-import { baseUrl } from 'lib/utils'
+import { baseUrl } from '@/lib/utils'
 import { Metadata } from 'next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Geist, Major_Mono_Display, Silkscreen } from 'next/font/google'
 import { PropsWithChildren } from 'react'
 import { LocaleProvider } from '@/components/locale-context'
+import { i18nConfig } from '@/lib/i18n'
 
 export async function generateStaticParams() {
-  return [{ locale: 'us' }, { locale: 'fr' }]
+  return i18nConfig.locales.map((locale) => ({ locale }))
 }
 
 export const metadata: Metadata = {
@@ -20,6 +21,14 @@ export const metadata: Metadata = {
   title: {
     default: SITE_NAME!,
     template: `%s | ${SITE_NAME}`,
+  },
+  alternates: {
+    canonical: '/',
+    languages: {
+      'x-default': '/',
+      en: '/en',
+      fr: '/fr',
+    },
   },
   robots: {
     follow: false,

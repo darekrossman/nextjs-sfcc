@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
+import { i18nConfig } from '@/lib/i18n'
 
-const locales = ['en', 'fr']
-const defaultLocale = 'en'
+const { locales, defaultLocale } = i18nConfig
 
 const getLocale = (request: NextRequest): string => {
   // Get the Accept-Language header
