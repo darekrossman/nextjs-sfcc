@@ -14,7 +14,7 @@ type HeroProps = Extract<
 export function Hero({ title, text, image }: HeroProps) {
   return (
     <styled.section position="relative">
-      <Box position="relative" overflow="hidden">
+      <Box position="relative" overflow="hidden" bg="white">
         {image ? (
           <Image
             src={urlFor(image).width(1600).height(800).url()}
@@ -22,21 +22,42 @@ export function Hero({ title, text, image }: HeroProps) {
             height={800}
             alt=""
             className={css({
-              filter: 'grayscale(100%)',
+              mixBlendMode: 'exclusion',
+              // filter: 'grayscale(100%)',
             })}
           />
         ) : null}
       </Box>
 
-      <Center position="absolute" inset="0">
+      <Box position="absolute" top="0" left="50%" bottom="0" right="0" bg="#56596e"></Box>
+
+      <Center position="absolute" bottom="0" left="50%" flexDirection="column">
         <styled.h1
-          // fontFamily="major"
+          // position="absolute"
+          // top="50%"
+          // left="50%"
+          // transform="translate(calc(-50%), calc(-50% - 50px))"
+          fontFamily="major"
           fontSize="140px"
           lineHeight="1"
-          color="#04eb59"
+          color="white"
           fontWeight="bold"
           letterSpacing="-0.05em"
           mixBlendMode="overlay"
+          zIndex="1"
+          textTransform="lowercase"
+        >
+          {title}
+        </styled.h1>
+        <styled.h1
+          position="relative"
+          fontFamily="major"
+          fontSize="140px"
+          lineHeight="1"
+          color="white"
+          fontWeight="bold"
+          letterSpacing="-0.05em"
+          // mixBlendMode="multiply"
         >
           {title}
         </styled.h1>
