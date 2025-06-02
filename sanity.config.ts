@@ -1,5 +1,6 @@
 'use client'
 
+import { assist } from '@sanity/assist'
 import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
@@ -16,11 +17,19 @@ export default defineConfig({
   dataset,
   schema,
   plugins: [
+    assist({
+      translate: {
+        field: {
+          languages: (client) =>
+            client.fetch(`*[_type == "locale"]{"id":tag, "title":name}`),
+          documentTypes: ['siteSettings', 'page', 'category'],
+        },
+      },
+    }),
     structureTool({ structure }),
     visionTool({ defaultApiVersion: apiVersion }),
     internationalizedArray({
-      languages: (client) =>
-        client.fetch(`*[_type == "locale"]{"id": tag, "title":name}`),
+      languages: (client) => client.fetch(`*[_type == "locale"]{"id":tag, "title":name}`),
       fieldTypes: ['string'],
     }),
     presentationTool({

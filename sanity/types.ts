@@ -384,14 +384,81 @@ export type SITE_SETTINGS_QUERYResult = {
 // Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].siteName
 export type SITE_NAME_QUERYResult = string | null;
 // Variable: HOMEPAGE_QUERY
-// Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].homePage->{    _id,    title,    slug,    status,    excerpt,    seo{      title,      description,      noIndex    }  }
+// Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].homePage->{    _id,    title,    slug,    content[]{      _type,      _key,      _type == "hero" => {        title,        text,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "splitImage" => {        orientation,        title,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "features" => {        title,        features[]{          _key,          title,          text        }      },      _type == "faqs" => {        title,        faqs[]->{          _id,          title,          body        }      }    },    mainImage{      asset->{        _id,        url      },      hotspot,      crop    }  }
 export type HOMEPAGE_QUERYResult = {
   _id: string;
   title: string | null;
   slug: Slug | null;
-  status: null;
-  excerpt: null;
-  seo: null;
+  content: Array<{
+    _type: "faqs";
+    _key: string;
+    title: string | null;
+    faqs: Array<{
+      _id: string;
+      title: string | null;
+      body: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }> | null;
+    }> | null;
+  } | {
+    _type: "features";
+    _key: string;
+    title: string | null;
+    features: Array<{
+      _key: string;
+      title: string | null;
+      text: string | null;
+    }> | null;
+  } | {
+    _type: "hero";
+    _key: string;
+    title: string | null;
+    text: BlockContent | null;
+    image: {
+      asset: {
+        _id: string;
+        url: string | null;
+      } | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+    } | null;
+  } | {
+    _type: "splitImage";
+    _key: string;
+    orientation: "imageLeft" | "imageRight" | null;
+    title: string | null;
+    image: {
+      asset: {
+        _id: string;
+        url: string | null;
+      } | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+    } | null;
+  }> | null;
+  mainImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+    } | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+  } | null;
 } | null;
 // Variable: SITE_NAVIGATION_QUERY
 // Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].navigation[]->{    _id,    title,    slug,    status,    excerpt  }
@@ -521,7 +588,7 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0]{\n    _id,\n    siteName,\n    homePage->{\n      _id,\n      title,\n      slug,\n      status\n    },\n    navigation[]->{\n      _id,\n      title,\n      slug,\n      status\n    },\n    footerNavigation[]->{\n      _id,\n      title,\n      slug,\n      status\n    }\n  }": SITE_SETTINGS_QUERYResult;
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].siteName": SITE_NAME_QUERYResult;
-    "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].homePage->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt,\n    seo{\n      title,\n      description,\n      noIndex\n    }\n  }": HOMEPAGE_QUERYResult;
+    "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].homePage->{\n    _id,\n    title,\n    slug,\n    content[]{\n      _type,\n      _key,\n      _type == \"hero\" => {\n        title,\n        text,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"splitImage\" => {\n        orientation,\n        title,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"features\" => {\n        title,\n        features[]{\n          _key,\n          title,\n          text\n        }\n      },\n      _type == \"faqs\" => {\n        title,\n        faqs[]->{\n          _id,\n          title,\n          body\n        }\n      }\n    },\n    mainImage{\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    }\n  }": HOMEPAGE_QUERYResult;
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].navigation[]->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt\n  }": SITE_NAVIGATION_QUERYResult;
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].footerNavigation[]->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt\n  }": SITE_FOOTER_NAVIGATION_QUERYResult;
     "*[_type == \"category\"]{ \n    _id, \n    categoryId, \n    slug, \n    \"title\": coalesce(\n      title[_key == $locale][0].value,\n      title[_key == \"en\"][0].value,\n      title[0].value\n    )\n  }": CATEGORIES_QUERYResult;

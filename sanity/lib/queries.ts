@@ -49,12 +49,57 @@ export const HOMEPAGE_QUERY = defineQuery(
     _id,
     title,
     slug,
-    status,
-    excerpt,
-    seo{
-      title,
-      description,
-      noIndex
+    content[]{
+      _type,
+      _key,
+      _type == "hero" => {
+        title,
+        text,
+        image{
+          asset->{
+            _id,
+            url
+          },
+          hotspot,
+          crop
+        }
+      },
+      _type == "splitImage" => {
+        orientation,
+        title,
+        image{
+          asset->{
+            _id,
+            url
+          },
+          hotspot,
+          crop
+        }
+      },
+      _type == "features" => {
+        title,
+        features[]{
+          _key,
+          title,
+          text
+        }
+      },
+      _type == "faqs" => {
+        title,
+        faqs[]->{
+          _id,
+          title,
+          body
+        }
+      }
+    },
+    mainImage{
+      asset->{
+        _id,
+        url
+      },
+      hotspot,
+      crop
     }
   }`,
 )

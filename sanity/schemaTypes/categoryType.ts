@@ -83,7 +83,7 @@ export const categoryType = defineType({
       // Extract the title from the internationalized array
       // Try English first, then fall back to the first available language
       const displayTitle = Array.isArray(title)
-        ? title.find((item) => item._key === 'en-US')?.value ||
+        ? title.find((item) => item._key === 'en')?.value ||
           title[0]?.value ||
           'Untitled Category'
         : title || 'Untitled Category'
