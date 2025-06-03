@@ -7,6 +7,8 @@ import {
   use,
   useOptimistic,
   startTransition,
+  useEffect,
+  useMemo,
 } from 'react'
 
 type ProductSelections = Record<string, string | number | undefined>
@@ -14,6 +16,7 @@ type ProductSelections = Record<string, string | number | undefined>
 type ProductContextType = {
   selections: ProductSelections
   updateSelections: (values: ProductSelections) => void
+  setState: (values: ProductSelections) => void
 }
 
 export const ProductContext = createContext<ProductContextType | undefined>(undefined)
@@ -23,16 +26,11 @@ export function ProductProvider({
   children,
 }: PropsWithChildren<{ defaultColor?: string | undefined }>) {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const initialState = defaultColor ? { color: defaultColor } : {}
-  const selectionsFromSearchParams: ProductSelections = {}
 
-  for (const [key, value] of searchParams.entries()) {
-    selectionsFromSearchParams[key] = value
-  }
+  const initialState = defaultColor ? { color: defaultColor } : {}
 
   const [optimisticState, setOptimisticState] = useOptimistic(
-    { ...initialState, ...selectionsFromSearchParams },
+    initialState,
     (prevState, newState: ProductSelections) => ({
       ...prevState,
       ...newState,
@@ -53,10 +51,13 @@ export function ProductProvider({
     })
   }
 
-  const value = {
-    selections: optimisticState,
-    updateSelections,
-  }
+  const value = useMemo(() => {
+    return {
+      selections: optimisticState,
+      updateSelections,
+      setState: setOptimisticState,
+    }
+  }, [optimisticState])
 
   return <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
 }
@@ -68,4 +69,19 @@ export function useProduct() {
     throw new Error('useProduct must be used within a ProductProvider')
   }
   return context
+}
+
+export function InitProductSelections() {
+  const ctx = use(ProductContext)
+  const searchParams = useSearchParams()
+
+  const selectionsFromSearchParams: ProductSelections = {}
+
+  for (const [key, value] of searchParams.entries()) {
+    selectionsFromSearchParams[key] = value
+  }
+
+  useEffect(() => {
+    ctx?.setState(selectionsFromSearchParams)
+  }, [selectionsFromSearchParams])
 }

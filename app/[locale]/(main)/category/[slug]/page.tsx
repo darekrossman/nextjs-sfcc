@@ -11,6 +11,8 @@ export default async function CategoryPage({
   params: Promise<{ slug: string; locale: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
+  'use cache'
+
   const { slug, locale } = await params
 
   const { data: category } = await sanityFetch({

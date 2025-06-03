@@ -53,48 +53,28 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function ProductPage(props: PageProps) {
+  'use cache'
+
   const params = await props.params
   const product = await getProduct({ id: params.productId, locale: params.locale })
 
   if (!product) return notFound()
 
-  const productJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: product.name,
-    description: product.description,
-    // image: product.featuredImage.url,
-    // offers: {
-    //   '@type': 'AggregateOffer',
-    //   availability: product.availableForSale
-    //     ? 'https://schema.org/InStock'
-    //     : 'https://schema.org/OutOfStock',
-    //   priceCurrency: product.currencyCode,
-    //   highPrice: product.priceRange.maxVariantPrice.amount,
-    //   lowPrice: product.priceRange.minVariantPrice.amount,
-    // },
-  }
-
   const productImages = product.imageGroups?.filter((group) => group.viewType === 'large')
   const priceRanges = product.priceRanges || []
 
   return (
-    <ProductProvider defaultColor={getDefaultProductColor(product.variants)}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(productJsonLd),
-        }}
-      />
+    <PageContainer
+      position="relative"
+      bg="var(--bg)"
+      className={css({
+        '--bg': '{colors.stone.300}',
+        '--border': '{colors.stone.400/50}',
+      })}
+    >
+      <ProductProvider defaultColor={getDefaultProductColor(product.variants)}>
+        <Suspense></Suspense>
 
-      <PageContainer
-        position="relative"
-        bg="var(--bg)"
-        className={css({
-          '--bg': '{colors.stone.300}',
-          '--border': '{colors.stone.400/50}',
-        })}
-      >
         <Stack gap={{ base: '11', lg: '0' }}>
           <Box
             pt={{ base: '12', md: '0' }}
@@ -200,7 +180,7 @@ export default async function ProductPage(props: PageProps) {
         </Stack>
 
         <Box h="400px" />
-      </PageContainer>
-    </ProductProvider>
+      </ProductProvider>
+    </PageContainer>
   )
 }
