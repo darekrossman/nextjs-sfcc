@@ -79,7 +79,7 @@ export default async function ProductPage(props: PageProps) {
   const priceRanges = product.priceRanges || []
 
   return (
-    <>
+    <ProductProvider defaultColor={getDefaultProductColor(product.variants)}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -95,114 +95,112 @@ export default async function ProductPage(props: PageProps) {
           '--border': '{colors.stone.400/50}',
         })}
       >
-        <ProductProvider defaultColor={getDefaultProductColor(product.variants)}>
-          <Stack gap={{ base: '11', lg: '0' }}>
-            <Box
-              pt={{ base: '12', md: '0' }}
-              borderBottom="1px solid {colors.stone.400/50}"
+        <Stack gap={{ base: '11', lg: '0' }}>
+          <Box
+            pt={{ base: '12', md: '0' }}
+            borderBottom="1px solid {colors.stone.400/50}"
+          >
+            <Suspense>
+              <Gallery imageGroups={productImages}></Gallery>
+            </Suspense>
+          </Box>
+
+          <Center
+            position={{ base: 'relative', lg: 'absolute' }}
+            top="0"
+            right="0"
+            flexDirection={{ base: 'column' }}
+            alignItems={{ lgDown: 'flex-start' }}
+            gap={{ lgDown: '11' }}
+            w={{ base: '100vw', lg: '36vw' }}
+            h={{ base: 'auto', lg: '640px' }}
+            maxW={{ lgDown: '425px' }}
+            mx={{ lgDown: 'auto' }}
+            pt={{ lg: '11' }}
+            bg="var(--bg)/60"
+            borderLeft={{ lg: '1px solid var(--border)' }}
+            zIndex="1"
+            style={{
+              backdropFilter: 'blur(8px)',
+            }}
+          >
+            <Flex
+              w="100%"
+              direction="column"
+              justify="center"
+              flex="1"
+              py={{ lg: '6' }}
+              pr={{ base: '6', lg: '89px' }}
+              pl={{ base: '6', lg: '6' }}
             >
-              <Suspense>
-                <Gallery imageGroups={productImages}></Gallery>
-              </Suspense>
-            </Box>
-
-            <Center
-              position={{ base: 'relative', lg: 'absolute' }}
-              top="0"
-              right="0"
-              flexDirection={{ base: 'column' }}
-              alignItems={{ lgDown: 'flex-start' }}
-              gap={{ lgDown: '11' }}
-              w={{ base: '100vw', lg: '36vw' }}
-              h={{ base: 'auto', lg: '640px' }}
-              maxW={{ lgDown: '425px' }}
-              mx={{ lgDown: 'auto' }}
-              pt={{ lg: '11' }}
-              bg="var(--bg)/60"
-              borderLeft={{ lg: '1px solid var(--border)' }}
-              zIndex="1"
-              style={{
-                backdropFilter: 'blur(8px)',
-              }}
-            >
-              <Flex
-                w="100%"
-                direction="column"
-                justify="center"
-                flex="1"
-                py={{ lg: '6' }}
-                pr={{ base: '6', lg: '89px' }}
-                pl={{ base: '6', lg: '6' }}
-              >
-                <Stack gap="6">
-                  <styled.h1
-                    fontSize="3xl"
-                    lineHeight="1.1"
-                    fontWeight="light"
-                    color="neutral.800"
-                  >
-                    {product.name}
-                  </styled.h1>
-
-                  <Suspense>
-                    <ProductPrice
-                      price={product.price!}
-                      priceRanges={priceRanges}
-                      variants={product.variants}
-                      color="neutral.800"
-                      fontSize="sm"
-                      lineHeight="1"
-                    />
-                  </Suspense>
-
-                  <styled.p color="neutral.600" fontSize="sm" lineHeight="1.4">
-                    {product.shortDescription}
-                  </styled.p>
-                </Stack>
-
-                <Box h="8" />
+              <Stack gap="6">
+                <styled.h1
+                  fontSize="3xl"
+                  lineHeight="1.1"
+                  fontWeight="light"
+                  color="neutral.800"
+                >
+                  {product.name}
+                </styled.h1>
 
                 <Suspense>
-                  <VariantSelector
-                    attributes={product.variationAttributes}
+                  <ProductPrice
+                    price={product.price!}
+                    priceRanges={priceRanges}
                     variants={product.variants}
+                    color="neutral.800"
+                    fontSize="sm"
+                    lineHeight="1"
                   />
                 </Suspense>
-              </Flex>
 
-              <Flex
-                w="full"
-                borderTop="1px solid var(--border)"
-                borderBottom={{ lgDown: '1px solid var(--border)' }}
+                <styled.p color="neutral.600" fontSize="sm" lineHeight="1.4">
+                  {product.shortDescription}
+                </styled.p>
+              </Stack>
+
+              <Box h="8" />
+
+              <Suspense>
+                <VariantSelector
+                  attributes={product.variationAttributes}
+                  variants={product.variants}
+                />
+              </Suspense>
+            </Flex>
+
+            <Flex
+              w="full"
+              borderTop="1px solid var(--border)"
+              borderBottom={{ lgDown: '1px solid var(--border)' }}
+            >
+              <Suspense fallback={null}>
+                <AddToCart
+                  variants={product.variants}
+                  productName={product.name!}
+                  productImages={productImages}
+                />
+              </Suspense>
+
+              <Divider orientation="vertical" h="auto" color="var(--border)" />
+
+              <styled.button
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                w="11"
+                h="11"
               >
-                <Suspense fallback={null}>
-                  <AddToCart
-                    variants={product.variants}
-                    productName={product.name!}
-                    productImages={productImages}
-                  />
-                </Suspense>
+                <HeartPlus strokeWidth={1} size={16} />
+              </styled.button>
 
-                <Divider orientation="vertical" h="auto" color="var(--border)" />
-
-                <styled.button
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  w="11"
-                  h="11"
-                >
-                  <HeartPlus strokeWidth={1} size={16} />
-                </styled.button>
-
-                <Divider orientation="vertical" h="auto" color="var(--border)" />
-              </Flex>
-            </Center>
-          </Stack>
-        </ProductProvider>
+              <Divider orientation="vertical" h="auto" color="var(--border)" />
+            </Flex>
+          </Center>
+        </Stack>
 
         <Box h="400px" />
       </PageContainer>
-    </>
+    </ProductProvider>
   )
 }
