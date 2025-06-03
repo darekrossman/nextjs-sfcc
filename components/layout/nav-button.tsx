@@ -4,7 +4,7 @@ import { HTMLStyledProps } from '@/styled-system/jsx'
 export function NavButton(props: HTMLStyledProps<'button'>) {
   return (
     <styled.button
-      display="inline-flex"
+      display="flex"
       alignItems="center"
       justifyContent="center"
       w="11"

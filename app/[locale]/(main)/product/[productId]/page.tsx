@@ -4,13 +4,14 @@ import { Gallery } from '@/components/product/gallery'
 import { getProduct } from '@/lib/sfcc'
 import { Suspense } from 'react'
 import { PageContainer } from '@/components/page-container'
-import { Box, Center, Stack, styled } from '@/styled-system/jsx'
+import { Box, Center, Divider, Flex, Stack, styled } from '@/styled-system/jsx'
 import { css } from '@/styled-system/css'
 import { VariantSelector } from '@/components/product/variant-selector'
 import { ProductProvider } from '@/components/product/product-context'
 import { getDefaultProductColor } from '@/lib/sfcc/product-helpers'
 import { AddToCart } from '@/components/cart/add-to-cart'
 import { ProductPrice } from '@/components/product/product-price'
+import { HeartPlus } from 'lucide-react'
 
 type PageProps = { params: Promise<{ productId: string; locale: string }> }
 
@@ -91,10 +92,11 @@ export default async function ProductPage(props: PageProps) {
         bg="var(--bg)"
         className={css({
           '--bg': '{colors.stone.300}',
+          '--border': '{colors.stone.400/50}',
         })}
       >
         <ProductProvider defaultColor={getDefaultProductColor(product.variants)}>
-          <Stack gap={{ base: '8', lg: '0' }}>
+          <Stack gap={{ base: '11', lg: '0' }}>
             <Box
               pt={{ base: '12', md: '0' }}
               borderBottom="1px solid {colors.stone.400/50}"
@@ -115,22 +117,29 @@ export default async function ProductPage(props: PageProps) {
               h={{ base: 'auto', lg: '640px' }}
               maxW={{ lgDown: '425px' }}
               mx={{ lgDown: 'auto' }}
-              pr={{ base: '6', lg: '89px' }}
-              pl={{ base: '6', lg: '24px' }}
+              pt={{ lg: '11' }}
               bg="var(--bg)/60"
-              borderLeft={{ lg: '1px solid {colors.stone.400/50}' }}
+              borderLeft={{ lg: '1px solid var(--border)' }}
               zIndex="1"
               style={{
                 backdropFilter: 'blur(8px)',
               }}
             >
-              <Box w="100%">
+              <Flex
+                w="100%"
+                direction="column"
+                justify="center"
+                flex="1"
+                py={{ lg: '6' }}
+                pr={{ base: '6', lg: '89px' }}
+                pl={{ base: '6', lg: '6' }}
+              >
                 <Stack gap="6">
                   <styled.h1
-                    color="neutral.800"
                     fontSize="3xl"
                     lineHeight="1.1"
                     fontWeight="light"
+                    color="neutral.800"
                   >
                     {product.name}
                   </styled.h1>
@@ -159,12 +168,12 @@ export default async function ProductPage(props: PageProps) {
                     variants={product.variants}
                   />
                 </Suspense>
-              </Box>
+              </Flex>
 
-              <Box
-                position={{ lg: 'absolute' }}
-                left={{ lg: '-45px' }}
-                bottom={{ lg: '11' }}
+              <Flex
+                w="full"
+                borderTop="1px solid var(--border)"
+                borderBottom={{ lgDown: '1px solid var(--border)' }}
               >
                 <Suspense fallback={null}>
                   <AddToCart
@@ -173,7 +182,21 @@ export default async function ProductPage(props: PageProps) {
                     productImages={productImages}
                   />
                 </Suspense>
-              </Box>
+
+                <Divider orientation="vertical" h="auto" color="var(--border)" />
+
+                <styled.button
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  w="11"
+                  h="11"
+                >
+                  <HeartPlus strokeWidth={1} size={16} />
+                </styled.button>
+
+                <Divider orientation="vertical" h="auto" color="var(--border)" />
+              </Flex>
             </Center>
           </Stack>
         </ProductProvider>

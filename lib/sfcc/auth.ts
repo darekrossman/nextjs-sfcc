@@ -50,7 +50,7 @@ export const isTokenValid = (token: string): boolean => {
 export const getTokenExpirationTime = (token: string): number | null => {
   try {
     const decoded = jwt.decode(token) as jwt.JwtPayload
-
+    console.log('decoded', decoded)
     if (!decoded?.exp) {
       return null
     }
@@ -87,14 +87,24 @@ export async function getValidGuestUserConfig() {
 
   // If no token or invalid token, get a new one
   if (!guestToken) {
+    const cookieStore = await cookies()
     const tokenResponse = await getGuestUserAuthToken()
+
     guestToken = tokenResponse.access_token
-    console.log('Setting guest token')
-    ;(await cookies()).set('guest_token', guestToken, {
+
+    cookieStore.set('guest_token', guestToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 30,
+      maxAge: tokenResponse.expires_in,
+      path: '/',
+    })
+
+    cookieStore.set('refresh_token', tokenResponse.refresh_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: tokenResponse.refresh_token_expires_in,
       path: '/',
     })
   }

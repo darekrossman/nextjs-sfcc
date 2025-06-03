@@ -1,5 +1,8 @@
+'use server'
+
 import { ShopperBaskets } from 'commerce-sdk-isomorphic'
 import { cookies } from 'next/headers'
+import { cache } from 'react'
 import { getGuestUserConfig, getValidGuestUserConfig, isTokenValid } from './auth'
 import { ensureSDKResponseError } from './type-guards'
 
@@ -17,7 +20,7 @@ export async function createCart(locale?: string) {
   return basket
 }
 
-export async function getCart(locale?: string) {
+export const getCart = cache(async (locale?: string) => {
   const cartId = (await cookies()).get('cartId')?.value!
 
   if (!cartId) {
@@ -27,11 +30,12 @@ export async function getCart(locale?: string) {
   const guestToken = (await cookies()).get('guest_token')?.value
 
   if (!guestToken) {
+    /** @todo refresh token if possible */
     return
   }
 
   if (!isTokenValid(guestToken)) {
-    /** @todo consider refreshing */
+    /** @todo refresh token if possible */
     console.log('invalid guest token')
     return
   }
@@ -41,6 +45,7 @@ export async function getCart(locale?: string) {
   try {
     const basketClient = new ShopperBaskets(config)
     console.log(`fetching basket with ${locale}`)
+    await new Promise((resolve) => setTimeout(resolve, 5000))
     const basket = await basketClient.getBasket({
       parameters: {
         basketId: cartId,
@@ -56,7 +61,7 @@ export async function getCart(locale?: string) {
     console.warn(error)
     return
   }
-}
+})
 
 export async function addToCart(
   items: {

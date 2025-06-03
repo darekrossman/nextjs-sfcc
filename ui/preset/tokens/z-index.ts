@@ -16,4 +16,8 @@ export const zIndex = defineTokens.zIndex({
   skipLink: { value: 1600 },
   toast: { value: 1700 },
   tooltip: { value: 1800 },
+
+  miniCartContent: { value: 2000 },
+  miniCartOpenButton: { value: 2001 },
+  miniCartCloseButton: { value: 2002 },
 })

@@ -1,8 +1,8 @@
 import { SITE_NAME } from '@/lib/constants'
 
 import { css } from '@/styled-system/css'
-import { Box, Divider, Flex } from '@/styled-system/jsx'
-import { Link, Text } from '@/ui/core'
+import { Box, Divider, Flex, styled } from '@/styled-system/jsx'
+import { Link } from '@/ui/core'
 import LogoIcon from '../icons/logo'
 import { Nav } from './nav'
 
@@ -14,6 +14,12 @@ export function Header({ locale }: { locale: string }) {
       left={{ base: '0', md: '0' }}
       zIndex="sticky"
       className={css({
+        '--transition': 'all 0.4s 0.1s',
+        '--fg': '{colors.gray.100}',
+        '--bg': '{colors.gray.900}',
+        '--border': '{colors.gray.700}',
+        '--logo-fill': 'white',
+
         '.nav-open &': {
           '--fg': '{colors.gray.800}',
           '--bg': '{colors.gray.100}',
@@ -71,7 +77,7 @@ export function Header({ locale }: { locale: string }) {
             fill="var(--logo-fill)"
             transition="var(--transition)"
           />
-          <Text
+          <styled.div
             w="40px"
             mb={{ md: '-2px' }}
             textAlign="center"
@@ -83,7 +89,7 @@ export function Header({ locale }: { locale: string }) {
             transition="var(--transition)"
           >
             {SITE_NAME}
-          </Text>
+          </styled.div>
         </Link>
       </Flex>
     </Box>

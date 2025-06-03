@@ -27,4 +27,8 @@ export const gradients = defineTokens.gradients({
     value:
       'linear-gradient(160deg, rgb(152, 158, 203) 0%, rgb(141, 166, 194) 25%, rgb(167, 172, 180) 50%, rgb(210, 175, 163) 75%, rgb(238, 174, 147) 100%)',
   },
+  PeachTreeBorder: {
+    value:
+      'linear-gradient(160deg, rgba(152, 158, 203, 0.5) 0%, rgba(141, 166, 194, 0.5) 25%, rgba(167, 172, 180, 0.5) 50%, rgba(210, 175, 163, 0.5) 75%, rgba(238, 174, 147, 0.5) 100%) 1',
+  },
 })

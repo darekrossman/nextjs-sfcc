@@ -7,7 +7,7 @@ import { styled } from '@/styled-system/jsx'
 import { baseUrl } from '@/lib/utils'
 import { Metadata } from 'next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Geist, Major_Mono_Display, Silkscreen } from 'next/font/google'
+import { Geist, Major_Mono_Display, Silkscreen, DM_Mono } from 'next/font/google'
 import { PropsWithChildren } from 'react'
 import { LocaleProvider } from '@/components/locale-context'
 import { i18nConfig } from '@/lib/i18n'
@@ -36,6 +36,10 @@ export const metadata: Metadata = {
   },
 }
 
+// Maybe
+// - megrim
+// - dm mono
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -53,6 +57,12 @@ const majorMonoDisplay = Major_Mono_Display({
   variable: '--fonts-major-mono',
 })
 
+const dmMono = DM_Mono({
+  weight: ['400'],
+  subsets: ['latin'],
+  variable: '--fonts-mono',
+})
+
 export default async function RootLayout({
   params,
   children,
@@ -64,7 +74,12 @@ export default async function RootLayout({
     <styled.html
       lang={locale}
       minH="100dvh"
-      className={cx(geistSans.variable, silkscreen.variable, majorMonoDisplay.variable)}
+      className={cx(
+        geistSans.variable,
+        silkscreen.variable,
+        majorMonoDisplay.variable,
+        dmMono.variable,
+      )}
     >
       <styled.body minH="100dvh" display="flex" flexDir="column">
         <LocaleProvider locale={locale}>

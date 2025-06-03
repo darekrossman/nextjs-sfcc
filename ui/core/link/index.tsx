@@ -1,7 +1,7 @@
 'use client'
 
 import { useLocale } from '@/components/locale-context'
-import { HTMLStyledProps, styled } from '@/styled-system/jsx'
+import { styled } from '@/styled-system/jsx'
 import NextLink from 'next/link'
 import { ComponentProps } from 'react'
 import { UrlObject } from 'url'
@@ -33,7 +33,16 @@ const prependLocaleToHref = (
   }
 
   if (typeof href === 'string') {
+    // Don't modify query-only URLs
+    if (href.startsWith('?')) {
+      return href
+    }
     return `/${locale}${href}`
+  }
+
+  // UrlObject case - don't modify if it has query but no pathname
+  if (href.query && !href.pathname) {
+    return href
   }
 
   // UrlObject case - prepend locale to pathname

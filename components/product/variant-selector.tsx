@@ -46,9 +46,6 @@ export function VariantSelector({
 
               return (
                 <styled.button
-                  onClick={() => {
-                    updateSelections({ [attr.id]: attrValue.value })
-                  }}
                   key={attrValue.value}
                   aria-disabled={!selectable}
                   disabled={!selectable}
@@ -73,6 +70,9 @@ export function VariantSelector({
                     height: '0',
                     borderLeft: '8px solid transparent',
                     borderTop: '8px solid {colors.stone.500}',
+                  }}
+                  onClick={() => {
+                    updateSelections({ [attr.id]: attrValue.value })
                   }}
                 >
                   {attrValue.name}

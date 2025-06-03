@@ -1,13 +1,10 @@
 'use client'
 
-import { formatPrice } from '@/lib/helpers'
 import { type ProductSearchHit } from '@/lib/sfcc/types'
-import { css } from '@/styled-system/css'
-import { Box, Flex, HStack, styled } from '@/styled-system/jsx'
+import { Box, Flex, styled } from '@/styled-system/jsx'
 import { Stack } from '@/styled-system/jsx'
-import { Link, Text } from '@/ui/core'
+import { Link } from '@/ui/core'
 import Image from 'next/image'
-import { ConfigResolutionError } from 'sanity'
 import { Price } from './price'
 
 export function ProductSearchHit({
