@@ -101,9 +101,9 @@ export default async function ProductPage(props: PageProps) {
               pt={{ base: '12', md: '0' }}
               borderBottom="1px solid {colors.stone.400/50}"
             >
-              {/* <Suspense> */}
-              <Gallery imageGroups={productImages}></Gallery>
-              {/* </Suspense> */}
+              <Suspense>
+                <Gallery imageGroups={productImages}></Gallery>
+              </Suspense>
             </Box>
 
             <Center
@@ -144,16 +144,16 @@ export default async function ProductPage(props: PageProps) {
                     {product.name}
                   </styled.h1>
 
-                  {/* <Suspense> */}
-                  <ProductPrice
-                    price={product.price!}
-                    priceRanges={priceRanges}
-                    variants={product.variants}
-                    color="neutral.800"
-                    fontSize="sm"
-                    lineHeight="1"
-                  />
-                  {/* </Suspense> */}
+                  <Suspense>
+                    <ProductPrice
+                      price={product.price!}
+                      priceRanges={priceRanges}
+                      variants={product.variants}
+                      color="neutral.800"
+                      fontSize="sm"
+                      lineHeight="1"
+                    />
+                  </Suspense>
 
                   <styled.p color="neutral.600" fontSize="sm" lineHeight="1.4">
                     {product.shortDescription}
@@ -162,12 +162,12 @@ export default async function ProductPage(props: PageProps) {
 
                 <Box h="8" />
 
-                {/* <Suspense> */}
-                <VariantSelector
-                  attributes={product.variationAttributes}
-                  variants={product.variants}
-                />
-                {/* </Suspense> */}
+                <Suspense>
+                  <VariantSelector
+                    attributes={product.variationAttributes}
+                    variants={product.variants}
+                  />
+                </Suspense>
               </Flex>
 
               <Flex
