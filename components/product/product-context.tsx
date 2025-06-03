@@ -3,14 +3,10 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
   createContext,
-  useContext,
   PropsWithChildren,
   use,
-  useMemo,
   useOptimistic,
   startTransition,
-  useState,
-  useEffect,
 } from 'react'
 
 type ProductSelections = Record<string, string | number | undefined>
@@ -34,9 +30,6 @@ export function ProductProvider({
   for (const [key, value] of searchParams.entries()) {
     selectionsFromSearchParams[key] = value
   }
-
-  console.log('initialState', initialState)
-  console.log('selectionsFromSearchParams', selectionsFromSearchParams)
 
   const [optimisticState, setOptimisticState] = useOptimistic(
     { ...initialState, ...selectionsFromSearchParams },
