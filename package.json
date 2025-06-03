@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --no-lint --turbopack",
+    "build": "next build --no-lint",
     "start": "next start",
     "lint": "biome check --fix --unsafe",
     "prepare": "panda codegen",
