@@ -11,13 +11,16 @@ import { useProduct } from './product-context'
 import { getProductImagesForColor } from '@/lib/sfcc/product-helpers'
 
 export function Gallery({ imageGroups }: { imageGroups?: Product['imageGroups'] }) {
-  const { state } = useProduct()
+  const { selections } = useProduct()
   const [currentIndex, setCurrentIndex] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   if (!imageGroups) return null
 
-  const images = getProductImagesForColor(imageGroups, state.color as string | undefined)
+  const images = getProductImagesForColor(
+    imageGroups,
+    selections.color as string | undefined,
+  )
 
   // Add scroll event listener to update currentIndex when manually scrolling
   useEffect(() => {

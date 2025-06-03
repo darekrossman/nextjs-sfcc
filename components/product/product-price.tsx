@@ -17,9 +17,9 @@ function ProductPriceBase({
   priceRanges: Product['priceRanges']
   variants: Product['variants']
 }) {
-  const { state } = useProduct()
+  const { selections } = useProduct()
 
-  const selectedVariant = findVariant(variants, state)
+  const selectedVariant = findVariant(variants, selections)
 
   if (selectedVariant) {
     return <Price amount={selectedVariant.price} {...props} />

@@ -23,14 +23,14 @@ export function AddToCart({
 }) {
   const { addCartItem } = useCart()
   const { locale, currency } = useLocale()
-  const { state } = useProduct()
+  const { selections } = useProduct()
 
-  const variant = findVariant(variants, state)
+  const variant = findVariant(variants, selections)
 
   const addItemToCart = () => {
     const images = getProductImagesForColor(
       productImages,
-      state.color as string | undefined,
+      selections.color as string | undefined,
     )
 
     if (!variant) {
@@ -41,7 +41,7 @@ export function AddToCart({
       variant,
       {
         id: variant.productId,
-        values: state,
+        values: selections,
         name: productName,
         image: images[0],
         currency,

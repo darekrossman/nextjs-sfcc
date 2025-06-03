@@ -14,7 +14,7 @@ export function VariantSelector({
   attributes?: Product['variationAttributes']
   variants?: Product['variants']
 }) {
-  const { state, updateSelections } = useProduct()
+  const { selections, updateSelections } = useProduct()
 
   const hasNoOptionsOrJustOneOption =
     !attributes.length || (attributes.length === 1 && attributes[0]?.values?.length === 1)
@@ -32,12 +32,12 @@ export function VariantSelector({
           </styled.dt>
           <styled.dd display="flex" flexWrap="wrap" gap="2">
             {attr.values?.map((attrValue) => {
-              const isActive = state[attr.id] === attrValue.value
+              const isActive = selections[attr.id] === attrValue.value
 
               // Potential matching variants for current selections with this attribute value.
               const matchingVariants =
                 findVariants(variants, {
-                  ...state,
+                  ...selections,
                   [attr.id]: attrValue.value,
                 }) || []
 

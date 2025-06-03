@@ -38,7 +38,6 @@ export const metadata: Metadata = {
 
 // Maybe
 // - megrim
-// - dm mono
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
