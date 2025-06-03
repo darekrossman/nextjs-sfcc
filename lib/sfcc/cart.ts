@@ -45,7 +45,6 @@ export const getCart = cache(async (locale?: string) => {
   try {
     const basketClient = new ShopperBaskets(config)
     console.log(`fetching basket with ${locale}`)
-    await new Promise((resolve) => setTimeout(resolve, 5000))
     const basket = await basketClient.getBasket({
       parameters: {
         basketId: cartId,
