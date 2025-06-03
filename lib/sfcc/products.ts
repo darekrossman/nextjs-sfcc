@@ -19,6 +19,8 @@ export async function getProduct({ id, locale }: { id: string; locale: string })
   cacheLife('days')
   cacheTag(TAGS.products)
 
+  console.log('getProduct', id, locale)
+
   const config = await getGuestUserConfig()
   const productsClient = new ShopperProducts(config)
   try {
