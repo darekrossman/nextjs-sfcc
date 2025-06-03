@@ -21,8 +21,6 @@ export default async function SearchResults({
   category?: string
   params: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  'use cache'
-
   const searchParams = {
     ...parseParamsFromUrl(await params),
     locale,
@@ -33,11 +31,6 @@ export default async function SearchResults({
   }
 
   const searchResultsPromise = searchProducts(searchParams)
-  // const searchResultsPromise = new Promise<ProductSearchResult | undefined>((resolve) => {
-  //   setTimeout(() => {
-  //     resolve(searchProducts(searchParams))
-  //   }, 4000)
-  // })
 
   return (
     <PageContainer
