@@ -15,8 +15,6 @@ export default async function SearchPage({
   params: Promise<{ locale: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  'use cache'
-
   const { locale } = await params
   const term = (await searchParams)?.q
 

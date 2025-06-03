@@ -5,10 +5,10 @@ import {
   createContext,
   PropsWithChildren,
   use,
-  useOptimistic,
   startTransition,
   useEffect,
   useMemo,
+  useState,
 } from 'react'
 
 type ProductSelections = Record<string, string | number | undefined>
@@ -22,27 +22,20 @@ type ProductContextType = {
 export const ProductContext = createContext<ProductContextType | undefined>(undefined)
 
 export function ProductProvider({
-  defaultColor,
   children,
-}: PropsWithChildren<{ defaultColor?: string | undefined }>) {
+  defaultSelections,
+}: PropsWithChildren<{ defaultSelections?: ProductSelections }>) {
   const router = useRouter()
 
-  const initialState = defaultColor ? { color: defaultColor } : {}
-
-  const [optimisticState, setOptimisticState] = useOptimistic(
-    initialState,
-    (prevState, newState: ProductSelections) => ({
-      ...prevState,
-      ...newState,
-    }),
-  )
+  const [state, setState] = useState<ProductSelections>(defaultSelections || {})
 
   const updateSelections = (values: ProductSelections) => {
-    startTransition(() => {
-      setOptimisticState(values)
+    const newState = { ...state, ...values }
+    setState(newState)
 
+    startTransition(() => {
       const newParams = new URLSearchParams()
-      Object.entries({ ...optimisticState, ...values }).forEach(([key, value]) => {
+      Object.entries(newState).forEach(([key, value]) => {
         if (value) {
           newParams.set(key, value.toString())
         }
@@ -53,11 +46,11 @@ export function ProductProvider({
 
   const value = useMemo(() => {
     return {
-      selections: optimisticState,
+      selections: state,
       updateSelections,
-      setState: setOptimisticState,
+      setState,
     }
-  }, [optimisticState])
+  }, [state])
 
   return <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
 }
@@ -82,6 +75,10 @@ export function InitProductSelections() {
   }
 
   useEffect(() => {
+    console.log('selectionsFromSearchParams', selectionsFromSearchParams)
+
     ctx?.setState(selectionsFromSearchParams)
-  }, [selectionsFromSearchParams])
+  }, [])
+
+  return null
 }

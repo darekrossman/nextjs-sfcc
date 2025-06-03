@@ -11,7 +11,6 @@ import { SearchResultsHeader } from './search-results-header'
 import { Suspense } from 'react'
 import { SearchProvider } from './search-context'
 import { SearchLoader } from './search-loader'
-import { ProductSearchResult } from '@/lib/sfcc/types'
 
 export default async function SearchResults({
   locale,
@@ -22,6 +21,8 @@ export default async function SearchResults({
   category?: string
   params: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
+  'use cache'
+
   const searchParams = {
     ...parseParamsFromUrl(await params),
     locale,

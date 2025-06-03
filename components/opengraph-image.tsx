@@ -1,10 +1,18 @@
-import { join } from 'path'
 import { readFile } from 'fs/promises'
 import { ImageResponse } from 'next/og'
+import { join } from 'path'
 import LogoIcon from './icons/logo'
 
 export type Props = {
   title?: string
+}
+
+async function getFont() {
+  'use cache'
+
+  const file = await readFile(join(process.cwd(), './fonts/Inter-Bold.ttf'))
+
+  return Uint8Array.from(file).buffer
 }
 
 export default async function OpengraphImage(props?: Props): Promise<ImageResponse> {
@@ -15,8 +23,7 @@ export default async function OpengraphImage(props?: Props): Promise<ImageRespon
     ...props,
   }
 
-  const file = await readFile(join(process.cwd(), './public/fonts/Inter-Bold.ttf'))
-  const font = Uint8Array.from(file).buffer
+  const font = await getFont()
 
   return new ImageResponse(
     <div tw="flex h-full w-full flex-col items-center justify-center bg-black">

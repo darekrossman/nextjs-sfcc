@@ -7,7 +7,10 @@ import { PageContainer } from '@/components/page-container'
 import { Box, Center, Divider, Flex, Stack, styled } from '@/styled-system/jsx'
 import { css } from '@/styled-system/css'
 import { VariantSelector } from '@/components/product/variant-selector'
-import { ProductProvider } from '@/components/product/product-context'
+import {
+  InitProductSelections,
+  ProductProvider,
+} from '@/components/product/product-context'
 import { getDefaultProductColor } from '@/lib/sfcc/product-helpers'
 import { AddToCart } from '@/components/cart/add-to-cart'
 import { ProductPrice } from '@/components/product/product-price'
@@ -72,17 +75,17 @@ export default async function ProductPage(props: PageProps) {
         '--border': '{colors.stone.400/50}',
       })}
     >
-      <ProductProvider defaultColor={getDefaultProductColor(product.variants)}>
-        <Suspense></Suspense>
+      <ProductProvider>
+        <Suspense>
+          <InitProductSelections />
+        </Suspense>
 
         <Stack gap={{ base: '11', lg: '0' }}>
           <Box
             pt={{ base: '12', md: '0' }}
             borderBottom="1px solid {colors.stone.400/50}"
           >
-            <Suspense>
-              <Gallery imageGroups={productImages}></Gallery>
-            </Suspense>
+            <Gallery imageGroups={productImages}></Gallery>
           </Box>
 
           <Center

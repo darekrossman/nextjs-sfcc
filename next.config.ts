@@ -3,8 +3,6 @@ export default {
     ppr: true,
     inlineCss: true,
     useCache: true,
-    dynamicIO: true,
-    prerenderEarlyExit: false,
   },
   images: {
     formats: ['image/avif', 'image/webp'],
