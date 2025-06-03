@@ -3,6 +3,8 @@ import { HeroBanner } from '@/components/hero-banner'
 import { sanityFetch } from '@/sanity/lib/live'
 import { CATEGORY_QUERY } from '@/sanity/lib/queries'
 import SearchResults from '@/components/search-results'
+import { Suspense } from 'react'
+import { SearchLoader } from '@/components/search-loader'
 
 export default async function CategoryPage({
   params,
@@ -25,7 +27,9 @@ export default async function CategoryPage({
       <HeroBanner bannerImage={category?.bannerImage} text={category?.title} />
 
       <PageContainer zIndex="grid" flex="1">
-        <SearchResults locale={locale} category={slug} params={searchParams} />
+        <Suspense fallback={<SearchLoader />}>
+          <SearchResults locale={locale} category={slug} params={searchParams} />
+        </Suspense>
       </PageContainer>
     </PageContainer>
   )
