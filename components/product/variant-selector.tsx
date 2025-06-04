@@ -1,20 +1,26 @@
 'use client'
 
+import { UnknownSearchParams } from '@/lib/constants'
 import { findVariants } from '@/lib/sfcc/product-helpers'
 import { Stack, styled } from '@/styled-system/jsx'
 import { stack } from '@/styled-system/patterns'
 import { useProduct } from 'components/product/product-context'
 import { Product } from 'lib/sfcc/types'
-import { startTransition, use, useEffect } from 'react'
+import { use } from 'react'
 
 export function VariantSelector({
   attributes = [],
   variants = [],
+  searchParams,
 }: {
   attributes?: Product['variationAttributes']
   variants?: Product['variants']
+  searchParams?: Promise<UnknownSearchParams>
 }) {
-  const { selections, updateSelections } = useProduct()
+  const params = searchParams ? use(searchParams) : {}
+  const { selections: optimisticSelections, updateSelections } = useProduct()
+
+  const selections = { ...params, ...optimisticSelections }
 
   const hasNoOptionsOrJustOneOption =
     !attributes.length || (attributes.length === 1 && attributes[0]?.values?.length === 1)

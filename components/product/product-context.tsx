@@ -33,7 +33,7 @@ export function ProductProvider({
 }>) {
   const router = useRouter()
 
-  const [state, setState] = useState<ProductSelections>(defaultSelections || {})
+  const [state, setState] = useState<ProductSelections>({})
 
   const updateSelections = (values: ProductSelections) => {
     const newState = { ...state, ...values }

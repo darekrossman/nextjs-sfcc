@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, use } from 'react'
 import { Box, Flex, HTMLStyledProps, styled } from '@/styled-system/jsx'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { css } from '@/styled-system/css'
@@ -9,11 +9,21 @@ import { Product } from '@/lib/sfcc/types'
 import { token } from '@/styled-system/tokens'
 import { useProduct } from './product-context'
 import { getProductImagesForColor } from '@/lib/sfcc/product-helpers'
+import { UnknownSearchParams } from '@/lib/constants'
 
-export function Gallery({ imageGroups }: { imageGroups?: Product['imageGroups'] }) {
-  const { selections } = useProduct()
+export function Gallery({
+  imageGroups,
+  searchParams,
+}: {
+  imageGroups?: Product['imageGroups']
+  searchParams?: Promise<UnknownSearchParams>
+}) {
+  const params = searchParams ? use(searchParams) : {}
+  const { selections: optimisticSelections } = useProduct()
   const [currentIndex, setCurrentIndex] = useState(0)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+  const selections = { ...params, ...optimisticSelections }
 
   if (!imageGroups) return null
 

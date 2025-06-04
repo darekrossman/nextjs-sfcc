@@ -1,29 +1,33 @@
 'use client'
 
-import { addItem } from 'components/cart/actions'
 import { useProduct } from 'components/product/product-context'
-import { Product, ProductVariant } from 'lib/sfcc/types'
-import { startTransition, use, useActionState } from 'react'
-import { CartContext, useCart } from './cart-context'
+import { Product } from 'lib/sfcc/types'
+import { use } from 'react'
+import { useCart } from './cart-context'
 import { Center } from '@/styled-system/jsx'
 import { styled } from '@/styled-system/jsx'
 import { css } from '@/styled-system/css'
-import { PlusIcon } from 'lucide-react'
 import { findVariant, getProductImagesForColor } from '@/lib/sfcc/product-helpers'
 import { useLocale } from '@/components/locale-context'
+import { UnknownSearchParams } from '@/lib/constants'
 
 export function AddToCart({
   variants,
   productName,
   productImages,
+  searchParams,
 }: {
   variants?: NonNullable<Product['variants']>
   productName?: string
   productImages?: NonNullable<Product['imageGroups']>
+  searchParams?: Promise<UnknownSearchParams>
 }) {
+  const params = searchParams ? use(searchParams) : {}
   const { addCartItem } = useCart()
   const { currency } = useLocale()
-  const { selections } = useProduct()
+  const { selections: optimisticSelections } = useProduct()
+
+  const selections = { ...params, ...optimisticSelections }
 
   const variant = findVariant(variants, selections)
 

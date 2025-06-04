@@ -7,16 +7,16 @@ import { PageContainer } from '@/components/page-container'
 import { Box, Center, Divider, Flex, Stack, styled } from '@/styled-system/jsx'
 import { css } from '@/styled-system/css'
 import { VariantSelector } from '@/components/product/variant-selector'
-import {
-  InitProductSelections,
-  ProductProvider,
-} from '@/components/product/product-context'
-import { getDefaultProductColor } from '@/lib/sfcc/product-helpers'
+import { ProductProvider } from '@/components/product/product-context'
 import { AddToCart } from '@/components/cart/add-to-cart'
 import { ProductPrice } from '@/components/product/product-price'
 import { HeartPlus } from 'lucide-react'
+import { UnknownSearchParams } from '@/lib/constants'
 
-type PageProps = { params: Promise<{ productId: string; locale: string }> }
+type PageProps = {
+  params: Promise<{ productId: string; locale: string }>
+  searchParams: Promise<UnknownSearchParams>
+}
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params
@@ -78,20 +78,13 @@ export default async function ProductPage(props: PageProps) {
         '--border': '{colors.stone.400/50}',
       })}
     >
-      <ProductProvider
-        defaultSelections={{ color: getDefaultProductColor(product.variants) }}
-        personalizedProductPromise={personalizedProductPromise}
-      >
-        <Suspense>
-          <InitProductSelections />
-        </Suspense>
-
+      <ProductProvider personalizedProductPromise={personalizedProductPromise}>
         <Stack gap={{ base: '11', lg: '0' }}>
           <Box
             pt={{ base: '12', md: '0' }}
             borderBottom="1px solid {colors.stone.400/50}"
           >
-            <Gallery imageGroups={productImages}></Gallery>
+            <Gallery imageGroups={productImages} searchParams={props.searchParams} />
           </Box>
 
           <Center
@@ -138,9 +131,7 @@ export default async function ProductPage(props: PageProps) {
                       price={product.price!}
                       priceRanges={priceRanges}
                       variants={product.variants}
-                      color="neutral.800"
-                      fontSize="sm"
-                      lineHeight="1"
+                      searchParams={props.searchParams}
                     />
                   </Suspense>
                 </Flex>
@@ -156,6 +147,7 @@ export default async function ProductPage(props: PageProps) {
                 <VariantSelector
                   attributes={product.variationAttributes}
                   variants={product.variants}
+                  searchParams={props.searchParams}
                 />
               </Suspense>
             </Flex>
@@ -174,13 +166,14 @@ export default async function ProductPage(props: PageProps) {
                   color="var(--border)"
                 />
 
-                {/* <Suspense fallback={<AddToCart />}> */}
-                <AddToCart
-                  variants={product.variants}
-                  productName={product.name!}
-                  productImages={productImages}
-                />
-                {/* </Suspense> */}
+                <Suspense fallback={<AddToCart />}>
+                  <AddToCart
+                    variants={product.variants}
+                    productName={product.name!}
+                    productImages={productImages}
+                    searchParams={props.searchParams}
+                  />
+                </Suspense>
 
                 <Divider orientation="vertical" h="auto" color="var(--border)" />
 

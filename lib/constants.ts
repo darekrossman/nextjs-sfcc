@@ -72,3 +72,5 @@ export const REFINEMENT_COLORS = {
 
 export type ColorKey = keyof typeof REFINEMENT_COLORS
 export type ColorMapping = (typeof REFINEMENT_COLORS)[ColorKey]
+
+export type UnknownSearchParams = Record<string, string>

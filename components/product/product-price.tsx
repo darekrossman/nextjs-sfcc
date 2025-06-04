@@ -7,17 +7,29 @@ import { useProduct } from './product-context'
 import { HTMLStyledProps } from '@/styled-system/types'
 import { HStack, styled } from '@/styled-system/jsx'
 import { use, useEffect } from 'react'
+import { UnknownSearchParams } from '@/lib/constants'
+
+const StyledPrice = styled(Price, {
+  base: {
+    color: 'neutral.800',
+    fontSize: 'sm',
+    lineHeight: '1',
+  },
+})
 
 function ProductPriceBase({
   price,
   priceRanges,
   variants,
+  searchParams,
   ...props
 }: {
   price: number
   priceRanges: Product['priceRanges']
   variants: Product['variants']
+  searchParams?: Promise<UnknownSearchParams>
 }) {
+  const params = searchParams ? use(searchParams) : {}
   const { selections, personalizedProductPromise } = useProduct()
 
   // const personalizedProduct = use(personalizedProductPromise)
@@ -26,10 +38,10 @@ function ProductPriceBase({
   //   console.log('personalizedProduct', personalizedProduct)
   // }, [])
 
-  const selectedVariant = findVariant(variants, selections)
+  const selectedVariant = findVariant(variants, { ...params, ...selections })
 
   if (selectedVariant) {
-    return <Price amount={selectedVariant.price} {...props} />
+    return <StyledPrice amount={selectedVariant.price} />
   }
 
   const listRange = priceRanges?.find((range) => range.pricebook?.includes('list'))
@@ -41,16 +53,16 @@ function ProductPriceBase({
   if (minPrice && maxPrice && minPrice !== maxPrice) {
     return (
       <HStack gap="1">
-        <Price amount={minPrice} {...props} />
+        <StyledPrice amount={minPrice} />
         <styled.span fontSize="sm" lineHeight="1">
           -
         </styled.span>
-        <Price amount={maxPrice} {...props} />
+        <StyledPrice amount={maxPrice} />
       </HStack>
     )
   }
 
-  return <Price amount={minPrice || maxPrice} {...props} />
+  return <StyledPrice amount={minPrice || maxPrice} />
 }
 
 export const ProductPrice = styled(ProductPriceBase)
