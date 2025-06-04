@@ -2,7 +2,7 @@
 
 import { UnknownSearchParams } from '@/lib/constants'
 import { Product } from '@/lib/sfcc/types'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import {
   createContext,
   PropsWithChildren,
@@ -78,7 +78,7 @@ export function InitProductSelections({
   const params = use(searchParams)
 
   useEffect(() => {
-    // ctx?.setState(params)
+    ctx?.setState(params)
   }, [])
 
   return null
