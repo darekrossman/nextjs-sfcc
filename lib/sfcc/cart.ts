@@ -109,10 +109,10 @@ export async function addToCart(
 // REMOVE FROM CART
 // =====================================================================
 
-export async function removeFromCart(lineIds: string[]) {
+export async function removeFromCart(itemIds: string[], locale?: string) {
   const cartId = (await cookies()).get('cartId')?.value!
   // Next Commerce only sends one lineId at a time
-  if (lineIds.length !== 1) throw new Error('Invalid number of line items provided')
+  if (itemIds.length !== 1) throw new Error('Invalid number of line items provided')
 
   // get the guest token to get the correct guest cart
   const guestToken = (await cookies()).get('guest_token')?.value
@@ -123,7 +123,8 @@ export async function removeFromCart(lineIds: string[]) {
   const basket = await basketClient.removeItemFromBasket({
     parameters: {
       basketId: cartId,
-      itemId: lineIds[0]!,
+      itemId: itemIds[0]!,
+      locale: locale === 'fr' ? 'fr-FR' : 'default',
     },
   })
 
@@ -131,60 +132,26 @@ export async function removeFromCart(lineIds: string[]) {
 }
 
 // =====================================================================
-// UPDATE CART
+// UPDATE CART ITEM
 // =====================================================================
 
-export async function updateCart(
-  lines: { id: string; itemId: string; quantity: number }[],
-) {
+export async function updateCartItem(itemId: string, quantity: number, locale?: string) {
   const cartId = (await cookies()).get('cartId')?.value!
-  // get the guest token to get the correct guest cart
   const guestToken = (await cookies()).get('guest_token')?.value
   const config = await getGuestUserConfig(guestToken)
 
   const basketClient = new ShopperBaskets(config)
 
-  // ProductItem quantity can not be updated through the API
-  // Quantity updates need to remove all items from the cart and add them back with updated quantities
-  // See: https://developer.salesforce.com/docs/commerce/commerce-api/references/shopper-baskets?meta=updateBasket
-
-  // create removePromises for each line
-  const removePromises = lines.map((line) =>
-    basketClient.removeItemFromBasket({
-      parameters: {
-        basketId: cartId,
-        itemId: line.id,
-      },
-    }),
-  )
-
-  // wait for all removals to resolve
-  await Promise.all(removePromises)
-
-  // create addPromises for each line
-  const addPromises = lines.map((line) =>
-    basketClient.addItemToBasket({
-      parameters: {
-        basketId: cartId,
-      },
-      body: [
-        {
-          productId: line.itemId,
-          quantity: line.quantity,
-        },
-      ],
-    }),
-  )
-
-  // wait for all additions to resolve
-  await Promise.all(addPromises)
-
-  // all updates are done, get the updated basket
-  const updatedBasket = await basketClient.getBasket({
+  const basket = await basketClient.updateItemInBasket({
     parameters: {
       basketId: cartId,
+      itemId: itemId,
+      locale: locale === 'fr' ? 'fr-FR' : 'default',
+    },
+    body: {
+      quantity,
     },
   })
 
-  return updatedBasket
+  return basket
 }

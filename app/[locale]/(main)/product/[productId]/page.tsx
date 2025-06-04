@@ -69,8 +69,6 @@ export default async function ProductPage(props: PageProps) {
   const productImages = product.imageGroups?.filter((group) => group.viewType === 'large')
   const priceRanges = product.priceRanges || []
 
-  console.log(product)
-
   return (
     <PageContainer
       position="relative"

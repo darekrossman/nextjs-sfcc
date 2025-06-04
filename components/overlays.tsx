@@ -24,7 +24,7 @@ export function DialogOverlay(props: ComponentProps<typeof motion.div>) {
         zIndex: 'modal',
       })}
       style={{
-        backdropFilter: 'grayscale(100%)',
+        backdropFilter: 'grayscale(100%) brightness(0.8) contrast(0.7)',
       }}
       {...props}
     />

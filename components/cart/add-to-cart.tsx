@@ -22,7 +22,7 @@ export function AddToCart({
   productImages?: NonNullable<Product['imageGroups']>
 }) {
   const { addCartItem } = useCart()
-  const { locale, currency } = useLocale()
+  const { currency } = useLocale()
   const { selections } = useProduct()
 
   const variant = findVariant(variants, selections)
@@ -37,17 +37,13 @@ export function AddToCart({
       return
     }
 
-    addCartItem(
-      variant,
-      {
-        id: variant.productId,
-        values: selections,
-        name: productName,
-        image: images[0],
-        currency,
-      },
-      locale,
-    )
+    addCartItem(variant, {
+      id: variant.productId,
+      values: selections,
+      name: productName,
+      image: images[0],
+      currency,
+    })
   }
 
   const disabled = !variant

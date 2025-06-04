@@ -1,7 +1,7 @@
 'use server'
 
 import { TAGS } from 'lib/constants'
-import { addToCart, createCart, getCart, removeFromCart, updateCart } from 'lib/sfcc'
+import { addToCart, createCart, getCart, removeFromCart, updateCartItem } from 'lib/sfcc'
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -20,7 +20,6 @@ export async function addItem(
   try {
     let cart = await addToCart([{ ...item, quantity: 1 }], locale)
     if (!cart?.basketId) {
-      console.log('no cart, creating one')
       const newCart = await createCart(locale)
       if (newCart.basketId) {
         ;(await cookies()).set('cartId', newCart.basketId, {
@@ -33,7 +32,6 @@ export async function addItem(
       }
     }
     if (cart?.basketId) {
-      console.log('added item to cart')
       revalidateTag(TAGS.cart)
       return cart
     }
@@ -45,62 +43,24 @@ export async function addItem(
   }
 }
 
-export async function removeItem(prevState: unknown, itemId: string) {
+export async function removeItem(itemId: string, locale?: string) {
   try {
-    const cart = await getCart()
-
-    if (!cart) {
-      return 'Error fetching cart'
-    }
-
-    const lineItem = cart.productItems?.find((line) => line.itemId === itemId)
-
-    if (lineItem && lineItem.id) {
-      await removeFromCart([lineItem.id])
-      revalidateTag(TAGS.cart)
-    } else {
-      return 'Item not found in cart'
-    }
+    const updatedCart = await removeFromCart([itemId], locale)
+    revalidateTag(TAGS.cart)
+    return updatedCart
   } catch (e) {
-    return 'Error removing item from cart'
+    return
   }
 }
 
-export async function updateItemQuantity(
-  prevState: unknown,
-  payload: {
-    itemId: string
-    quantity: number
-  },
-) {
-  // const { itemId, quantity } = payload
-  // try {
-  //   const cart = await getCart()
-  //   if (!cart) {
-  //     return 'Error fetching cart'
-  //   }
-  //   const lineItem = cart.productItems?.find((line) => line.itemId === itemId)
-  //   if (lineItem && lineItem.id) {
-  //     if (quantity === 0) {
-  //       await removeFromCart([lineItem.id])
-  //     } else {
-  //       await updateCart([
-  //         {
-  //           id: lineItem.id,
-  //           itemId,
-  //           quantity,
-  //         },
-  //       ])
-  //     }
-  //   } else if (quantity > 0) {
-  //     // If the item doesn't exist in the cart and quantity > 0, add it
-  //     await addToCart([{ itemId, quantity }])
-  //   }
-  //   revalidateTag(TAGS.cart)
-  // } catch (e) {
-  //   console.error(e)
-  //   return 'Error updating item quantity'
-  // }
+export async function updateItem(itemId: string, quantity: number, locale?: string) {
+  try {
+    const updatedCart = await updateCartItem(itemId, quantity, locale)
+    revalidateTag(TAGS.cart)
+    return updatedCart
+  } catch (e) {
+    return
+  }
 }
 
 export async function redirectToCheckout() {

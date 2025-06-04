@@ -2,7 +2,7 @@
 
 import { useLocale } from '@/components/locale-context'
 import { formatPrice } from '@/lib/helpers'
-import { styled } from '@/styled-system/jsx'
+import { HTMLStyledProps, styled } from '@/styled-system/jsx'
 
 function PriceBase({
   amount = 9999.99,
@@ -15,7 +15,7 @@ function PriceBase({
   minAmount?: number
   maxAmount?: number
   currency?: string
-}) {
+} & HTMLStyledProps<'p'>) {
   const { locale, currency: appCurrency } = useLocale()
 
   return (

@@ -46,9 +46,9 @@ export async function getProduct({
   locale,
   token,
 }: { id: string; locale: string; token?: string }) {
-  'use cache'
-  cacheLife('days')
-  cacheTag(TAGS.products)
+  // 'use cache'
+  // cacheLife('days')
+  // cacheTag(TAGS.products)
   console.log(token ? 'fetching personalized product' : 'fetching product', id, locale)
   const config = await getGuestUserConfig(token)
   try {

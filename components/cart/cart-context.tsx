@@ -1,23 +1,16 @@
 'use client'
 
-import {
-  Cart,
-  CartItem,
-  CartProductPartial,
-  Product,
-  ProductVariant,
-} from 'lib/sfcc/types'
+import { Cart, CartItem, CartProductPartial, ProductVariant } from '@/lib/sfcc/types'
 import React, {
   createContext,
-  startTransition,
-  use,
   useContext,
-  useEffect,
   useMemo,
   useOptimistic,
   useState,
+  useTransition,
 } from 'react'
-import { addItem } from './actions'
+import { addItem, removeItem, updateItem } from './actions'
+import { useLocale } from '@/components/locale-context'
 
 type UpdateType = 'plus' | 'minus' | 'delete'
 
@@ -30,7 +23,9 @@ type CartContextType = {
     product: CartProductPartial,
     locale?: string,
   ) => Promise<void>
-  updateCartItem: () => Promise<void>
+  removeCartItem: (itemId: string) => Promise<void>
+  updateItemQuantity: (itemId: string, quantity: number) => Promise<void>
+  pending: boolean
 }
 
 export const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -42,6 +37,8 @@ export function CartProvider({
   children: React.ReactNode
   cartPromise: Promise<Cart | undefined>
 }) {
+  const { locale } = useLocale()
+  const [pending, startTransition] = useTransition()
   const [cart, setCart] = useState<Cart | undefined>(undefined)
 
   const [optimisticCart, updateOptimisticCart] = useOptimistic(
@@ -54,17 +51,36 @@ export function CartProvider({
     },
   )
 
-  const updateCartItem = async () => {}
+  const updateItemQuantity = async (itemId: string, quantity: number) => {
+    if (quantity === 0) {
+      return
+    }
 
-  const addCartItem = async (
-    variant: ProductVariant,
-    product: CartProductPartial,
-    locale?: string,
-  ) => {
-    const newCart = addItemOptimistically({ cart: optimisticCart, variant, product })
+    const newCart = optimisticUpdateItemQuantity({
+      cart: optimisticCart,
+      itemId,
+      quantity,
+    })
 
     startTransition(async () => {
       updateOptimisticCart(newCart)
+      const updatedCart = await updateItem(itemId, quantity, locale)
+      if (updatedCart) {
+        setCart(updatedCart)
+      }
+    })
+  }
+
+  const addCartItem = async (variant: ProductVariant, product: CartProductPartial) => {
+    const newCart = optimisticAdd({
+      cart: optimisticCart,
+      variant,
+      product,
+    })
+
+    startTransition(async () => {
+      updateOptimisticCart(newCart)
+
       const updatedCart = await addItem(
         {
           productId: variant.productId,
@@ -79,13 +95,34 @@ export function CartProvider({
     })
   }
 
-  return (
-    <CartContext.Provider
-      value={{ cartPromise, cart: optimisticCart, setCart, addCartItem, updateCartItem }}
-    >
-      {children}
-    </CartContext.Provider>
-  )
+  const removeCartItem = async (itemId: string) => {
+    const newCart = optimisticRemove({
+      cart: optimisticCart,
+      itemId,
+    })
+
+    startTransition(async () => {
+      updateOptimisticCart(newCart)
+      const updatedCart = await removeItem(itemId, locale)
+      if (updatedCart) {
+        setCart(updatedCart)
+      }
+    })
+  }
+
+  const value = useMemo(() => {
+    return {
+      cartPromise,
+      cart: optimisticCart,
+      setCart,
+      addCartItem,
+      removeCartItem,
+      updateItemQuantity,
+      pending,
+    }
+  }, [optimisticCart, pending])
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
 
 export function useCart() {
@@ -98,7 +135,25 @@ export function useCart() {
   return context
 }
 
-function addItemOptimistically({
+function optimisticRemove({
+  cart,
+  itemId,
+}: {
+  cart?: Cart
+  itemId: string
+}) {
+  if (!cart) {
+    throw new Error('No cart to remove item from')
+  }
+
+  const updatedLines = cart.productItems?.filter((item) => item.itemId !== itemId)
+  return {
+    ...cart,
+    productItems: updatedLines,
+  }
+}
+
+function optimisticAdd({
   cart,
   variant,
   product,
@@ -127,32 +182,59 @@ function addItemOptimistically({
   }
 }
 
-function calculateItemCost(quantity: number, price?: number) {
-  return (price || 9999) * quantity
-}
+function optimisticUpdateItemQuantity({
+  cart,
+  itemId,
+  quantity,
+}: {
+  cart?: Cart
+  itemId: string
+  quantity: number
+}) {
+  if (!cart) {
+    throw new Error('No cart to update item quantity')
+  }
+  if (quantity === 0) {
+    return cart
+  }
 
-function updateCartItem(item: CartItem, updateType: UpdateType): CartItem | null {
-  if (updateType === 'delete') return null
+  const item = cart.productItems?.find((item) => item.itemId === itemId)
 
-  const quantity = item.quantity ?? 1
+  if (!item) {
+    throw new Error('Item not found')
+  }
 
-  const newQuantity = updateType === 'plus' ? quantity + 1 : quantity - 1
-  if (newQuantity === 0) return null
+  const newProductItems = cart.productItems?.map((item) => {
+    if (item.itemId === itemId) {
+      const price = item.basePrice! * quantity
+      let priceAfterItemDiscount = price
 
-  const singleItemAmount = item.basePrice
-  const newTotalAmount = calculateItemCost(newQuantity, singleItemAmount)
+      item.priceAdjustments?.forEach((adjustment) => {
+        if (adjustment.appliedDiscount?.type === 'percentage') {
+          priceAfterItemDiscount = price * (1 - (adjustment.appliedDiscount!.amount ?? 0))
+        } else {
+          priceAfterItemDiscount = price - (adjustment.appliedDiscount?.amount ?? 0)
+        }
+      })
+
+      return {
+        ...item,
+        quantity,
+        price,
+        priceAfterItemDiscount,
+      }
+    }
+    return item
+  })
 
   return {
-    ...item,
-    quantity: newQuantity,
-    cost: {
-      ...item.cost,
-      totalAmount: {
-        ...item.cost.totalAmount,
-        amount: newTotalAmount,
-      },
-    },
+    ...cart,
+    productItems: newProductItems,
   }
+}
+
+function calculateItemCost(quantity: number, price?: number) {
+  return (price || 9999) * quantity
 }
 
 function createOrUpdateCartItem(
@@ -196,41 +278,3 @@ function updateCartTotals(items: CartItem[]) {
 function createEmptyCart(): Cart {
   return {}
 }
-
-// function cartReducer(state: Cart | undefined, action: CartAction): Cart {
-//   const currentCart = state || createEmptyCart()
-
-//   switch (action.type) {
-//     case 'UPDATE_ITEM': {
-//       const { itemId, updateType } = action.payload
-//       const updatedLines = currentCart.productItems
-//         ?.map((item) =>
-//           item.itemId === itemId ? updateCartItem(item, updateType) : item,
-//         )
-//         .filter(Boolean) as CartItem[]
-
-//       if (updatedLines.length === 0) {
-//         return {
-//           ...currentCart,
-//           lines: [],
-//           totalQuantity: 0,
-//           cost: {
-//             ...currentCart.cost,
-//             totalAmount: { ...currentCart.cost.totalAmount, amount: '0' },
-//           },
-//         }
-//       }
-
-//       return {}
-
-//       // return {
-//       //   ...currentCart,
-//       //   ...updateCartTotals(updatedLines),
-//       //   lines: updatedLines,
-//       // }
-//     }
-
-//     default:
-//       return currentCart
-//   }
-// }
