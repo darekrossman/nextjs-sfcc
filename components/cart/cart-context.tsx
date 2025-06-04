@@ -167,6 +167,15 @@ function optimisticAdd({
   const existingItem = currentCart.productItems?.find(
     (item) => item.productId === variant.productId,
   )
+
+  if (existingItem?.itemId) {
+    return optimisticUpdateItemQuantity({
+      cart: currentCart,
+      itemId: existingItem.itemId,
+      quantity: existingItem.quantity! + 1,
+    })
+  }
+
   const updatedItem = createOrUpdateCartItem(existingItem, variant, product)
 
   const updatedLines = existingItem
