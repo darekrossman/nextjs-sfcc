@@ -303,7 +303,7 @@ function MiniCartContent({
 
 export default function MiniCart() {
   const { cart, cartPromise, setCart } = useCart()
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const isMobile = useBreakpoint(token('breakpoints.md')) // client side only!
 
   const initialCart = use(cartPromise)

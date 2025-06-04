@@ -132,16 +132,18 @@ export default async function ProductPage(props: PageProps) {
                   {product.name}
                 </styled.h1>
 
-                <Suspense>
-                  <ProductPrice
-                    price={product.price!}
-                    priceRanges={priceRanges}
-                    variants={product.variants}
-                    color="neutral.800"
-                    fontSize="sm"
-                    lineHeight="1"
-                  />
-                </Suspense>
+                <Flex alignItems="center" h="12px">
+                  <Suspense>
+                    <ProductPrice
+                      price={product.price!}
+                      priceRanges={priceRanges}
+                      variants={product.variants}
+                      color="neutral.800"
+                      fontSize="sm"
+                      lineHeight="1"
+                    />
+                  </Suspense>
+                </Flex>
 
                 <styled.p color="neutral.600" fontSize="sm" lineHeight="1.4">
                   {product.shortDescription}
