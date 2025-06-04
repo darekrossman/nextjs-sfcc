@@ -13,6 +13,7 @@ import { css } from '@/styled-system/css'
 import { NavButton } from './nav-button'
 import { Menu, X } from 'lucide-react'
 import { Search } from './search'
+import { DialogOverlay } from '@/components/overlays'
 
 type NavSheetProps = PropsWithChildren<{
   navPromise: Promise<CATEGORIES_QUERYResult>
@@ -260,23 +261,9 @@ export function NavSheet({ navPromise }: NavSheetProps) {
       <AnimatePresence>
         {open && (
           <Dialog.Portal forceMount>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ type: 'spring', bounce: 0, visualDuration: 0.2 }}
-              className={css({
-                bg: 'stone.500/50',
-                position: 'fixed',
-                inset: 0,
-                width: '100vw',
-                height: '100dvh',
-                zIndex: 'sheet',
-              })}
-              style={{
-                backdropFilter: 'blur(5px)',
-              }}
-            />
+            {/* <Dialog.Overlay>
+              <DialogOverlay />
+            </Dialog.Overlay> */}
             <Suspense fallback={null}>
               <NavContent
                 navPromise={navPromise}

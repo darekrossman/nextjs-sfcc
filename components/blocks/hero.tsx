@@ -29,7 +29,7 @@ export function Hero({ title, text, image }: HeroProps) {
         ) : null}
       </Box>
 
-      <Box position="absolute" top="0" left="50%" bottom="0" right="0" bg="#56596e"></Box>
+      <Box position="absolute" top="0" left="50%" bottom="0" right="0" bg="brand.1"></Box>
 
       <Center position="absolute" bottom="0" left="50%" flexDirection="column">
         <styled.h1

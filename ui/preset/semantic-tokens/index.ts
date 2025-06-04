@@ -2,6 +2,9 @@ import { defineSemanticTokens } from '@pandacss/dev'
 
 export const semanticTokens = defineSemanticTokens({
   colors: {
+    brand: {
+      1: { value: '#56596e' },
+    },
     background: {
       canvas: { value: '{colors.stone.50}' }, // Main app background
       surface: { value: '{colors.stone.100}' }, // Default surface (cards, panels)

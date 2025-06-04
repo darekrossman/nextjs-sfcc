@@ -15,9 +15,9 @@ import {
 import { ensureSDKResponseError } from './type-guards'
 
 export async function getProduct({ id, locale }: { id: string; locale: string }) {
-  'use cache'
-  cacheLife('days')
-  cacheTag(TAGS.products)
+  // 'use cache'
+  // cacheLife('days')
+  // cacheTag(TAGS.products)
 
   console.log('getProduct', id, locale)
 

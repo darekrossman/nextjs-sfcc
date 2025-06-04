@@ -33,14 +33,7 @@ export default async function SearchResults({
   const searchResultsPromise = searchProducts(searchParams)
 
   return (
-    <PageContainer
-      position="relative"
-      bg="var(--bg)"
-      className={css({
-        '--bg': '{colors.stone.300}',
-        '--borderBase': '{colors.stone.400/60}',
-      })}
-    >
+    <PageContainer position="relative" bg="var(--bg)">
       <SearchProvider>
         <Box position="sticky" top="0" w="full" zIndex="popover">
           <Suspense fallback={<SearchLoader />}>
@@ -52,12 +45,16 @@ export default async function SearchResults({
           gridTemplateColumns={{ base: '1fr', md: '88px 1fr' }}
           gap="0"
           flex="1"
-          borderTop="1px solid"
-          borderColor="var(--borderBase)"
+          borderTop={{ md: '1px solid var(--borderBase)' }}
           mt="-1px"
         >
-          <Box>
-            <Stack position="sticky" top="166px" zIndex="sticky" alignItems="flex-start">
+          <Box hideBelow="md">
+            <Stack
+              position={{ md: 'sticky' }}
+              top="166px"
+              zIndex="sticky"
+              alignItems="flex-start"
+            >
               <Suspense>
                 <SearchRefinements
                   searchResultsPromise={searchResultsPromise}
@@ -68,7 +65,7 @@ export default async function SearchResults({
           </Box>
 
           <Box borderLeft="1px solid" borderColor="var(--borderBase)">
-            <Flex
+            {/* <Flex
               position="sticky"
               top="0"
               h="69px"
@@ -84,9 +81,12 @@ export default async function SearchResults({
                   searchResultsPromise={searchResultsPromise}
                 />
               </Suspense>
-            </Flex>
+            </Flex> */}
 
-            <Box position="relative">
+            <Box
+              position="relative"
+              borderTop={{ mdDown: '1px solid var(--borderBase)' }}
+            >
               <Suspense>
                 <SearchHitsGrid searchResultsPromise={searchResultsPromise} />
               </Suspense>

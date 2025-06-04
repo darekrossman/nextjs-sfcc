@@ -300,7 +300,9 @@ export default function MiniCart() {
       <AnimatePresence>
         {open && (
           <Dialog.Portal forceMount>
-            <DialogOverlay />
+            <Dialog.Overlay>
+              <DialogOverlay />
+            </Dialog.Overlay>
             <MiniCartContent isMobile={isMobile} />
           </Dialog.Portal>
         )}

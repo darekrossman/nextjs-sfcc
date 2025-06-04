@@ -4,7 +4,6 @@ import { RefinementColors } from './refinement-colors'
 import { ProductSearchResult, ProductSearchParams } from '@/lib/sfcc/types'
 import * as motion from 'motion/react-client'
 import { use } from 'react'
-import { useSearchState } from './search-context'
 
 interface SearchRefinementsProps {
   searchResultsPromise: Promise<ProductSearchResult | undefined>
@@ -16,7 +15,6 @@ export const SearchRefinements = ({
   searchParams,
 }: SearchRefinementsProps) => {
   const searchResults = use(searchResultsPromise)
-  const { isPending } = useSearchState()
 
   const selectedColors =
     searchResults?.selectedRefinements?.c_refinementColor?.split('|') || []
