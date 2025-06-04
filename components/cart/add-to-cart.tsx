@@ -18,7 +18,7 @@ export function AddToCart({
   productImages,
 }: {
   variants?: NonNullable<Product['variants']>
-  productName: string
+  productName?: string
   productImages?: NonNullable<Product['imageGroups']>
 }) {
   const { addCartItem } = useCart()
@@ -40,7 +40,7 @@ export function AddToCart({
     addCartItem(variant, {
       id: variant.productId,
       values: selections,
-      name: productName,
+      name: productName || '',
       image: images[0],
       currency,
     })
@@ -74,19 +74,6 @@ export function AddToCart({
       })}
       onClick={addItemToCart}
     >
-      {/* <Center
-        w="11"
-        h="11"
-        bg="var(--accentBg)"
-        color="var(--accentFg)"
-        transition="all 0.2s ease-in-out"
-      >
-        <PlusIcon
-          size={16}
-          strokeWidth={1}
-          className={css({ y: '-0.5px', x: '0.5px' })}
-        />
-      </Center> */}
       <Center
         h="full"
         px="6"
@@ -98,7 +85,7 @@ export function AddToCart({
         fontWeight="bold"
         textTransform="uppercase"
       >
-        Add_to_cart
+        Add to cart
       </Center>
     </styled.button>
   )

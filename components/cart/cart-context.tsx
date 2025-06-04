@@ -12,8 +12,6 @@ import React, {
 import { addItem, removeItem, updateItem } from './actions'
 import { useLocale } from '@/components/locale-context'
 
-type UpdateType = 'plus' | 'minus' | 'delete'
-
 type CartContextType = {
   cartPromise: Promise<Cart | undefined>
   cart: Cart | undefined

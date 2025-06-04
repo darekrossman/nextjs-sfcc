@@ -174,13 +174,13 @@ export default async function ProductPage(props: PageProps) {
                   color="var(--border)"
                 />
 
-                <Suspense fallback={null}>
-                  <AddToCart
-                    variants={product.variants}
-                    productName={product.name!}
-                    productImages={productImages}
-                  />
-                </Suspense>
+                {/* <Suspense fallback={<AddToCart />}> */}
+                <AddToCart
+                  variants={product.variants}
+                  productName={product.name!}
+                  productImages={productImages}
+                />
+                {/* </Suspense> */}
 
                 <Divider orientation="vertical" h="auto" color="var(--border)" />
 
