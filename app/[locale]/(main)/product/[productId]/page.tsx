@@ -15,6 +15,7 @@ import { AddToCart } from '@/components/cart/add-to-cart'
 import { ProductPrice } from '@/components/product/product-price'
 import { HeartPlus } from 'lucide-react'
 import { UnknownSearchParams } from '@/lib/constants'
+import { ProductPromotion } from '@/components/product/product-promotion'
 
 type PageProps = {
   params: Promise<{ productId: string; locale: string }>
@@ -86,7 +87,7 @@ export default async function ProductPage(props: PageProps) {
           <InitProductSelections searchParams={props.searchParams} />
         </Suspense>
 
-        <Stack gap={{ base: '11', lg: '0' }}>
+        <Stack gap="0">
           <Box
             pt={{ base: '12', md: '0' }}
             borderBottom="1px solid {colors.stone.400/50}"
@@ -109,11 +110,13 @@ export default async function ProductPage(props: PageProps) {
             bg="var(--bg)/60"
             borderLeft={{ lg: '1px solid var(--border)' }}
             zIndex="1"
+            overflow={{ lg: 'hidden' }}
             style={{
               backdropFilter: 'blur(8px)',
             }}
           >
             <Flex
+              position="relative"
               w="100%"
               direction="column"
               justify="center"
@@ -121,10 +124,20 @@ export default async function ProductPage(props: PageProps) {
               maxW={{ lgDown: '425px' }}
               mx={{ lgDown: 'auto' }}
               py={{ lg: '6' }}
+              pt={{ lgDown: '11' }}
               pr={{ base: '6', lg: '89px' }}
               pl={{ base: '6', lg: '6' }}
             >
-              <Stack gap="6">
+              <Stack gap="6" position="relative">
+                <Suspense>
+                  <Box position="absolute" top="-60px" left={{ base: '0', lg: '-24px' }}>
+                    <ProductPromotion
+                      productId={params.productId}
+                      locale={params.locale}
+                    />
+                  </Box>
+                </Suspense>
+
                 <styled.h1
                   fontSize="3xl"
                   lineHeight="1.1"

@@ -8,6 +8,7 @@ import { TAGS } from 'lib/constants'
 import {
   unstable_cacheLife as cacheLife,
   unstable_cacheTag as cacheTag,
+  unstable_noStore,
 } from 'next/cache'
 import { getGuestUserConfig, isTokenValid } from './auth'
 import { defaultSort } from './constants'
@@ -29,6 +30,7 @@ export async function getPersonalizedProduct({
   id,
   locale,
 }: { id: string; locale: string }) {
+  unstable_noStore()
   const context = await getShopperContext()
   const token = (await cookies()).get('guest_token')?.value
 

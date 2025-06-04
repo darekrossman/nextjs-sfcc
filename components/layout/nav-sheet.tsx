@@ -137,7 +137,7 @@ function NavContent({
           bg: 'gray.900',
           color: 'gray.100',
           overflow: 'hidden',
-          zIndex: 'sheet',
+          zIndex: 'navSheetOpen',
         })}
       >
         <motion.div
@@ -261,9 +261,8 @@ export function NavSheet({ navPromise }: NavSheetProps) {
       <AnimatePresence>
         {open && (
           <Dialog.Portal forceMount>
-            {/* <Dialog.Overlay>
-              <DialogOverlay />
-            </Dialog.Overlay> */}
+            <DialogOverlay className={css({ zIndex: 'navSheetOverlay' })} />
+
             <Suspense fallback={null}>
               <NavContent
                 navPromise={navPromise}

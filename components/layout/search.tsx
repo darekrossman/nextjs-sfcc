@@ -3,6 +3,7 @@ import { Box, Center, HTMLStyledProps, styled } from '@/styled-system/jsx'
 import { SearchIcon } from 'lucide-react'
 import Form from 'next/form'
 import { useSearchParams } from 'next/navigation'
+import { useRef } from 'react'
 
 type SearchProps = {
   id: string
@@ -39,8 +40,15 @@ const GradientSearchIcon = ({
 
 export function Search({ id, onSubmit, ...props }: SearchProps) {
   const searchParams = useSearchParams()
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const value = inputRef.current?.value
+    if (!value || value.length < 3) {
+      e.preventDefault()
+      return
+    }
+
     onSubmit?.()
   }
 
@@ -57,6 +65,7 @@ export function Search({ id, onSubmit, ...props }: SearchProps) {
       })}
     >
       <styled.input
+        ref={inputRef}
         key={searchParams?.get('q')}
         type="text"
         name="q"
@@ -69,15 +78,12 @@ export function Search({ id, onSubmit, ...props }: SearchProps) {
           h: '11',
           pl: '11',
           color: 'neutral.400',
-          // border: '1px solid transparent',
-          borderRight: 'none',
-          borderImage:
-            'linear-gradient(160deg, rgba(152, 158, 203, 0.5) 0%, rgba(141, 166, 194, 0.5) 25%, rgba(167, 172, 180, 0.5) 50%, rgba(210, 175, 163, 0.5) 75%, rgba(238, 174, 147, 0.5) 100%) 1',
+          borderBlock: { mdDown: '1px solid' },
+          borderLeft: { mdDown: '1px solid' },
+          borderGradient: 'PeachTreeBorder',
           outline: 'none',
           _focus: {
-            outline: 'none',
-            borderImage:
-              'linear-gradient(160deg, rgba(152, 158, 203, 0.8) 0%, rgba(141, 166, 194, 0.8) 25%, rgba(167, 172, 180, 0.8) 50%, rgba(210, 175, 163, 0.8) 75%, rgba(238, 174, 147, 0.8) 100%) 1',
+            // outline: 'none',
           },
           _focusVisible: {
             // outline: '2px solid',
@@ -106,17 +112,3 @@ export function Search({ id, onSubmit, ...props }: SearchProps) {
     </Form>
   )
 }
-
-// export function SearchSkeleton() {
-//   return (
-//     <form className="w-max-[550px] relative w-full lg:w-80 xl:w-full">
-//       <input
-//         placeholder="Search for products..."
-//         className="w-full rounded-lg border bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-500 dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
-//       />
-//       <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
-//         <GradientSearchIcon />
-//       </div>
-//     </form>
-//   )
-// }

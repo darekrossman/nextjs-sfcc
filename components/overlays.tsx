@@ -1,8 +1,11 @@
-import { css } from '@/styled-system/css'
+import { css, cx } from '@/styled-system/css'
 import * as motion from 'motion/react-client'
 import { ComponentProps } from 'react'
 
-export function DialogOverlay(props: ComponentProps<typeof motion.div>) {
+export function DialogOverlay({
+  className,
+  ...props
+}: ComponentProps<typeof motion.div>) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -14,15 +17,18 @@ export function DialogOverlay(props: ComponentProps<typeof motion.div>) {
         visualDuration: 0.2,
         delay: 0.15,
       }}
-      className={css({
-        position: 'fixed',
-        inset: 0,
-        width: '100vw',
-        height: '100dvh',
-        bg: '{gradients.PeachTree}',
-        mixBlendMode: 'overlay',
-        zIndex: 'modal',
-      })}
+      className={cx(
+        css({
+          position: 'fixed',
+          inset: 0,
+          width: '100vw',
+          height: '100dvh',
+          bg: '{gradients.PeachTree}',
+          mixBlendMode: 'overlay',
+          zIndex: 'modal',
+        }),
+        className,
+      )}
       style={{
         backdropFilter: 'grayscale(100%) brightness(0.8) contrast(0.7)',
       }}

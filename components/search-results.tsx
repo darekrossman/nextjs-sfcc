@@ -1,5 +1,5 @@
 import { PageContainer } from '@/components/page-container'
-import { Grid } from '@/styled-system/jsx'
+import { Grid, HStack, styled } from '@/styled-system/jsx'
 import { Stack } from '@/styled-system/jsx'
 import { Box } from '@/styled-system/jsx'
 import { searchProducts } from '@/lib/sfcc'
@@ -46,7 +46,20 @@ export default async function SearchResults({
 
   return (
     <PageContainer>
-      <SearchMasthead heading={category?.title} />
+      <SearchMasthead
+        heading={
+          category?.title || (
+            <HStack gap="1">
+              Search:{' '}
+              <styled.div fontStyle="medium" fontFamily="mono">
+                <styled.span opacity="0.5">{'{'}</styled.span>
+                {searchParams.q}
+                <styled.span opacity="0.5">{'}'}</styled.span>
+              </styled.div>
+            </HStack>
+          )
+        }
+      />
 
       <PageContainer position="relative" bg="var(--bg)">
         <SearchProvider>
@@ -65,7 +78,7 @@ export default async function SearchResults({
           >
             <Box hideBelow="md">
               <Stack
-                position={{ md: 'sticky' }}
+                position={{ md: 'docked' }}
                 top="166px"
                 zIndex="sticky"
                 alignItems="flex-start"

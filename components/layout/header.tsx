@@ -12,13 +12,17 @@ export function Header({ locale }: { locale: string }) {
       position="fixed"
       top={{ base: '4', md: '6' }}
       left={{ base: '0', md: '0' }}
-      zIndex="sticky"
+      zIndex="99999"
       className={css({
         '--transition': 'all 0.4s 0.1s',
         '--fg': '{colors.gray.100}',
         '--bg': '{colors.gray.900}',
         '--border': '{colors.gray.700}',
         '--logo-fill': 'white',
+
+        '.minicart-open &': {
+          zIndex: 'modal',
+        },
 
         '.nav-open &': {
           '--fg': '{colors.gray.800}',

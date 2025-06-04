@@ -1,6 +1,7 @@
 import { HStack, Stack, Box, Flex, styled } from '@/styled-system/jsx'
+import { ReactNode } from 'react'
 
-export function SearchMasthead({ heading }: { heading?: string | null }) {
+export function SearchMasthead({ heading }: { heading?: ReactNode }) {
   return (
     <Box position="sticky" top="0">
       <Flex

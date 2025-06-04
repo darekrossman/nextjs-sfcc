@@ -312,6 +312,7 @@ export default function MiniCart() {
     (cart || initialCart)?.productItems?.reduce((acc, item) => acc + item.quantity!, 0) ||
     0
   const quantityRef = useRef(quantity)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     console.log('cart', initialCart)
@@ -334,6 +335,22 @@ export default function MiniCart() {
     quantityRef.current = quantity
   }, [quantity])
 
+  useEffect(() => {
+    if (open) {
+      // Clear any existing timeout
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = null
+      }
+      document.body.classList.add('minicart-open')
+    } else {
+      timeoutRef.current = setTimeout(() => {
+        document.body.classList.remove('minicart-open')
+        timeoutRef.current = null
+      }, 300)
+    }
+  }, [open])
+
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <AnimatePresence>
@@ -345,7 +362,7 @@ export default function MiniCart() {
               x: 0,
               opacity: open ? 0 : 1,
               transition: {
-                x: { type: 'spring', bounce: 0, visualDuration: 0.1 },
+                x: { type: 'spring', bounce: 0, visualDuration: 0.2 },
                 opacity: { duration: 0.2, delay: 0.1 },
               },
             }}

@@ -20,4 +20,7 @@ export const zIndex = defineTokens.zIndex({
   miniCartContent: { value: 2000 },
   miniCartOpenButton: { value: 2001 },
   miniCartCloseButton: { value: 2002 },
+  navSheetOverlay: { value: 2009 },
+  navSheetOpen: { value: 2010 },
+  navSheetOpenHeader: { value: 2011 },
 })
