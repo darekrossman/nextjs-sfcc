@@ -64,10 +64,10 @@ export default async function ProductPage(props: PageProps) {
 
   if (!product) return notFound()
 
-  const personalizedProductPromise = getPersonalizedProduct({
-    id: params.productId,
-    locale: params.locale,
-  })
+  // const personalizedProductPromise = getPersonalizedProduct({
+  //   id: params.productId,
+  //   locale: params.locale,
+  // })
 
   const productImages = product.imageGroups?.filter((group) => group.viewType === 'large')
   const priceRanges = product.priceRanges || []
@@ -81,7 +81,7 @@ export default async function ProductPage(props: PageProps) {
         '--border': '{colors.stone.400/50}',
       })}
     >
-      <ProductProvider personalizedProductPromise={personalizedProductPromise}>
+      <ProductProvider>
         <Suspense>
           <InitProductSelections searchParams={props.searchParams} />
         </Suspense>

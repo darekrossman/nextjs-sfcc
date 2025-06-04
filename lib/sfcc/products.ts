@@ -49,7 +49,9 @@ export async function getProduct({
   'use cache'
   cacheLife('days')
   cacheTag(TAGS.products)
+
   const config = await getGuestUserConfig(token)
+
   try {
     const productsClient = new ShopperProducts(config)
 

@@ -19,17 +19,14 @@ type ProductContextType = {
   selections: ProductSelections
   updateSelections: (values: ProductSelections) => void
   setState: (values: ProductSelections) => void
-  personalizedProductPromise: Promise<Product | undefined>
 }
 
 export const ProductContext = createContext<ProductContextType | undefined>(undefined)
 
 export function ProductProvider({
   children,
-  personalizedProductPromise,
 }: PropsWithChildren<{
   defaultSelections?: ProductSelections
-  personalizedProductPromise: Promise<Product | undefined>
 }>) {
   const router = useRouter()
 
@@ -55,7 +52,6 @@ export function ProductProvider({
       selections: state,
       updateSelections,
       setState,
-      personalizedProductPromise,
     }
   }, [state])
 

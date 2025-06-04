@@ -30,13 +30,7 @@ function ProductPriceBase({
   searchParams?: Promise<UnknownSearchParams>
 }) {
   const params = searchParams ? use(searchParams) : {}
-  const { selections, personalizedProductPromise } = useProduct()
-
-  // const personalizedProduct = use(personalizedProductPromise)
-
-  // useEffect(() => {
-  //   console.log('personalizedProduct', personalizedProduct)
-  // }, [])
+  const { selections } = useProduct()
 
   const selectedVariant = findVariant(variants, { ...params, ...selections })
 
