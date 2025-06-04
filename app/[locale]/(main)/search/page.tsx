@@ -1,11 +1,7 @@
-import { HeroBanner } from '@/components/hero-banner'
+import { Metadata } from 'next'
 import { PageContainer } from '@/components/page-container'
 import SearchResults from '@/components/search-results'
 import { css } from '@/styled-system/css'
-import { Center, Flex, HStack, Stack } from '@/styled-system/jsx'
-import { styled } from '@/styled-system/jsx'
-import { Box } from '@/styled-system/jsx'
-import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Search',
@@ -26,9 +22,9 @@ export default async function SearchPage({
     <PageContainer
       bg="var(--bg)"
       className={css({
-        '--fg': '{colors.neutral.300}',
-        '--bg': '{colors.gray.800}',
-        '--borderBase': '{colors.neutral.800}',
+        '--fg': '{colors.gray.700}',
+        '--bg': '{colors.stone.300}',
+        '--borderBase': '{colors.stone.400/50}',
       })}
     >
       <SearchResults locale={locale} params={searchParams} />

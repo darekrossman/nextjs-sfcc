@@ -1,13 +1,11 @@
 import { PageContainer } from '@/components/page-container'
-import { css } from '@/styled-system/css'
-import { Flex, Grid } from '@/styled-system/jsx'
+import { Grid } from '@/styled-system/jsx'
 import { Stack } from '@/styled-system/jsx'
 import { Box } from '@/styled-system/jsx'
 import { searchProducts } from '@/lib/sfcc'
 import { parseParamsFromUrl } from '@/lib/sfcc/product-helpers'
 import { SearchHitsGrid } from './search-hits-grid'
 import { SearchRefinements } from './search-refinements'
-import { SearchResultsHeader } from './search-results-header'
 import { Suspense } from 'react'
 import { SearchProvider } from './search-context'
 import { SearchLoader } from './search-loader'
@@ -82,24 +80,6 @@ export default async function SearchResults({
             </Box>
 
             <Box borderLeft="1px solid" borderColor="var(--borderBase)">
-              {/* <Flex
-              position="sticky"
-              top="0"
-              h="69px"
-              pt="6"
-              bg="var(--bg)"
-              zIndex="sticky"
-              borderBottom="1px solid"
-              borderColor="var(--borderBase)"
-            >
-              <Suspense>
-                <SearchResultsHeader
-                  searchParams={searchParams}
-                  searchResultsPromise={searchResultsPromise}
-                />
-              </Suspense>
-            </Flex> */}
-
               <Box
                 position="relative"
                 borderTop={{ mdDown: '1px solid var(--borderBase)' }}
