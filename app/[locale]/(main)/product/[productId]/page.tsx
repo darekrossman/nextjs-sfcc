@@ -181,6 +181,7 @@ export default async function ProductPage(props: PageProps) {
                     productName={product.name!}
                     productImages={productImages}
                     searchParams={props.searchParams}
+                    variationAttributes={product.variationAttributes}
                   />
                 </Suspense>
 

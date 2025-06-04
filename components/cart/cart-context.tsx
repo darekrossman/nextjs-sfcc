@@ -82,7 +82,7 @@ export function CartProvider({
       const updatedCart = await addItem(
         {
           productId: variant.productId,
-          c_values: JSON.stringify(variant.variationValues),
+          c_values: JSON.stringify(product.values),
           c_image: JSON.stringify(product.image),
         },
         locale,
@@ -261,25 +261,8 @@ function createOrUpdateCartItem(
     productName: product.name,
     currency: product.currency,
     c_image: JSON.stringify(product.image),
-    c_values: JSON.stringify(variant.variationValues),
+    c_values: JSON.stringify(product.values),
   }
-}
-
-function updateCartTotals(items: CartItem[]) {
-  // const totalQuantity = lines.reduce((sum, item) => sum + (item.quantity ?? 1), 0)
-  // const totalAmount = lines.reduce(
-  //   (sum, item) => sum + Number(item.cost.totalAmount.amount),
-  //   0,
-  // )
-  // const currencyCode = lines[0]?.cost.totalAmount.currencyCode ?? 'USD'
-  // return {
-  //   totalQuantity,
-  //   cost: {
-  //     subtotalAmount: { amount: totalAmount.toString(), currencyCode },
-  //     totalAmount: { amount: totalAmount.toString(), currencyCode },
-  //     totalTaxAmount: { amount: '0', currencyCode },
-  //   },
-  // }
 }
 
 function createEmptyCart(): Cart {

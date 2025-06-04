@@ -11,15 +11,44 @@ import { findVariant, getProductImagesForColor } from '@/lib/sfcc/product-helper
 import { useLocale } from '@/components/locale-context'
 import { UnknownSearchParams } from '@/lib/constants'
 
+// Helper function to create display names for selections
+function createSelectionDisplayNames(
+  selections: Record<string, string | number | undefined>,
+  variationAttributes?: Product['variationAttributes'],
+): Record<string, string | number | undefined> {
+  if (!variationAttributes) {
+    return selections
+  }
+
+  const displayNames: Record<string, string | number | undefined> = {}
+
+  Object.entries(selections).forEach(([attributeId, value]) => {
+    const attribute = variationAttributes.find((attr) => attr.id === attributeId)
+
+    if (attribute && value !== undefined) {
+      // Find the corresponding value in the attribute to get its display name
+      const attributeValue = attribute.values?.find((v) => v.value === value)
+      displayNames[attributeId] = attributeValue?.name || value
+    } else {
+      // Fallback to original value if no attribute or value found
+      displayNames[attributeId] = value
+    }
+  })
+
+  return displayNames
+}
+
 export function AddToCart({
   variants,
   productName,
   productImages,
   searchParams,
+  variationAttributes,
 }: {
-  variants?: NonNullable<Product['variants']>
+  variationAttributes?: Product['variationAttributes']
+  variants?: Product['variants']
   productName?: string
-  productImages?: NonNullable<Product['imageGroups']>
+  productImages?: Product['imageGroups']
   searchParams?: Promise<UnknownSearchParams>
 }) {
   const params = searchParams ? use(searchParams) : {}
@@ -43,7 +72,7 @@ export function AddToCart({
 
     addCartItem(variant, {
       id: variant.productId,
-      values: selections,
+      values: createSelectionDisplayNames(selections, variationAttributes),
       name: productName || '',
       image: images[0],
       currency,
