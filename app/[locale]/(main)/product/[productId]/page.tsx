@@ -7,7 +7,10 @@ import { PageContainer } from '@/components/page-container'
 import { Box, Center, Divider, Flex, Stack, styled } from '@/styled-system/jsx'
 import { css } from '@/styled-system/css'
 import { VariantSelector } from '@/components/product/variant-selector'
-import { ProductProvider } from '@/components/product/product-context'
+import {
+  InitProductSelections,
+  ProductProvider,
+} from '@/components/product/product-context'
 import { AddToCart } from '@/components/cart/add-to-cart'
 import { ProductPrice } from '@/components/product/product-price'
 import { HeartPlus } from 'lucide-react'
@@ -79,12 +82,18 @@ export default async function ProductPage(props: PageProps) {
       })}
     >
       <ProductProvider personalizedProductPromise={personalizedProductPromise}>
+        <Suspense>
+          <InitProductSelections searchParams={props.searchParams} />
+        </Suspense>
+
         <Stack gap={{ base: '11', lg: '0' }}>
           <Box
             pt={{ base: '12', md: '0' }}
             borderBottom="1px solid {colors.stone.400/50}"
           >
-            <Gallery imageGroups={productImages} searchParams={props.searchParams} />
+            <Suspense>
+              <Gallery imageGroups={productImages} searchParams={props.searchParams} />
+            </Suspense>
           </Box>
 
           <Center

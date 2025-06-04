@@ -1,5 +1,6 @@
 'use client'
 
+import { UnknownSearchParams } from '@/lib/constants'
 import { Product } from '@/lib/sfcc/types'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
@@ -25,7 +26,6 @@ export const ProductContext = createContext<ProductContextType | undefined>(unde
 
 export function ProductProvider({
   children,
-  defaultSelections,
   personalizedProductPromise,
 }: PropsWithChildren<{
   defaultSelections?: ProductSelections
@@ -71,18 +71,14 @@ export function useProduct() {
   return context
 }
 
-export function InitProductSelections() {
+export function InitProductSelections({
+  searchParams,
+}: { searchParams: Promise<UnknownSearchParams> }) {
   const ctx = use(ProductContext)
-  const searchParams = useSearchParams()
-
-  const selectionsFromSearchParams: ProductSelections = {}
-
-  for (const [key, value] of searchParams.entries()) {
-    selectionsFromSearchParams[key] = value
-  }
+  const params = use(searchParams)
 
   useEffect(() => {
-    ctx?.setState(selectionsFromSearchParams)
+    // ctx?.setState(params)
   }, [])
 
   return null
