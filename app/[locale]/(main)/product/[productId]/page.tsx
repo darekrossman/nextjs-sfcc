@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Gallery } from '@/components/product/gallery'
-import { getProduct } from '@/lib/sfcc'
+import { getPersonalizedProduct, getProduct } from '@/lib/sfcc'
 import { Suspense } from 'react'
 import { PageContainer } from '@/components/page-container'
 import { Box, Center, Divider, Flex, Stack, styled } from '@/styled-system/jsx'
@@ -61,8 +61,15 @@ export default async function ProductPage(props: PageProps) {
 
   if (!product) return notFound()
 
+  const personalizedProductPromise = getPersonalizedProduct({
+    id: params.productId,
+    locale: params.locale,
+  })
+
   const productImages = product.imageGroups?.filter((group) => group.viewType === 'large')
   const priceRanges = product.priceRanges || []
+
+  console.log(product)
 
   return (
     <PageContainer
@@ -73,7 +80,10 @@ export default async function ProductPage(props: PageProps) {
         '--border': '{colors.stone.400/50}',
       })}
     >
-      <ProductProvider>
+      <ProductProvider
+        defaultSelections={{ color: getDefaultProductColor(product.variants) }}
+        personalizedProductPromise={personalizedProductPromise}
+      >
         <Suspense>
           <InitProductSelections />
         </Suspense>
@@ -95,8 +105,6 @@ export default async function ProductPage(props: PageProps) {
             gap={{ lgDown: '11' }}
             w={{ base: '100vw', lg: '36vw' }}
             h={{ base: 'auto', lg: '640px' }}
-            maxW={{ lgDown: '425px' }}
-            mx={{ lgDown: 'auto' }}
             pt={{ lg: '11' }}
             bg="var(--bg)/60"
             borderLeft={{ lg: '1px solid var(--border)' }}
@@ -110,6 +118,8 @@ export default async function ProductPage(props: PageProps) {
               direction="column"
               justify="center"
               flex="1"
+              maxW={{ lgDown: '425px' }}
+              mx={{ lgDown: 'auto' }}
               py={{ lg: '6' }}
               pr={{ base: '6', lg: '89px' }}
               pl={{ base: '6', lg: '6' }}
@@ -154,28 +164,38 @@ export default async function ProductPage(props: PageProps) {
               w="full"
               borderTop="1px solid var(--border)"
               borderBottom={{ lgDown: '1px solid var(--border)' }}
+              justifyContent="center"
             >
-              <Suspense fallback={null}>
-                <AddToCart
-                  variants={product.variants}
-                  productName={product.name!}
-                  productImages={productImages}
+              <Flex w="full" maxW={{ lgDown: '425px' }} px={{ lgDown: '6' }}>
+                <Divider
+                  hideFrom="lg"
+                  orientation="vertical"
+                  h="auto"
+                  color="var(--border)"
                 />
-              </Suspense>
 
-              <Divider orientation="vertical" h="auto" color="var(--border)" />
+                <Suspense fallback={null}>
+                  <AddToCart
+                    variants={product.variants}
+                    productName={product.name!}
+                    productImages={productImages}
+                  />
+                </Suspense>
 
-              <styled.button
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                w="11"
-                h="11"
-              >
-                <HeartPlus strokeWidth={1} size={16} />
-              </styled.button>
+                <Divider orientation="vertical" h="auto" color="var(--border)" />
 
-              <Divider orientation="vertical" h="auto" color="var(--border)" />
+                <styled.button
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  w="11"
+                  h="11"
+                >
+                  <HeartPlus strokeWidth={1} size={16} />
+                </styled.button>
+
+                <Divider orientation="vertical" h="auto" color="var(--border)" />
+              </Flex>
             </Flex>
           </Center>
         </Stack>

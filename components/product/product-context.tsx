@@ -1,5 +1,6 @@
 'use client'
 
+import { Product } from '@/lib/sfcc/types'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
   createContext,
@@ -17,6 +18,7 @@ type ProductContextType = {
   selections: ProductSelections
   updateSelections: (values: ProductSelections) => void
   setState: (values: ProductSelections) => void
+  personalizedProductPromise: Promise<Product | undefined>
 }
 
 export const ProductContext = createContext<ProductContextType | undefined>(undefined)
@@ -24,7 +26,11 @@ export const ProductContext = createContext<ProductContextType | undefined>(unde
 export function ProductProvider({
   children,
   defaultSelections,
-}: PropsWithChildren<{ defaultSelections?: ProductSelections }>) {
+  personalizedProductPromise,
+}: PropsWithChildren<{
+  defaultSelections?: ProductSelections
+  personalizedProductPromise: Promise<Product | undefined>
+}>) {
   const router = useRouter()
 
   const [state, setState] = useState<ProductSelections>(defaultSelections || {})
@@ -49,6 +55,7 @@ export function ProductProvider({
       selections: state,
       updateSelections,
       setState,
+      personalizedProductPromise,
     }
   }, [state])
 
@@ -75,8 +82,6 @@ export function InitProductSelections() {
   }
 
   useEffect(() => {
-    console.log('selectionsFromSearchParams', selectionsFromSearchParams)
-
     ctx?.setState(selectionsFromSearchParams)
   }, [])
 

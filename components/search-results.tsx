@@ -38,8 +38,8 @@ export default async function SearchResults({
     locale,
   }
 
-  if (category && !searchParams.refine?.includes(`cgid=${category}`)) {
-    searchParams.refine = [`cgid=${category}`, ...(searchParams.refine || [])]
+  if (categorySlug && !searchParams.refine?.includes(`cgid=${categorySlug}`)) {
+    searchParams.refine = [`cgid=${categorySlug}`, ...(searchParams.refine || [])]
   }
 
   const searchResultsPromise = searchProducts(searchParams)

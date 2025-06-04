@@ -239,3 +239,123 @@ export const PAGE_QUERY = defineQuery(
     }
   }`,
 )
+
+// Menu Query - Get a specific menu by identifier
+// Usage: const menu = await sanityFetch({ query: MENU_QUERY, params: { identifier: 'main-menu' } })
+export const MENU_QUERY = defineQuery(
+  `*[
+    _type == "menu"
+    && identifier.current == $identifier
+    && isActive == true
+  ][0]{
+    _id,
+    title,
+    identifier,
+    isActive,
+    sortOrder,
+    menuItems[]{
+      _key,
+      label,
+      page->{
+        _id,
+        title,
+        slug
+      },
+      externalUrl,
+      openInNewTab,
+      subItems[]{
+        _key,
+        label,
+        page->{
+          _id,
+          title,
+          slug
+        },
+        externalUrl,
+        openInNewTab
+      }
+    }
+  }`,
+)
+
+// All Menus Query - Get all active menus ordered by sortOrder
+// Usage: const menus = await sanityFetch({ query: ALL_MENUS_QUERY })
+export const ALL_MENUS_QUERY = defineQuery(
+  `*[
+    _type == "menu"
+    && isActive == true
+  ] | order(sortOrder asc, title asc){
+    _id,
+    title,
+    identifier,
+    isActive,
+    sortOrder,
+    menuItems[]{
+      _key,
+      label,
+      page->{
+        _id,
+        title,
+        slug
+      },
+      externalUrl,
+      openInNewTab,
+      subItems[]{
+        _key,
+        label,
+        page->{
+          _id,
+          title,
+          slug
+        },
+        externalUrl,
+        openInNewTab
+      }
+    }
+  }`,
+)
+
+// Menu Items Only Query - Get just the menu items for a specific menu (lighter query)
+// Usage: const menuItems = await sanityFetch({ query: MENU_ITEMS_QUERY, params: { identifier: 'main-menu' } })
+export const MENU_ITEMS_QUERY = defineQuery(
+  `*[
+    _type == "menu"
+    && identifier.current == $identifier
+    && isActive == true
+  ][0].menuItems[]{
+    _key,
+    label,
+    page->{
+      _id,
+      title,
+      slug
+    },
+    externalUrl,
+    openInNewTab,
+    subItems[]{
+      _key,
+      label,
+      page->{
+        _id,
+        title,
+        slug
+      },
+      externalUrl,
+      openInNewTab
+    }
+  }`,
+)
+
+// Menu Identifiers Query - Get all menu identifiers for selection/validation
+// Usage: const menuIds = await sanityFetch({ query: MENU_IDENTIFIERS_QUERY })
+export const MENU_IDENTIFIERS_QUERY = defineQuery(
+  `*[
+    _type == "menu"
+    && isActive == true
+  ] | order(sortOrder asc, title asc){
+    _id,
+    title,
+    identifier,
+    "itemCount": count(menuItems)
+  }`,
+)

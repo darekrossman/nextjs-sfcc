@@ -1,48 +1,43 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { match } from '@formatjs/intl-localematcher'
-import Negotiator from 'negotiator'
 import { i18nConfig } from '@/lib/i18n'
+import { getLocale, createShopperContextWithSourceCode } from '@/lib/mw-utils'
 
-const { locales, defaultLocale } = i18nConfig
+const { locales } = i18nConfig
 
-const getLocale = (request: NextRequest): string => {
-  // Get the Accept-Language header
-  const acceptLanguage = request.headers.get('accept-language')
-
-  if (!acceptLanguage) {
-    return defaultLocale
-  }
-
-  // Parse the Accept-Language header to get user's preferred languages
-  const headers = { 'accept-language': acceptLanguage }
-  const languages = new Negotiator({ headers }).languages()
-
-  try {
-    // Use the match function to find the best locale match
-    return match(languages, locales, defaultLocale)
-  } catch {
-    // If no match is found, return default locale
-    return defaultLocale
-  }
-}
-
-export const middleware = (request: NextRequest) => {
+export const middleware = async (request: NextRequest) => {
   // Check if there is any supported locale in the pathname
-  const { pathname } = request.nextUrl
+  const { pathname, searchParams } = request.nextUrl
+
+  // Check for source parameter we can apply to the shopper context
+  const sourceParam = searchParams.get('source')
+
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   )
 
   if (pathnameHasLocale) {
+    if (sourceParam) {
+      const response = NextResponse.next()
+      await createShopperContextWithSourceCode(response, request, sourceParam)
+      return response
+    }
+
     return
   }
 
   // Redirect if there is no locale
   const locale = getLocale(request)
   request.nextUrl.pathname = `/${locale}${pathname}`
-  // e.g. incoming request is /products -> /us/products or /fr/products
-  return NextResponse.redirect(request.nextUrl)
+
+  // Create redirect response
+  const response = NextResponse.redirect(request.nextUrl)
+
+  if (sourceParam) {
+    await createShopperContextWithSourceCode(response, request, sourceParam)
+  }
+
+  return response
 }
 
 export const config = {

@@ -6,6 +6,7 @@ import { Product } from '@/lib/sfcc/types'
 import { useProduct } from './product-context'
 import { HTMLStyledProps } from '@/styled-system/types'
 import { styled } from '@/styled-system/jsx'
+import { use } from 'react'
 
 function ProductPriceBase({
   price,
@@ -17,7 +18,11 @@ function ProductPriceBase({
   priceRanges: Product['priceRanges']
   variants: Product['variants']
 }) {
-  const { selections } = useProduct()
+  const { selections, personalizedProductPromise } = useProduct()
+
+  const personalizedProduct = use(personalizedProductPromise)
+
+  console.log('personalizedProduct', personalizedProduct)
 
   const selectedVariant = findVariant(variants, selections)
 

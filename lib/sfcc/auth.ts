@@ -3,6 +3,10 @@ import jwt from 'jsonwebtoken'
 import { ensureSDKResponseError } from './type-guards'
 import { cookies } from 'next/headers'
 
+// =====================================================================
+// API CONFIGURATION
+// =====================================================================
+
 export const apiConfig = {
   throwOnBadResponse: true,
   parameters: {
@@ -12,6 +16,10 @@ export const apiConfig = {
     siteId: process.env.SFCC_SITEID || '',
   },
 }
+
+// =====================================================================
+// TOKEN VALIDATION UTILITIES
+// =====================================================================
 
 // Validate JWT token without verifying signature (since we don't have the secret)
 export const isTokenValid = (token: string): boolean => {
@@ -62,6 +70,10 @@ export const getTokenExpirationTime = (token: string): number | null => {
   }
 }
 
+// =====================================================================
+// GUEST USER AUTHENTICATION
+// =====================================================================
+
 export async function getGuestUserAuthToken() {
   const loginClient = new ShopperLogin(apiConfig)
   try {
@@ -76,7 +88,7 @@ export async function getGuestUserAuthToken() {
   }
 }
 
-export async function getValidGuestUserConfig() {
+export async function authenticateGuestUser() {
   let guestToken = (await cookies()).get('guest_token')?.value
 
   // If token is provided, validate it first
@@ -107,7 +119,21 @@ export async function getValidGuestUserConfig() {
       maxAge: tokenResponse.refresh_token_expires_in,
       path: '/',
     })
+
+    cookieStore.set('usid', tokenResponse.usid, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: tokenResponse.expires_in,
+      path: '/',
+    })
   }
+
+  return guestToken
+}
+
+export async function getValidGuestUserConfig() {
+  const guestToken = await authenticateGuestUser()
 
   return {
     ...apiConfig,

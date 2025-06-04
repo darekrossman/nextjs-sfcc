@@ -157,6 +157,44 @@ export type SiteSettings = {
   }>;
 };
 
+export type Menu = {
+  _id: string;
+  _type: "menu";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  identifier?: Slug;
+  menuItems?: Array<{
+    label?: string;
+    page?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "page";
+    };
+    externalUrl?: string;
+    openInNewTab?: boolean;
+    subItems?: Array<{
+      label?: string;
+      page?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "page";
+      };
+      externalUrl?: string;
+      openInNewTab?: boolean;
+      _type: "subMenuItem";
+      _key: string;
+    }>;
+    _type: "menuItem";
+    _key: string;
+  }>;
+  isActive?: boolean;
+  sortOrder?: number;
+};
+
 export type Page = {
   _id: string;
   _type: "page";
@@ -474,7 +512,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = PageBuilder | Faq | BlockContent | SplitImage | Hero | Features | Faqs | SiteSettings | Page | Locale | Category | InternationalizedArrayStringValue | InternationalizedArrayString | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = PageBuilder | Faq | BlockContent | SplitImage | Hero | Features | Faqs | SiteSettings | Menu | Page | Locale | Category | InternationalizedArrayStringValue | InternationalizedArrayString | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
@@ -702,6 +740,100 @@ export type PAGE_QUERYResult = {
     crop: SanityImageCrop | null;
   } | null;
 } | null;
+// Variable: MENU_QUERY
+// Query: *[    _type == "menu"    && identifier.current == $identifier    && isActive == true  ][0]{    _id,    title,    identifier,    isActive,    sortOrder,    menuItems[]{      _key,      label,      page->{        _id,        title,        slug      },      externalUrl,      openInNewTab,      subItems[]{        _key,        label,        page->{          _id,          title,          slug        },        externalUrl,        openInNewTab      }    }  }
+export type MENU_QUERYResult = {
+  _id: string;
+  title: string | null;
+  identifier: Slug | null;
+  isActive: boolean | null;
+  sortOrder: number | null;
+  menuItems: Array<{
+    _key: string;
+    label: string | null;
+    page: {
+      _id: string;
+      title: string | null;
+      slug: Slug | null;
+    } | null;
+    externalUrl: string | null;
+    openInNewTab: boolean | null;
+    subItems: Array<{
+      _key: string;
+      label: string | null;
+      page: {
+        _id: string;
+        title: string | null;
+        slug: Slug | null;
+      } | null;
+      externalUrl: string | null;
+      openInNewTab: boolean | null;
+    }> | null;
+  }> | null;
+} | null;
+// Variable: ALL_MENUS_QUERY
+// Query: *[    _type == "menu"    && isActive == true  ] | order(sortOrder asc, title asc){    _id,    title,    identifier,    isActive,    sortOrder,    menuItems[]{      _key,      label,      page->{        _id,        title,        slug      },      externalUrl,      openInNewTab,      subItems[]{        _key,        label,        page->{          _id,          title,          slug        },        externalUrl,        openInNewTab      }    }  }
+export type ALL_MENUS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  identifier: Slug | null;
+  isActive: boolean | null;
+  sortOrder: number | null;
+  menuItems: Array<{
+    _key: string;
+    label: string | null;
+    page: {
+      _id: string;
+      title: string | null;
+      slug: Slug | null;
+    } | null;
+    externalUrl: string | null;
+    openInNewTab: boolean | null;
+    subItems: Array<{
+      _key: string;
+      label: string | null;
+      page: {
+        _id: string;
+        title: string | null;
+        slug: Slug | null;
+      } | null;
+      externalUrl: string | null;
+      openInNewTab: boolean | null;
+    }> | null;
+  }> | null;
+}>;
+// Variable: MENU_ITEMS_QUERY
+// Query: *[    _type == "menu"    && identifier.current == $identifier    && isActive == true  ][0].menuItems[]{    _key,    label,    page->{      _id,      title,      slug    },    externalUrl,    openInNewTab,    subItems[]{      _key,      label,      page->{        _id,        title,        slug      },      externalUrl,      openInNewTab    }  }
+export type MENU_ITEMS_QUERYResult = Array<{
+  _key: string;
+  label: string | null;
+  page: {
+    _id: string;
+    title: string | null;
+    slug: Slug | null;
+  } | null;
+  externalUrl: string | null;
+  openInNewTab: boolean | null;
+  subItems: Array<{
+    _key: string;
+    label: string | null;
+    page: {
+      _id: string;
+      title: string | null;
+      slug: Slug | null;
+    } | null;
+    externalUrl: string | null;
+    openInNewTab: boolean | null;
+  }> | null;
+}> | null;
+// Variable: MENU_IDENTIFIERS_QUERY
+// Query: *[    _type == "menu"    && isActive == true  ] | order(sortOrder asc, title asc){    _id,    title,    identifier,    "itemCount": count(menuItems)  }
+export type MENU_IDENTIFIERS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  identifier: Slug | null;
+  itemCount: number | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -715,5 +847,9 @@ declare module "@sanity/client" {
     "*[_type == \"category\"]{ \n    _id, \n    categoryId, \n    slug, \n    \"title\": coalesce(\n      title[_key == $locale][0].value,\n      title[_key == \"en\"][0].value,\n      title[0].value\n    )\n  }": CATEGORIES_QUERYResult;
     "*[\n    _type == \"category\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    categoryId,\n    slug,\n    \"title\": coalesce(\n      title[_key == $locale][0].value,\n      title[_key == \"en\"][0].value,\n      title[0].value\n    ),\n    body,\n    bannerImage{\n      asset->{\n        _id,\n        url\n      },\n      \"alt\": coalesce(\n        alt[_key == $locale][0].value,\n        alt[_key == \"en\"][0].value,\n        alt[0].value\n      ),\n      hotspot,\n      crop\n    }\n  }": CATEGORY_QUERYResult;
     "*[\n    _type == \"page\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    title,\n    slug,\n    content[]{\n      _type,\n      _key,\n      _type == \"hero\" => {\n        title,\n        text,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"splitImage\" => {\n        orientation,\n        title,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"features\" => {\n        title,\n        features[]{\n          _key,\n          title,\n          text\n        }\n      },\n      _type == \"faqs\" => {\n        title,\n        faqs[]->{\n          _id,\n          title,\n          body\n        }\n      }\n    },\n    mainImage{\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    }\n  }": PAGE_QUERYResult;
+    "*[\n    _type == \"menu\"\n    && identifier.current == $identifier\n    && isActive == true\n  ][0]{\n    _id,\n    title,\n    identifier,\n    isActive,\n    sortOrder,\n    menuItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        title,\n        slug\n      },\n      externalUrl,\n      openInNewTab,\n      subItems[]{\n        _key,\n        label,\n        page->{\n          _id,\n          title,\n          slug\n        },\n        externalUrl,\n        openInNewTab\n      }\n    }\n  }": MENU_QUERYResult;
+    "*[\n    _type == \"menu\"\n    && isActive == true\n  ] | order(sortOrder asc, title asc){\n    _id,\n    title,\n    identifier,\n    isActive,\n    sortOrder,\n    menuItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        title,\n        slug\n      },\n      externalUrl,\n      openInNewTab,\n      subItems[]{\n        _key,\n        label,\n        page->{\n          _id,\n          title,\n          slug\n        },\n        externalUrl,\n        openInNewTab\n      }\n    }\n  }": ALL_MENUS_QUERYResult;
+    "*[\n    _type == \"menu\"\n    && identifier.current == $identifier\n    && isActive == true\n  ][0].menuItems[]{\n    _key,\n    label,\n    page->{\n      _id,\n      title,\n      slug\n    },\n    externalUrl,\n    openInNewTab,\n    subItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        title,\n        slug\n      },\n      externalUrl,\n      openInNewTab\n    }\n  }": MENU_ITEMS_QUERYResult;
+    "*[\n    _type == \"menu\"\n    && isActive == true\n  ] | order(sortOrder asc, title asc){\n    _id,\n    title,\n    identifier,\n    \"itemCount\": count(menuItems)\n  }": MENU_IDENTIFIERS_QUERYResult;
   }
 }

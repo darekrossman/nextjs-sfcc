@@ -8,9 +8,10 @@ import { baseUrl } from '@/lib/utils'
 import { Metadata } from 'next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Geist, Major_Mono_Display, Silkscreen, DM_Mono } from 'next/font/google'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, Suspense } from 'react'
 import { LocaleProvider } from '@/components/locale-context'
 import { i18nConfig } from '@/lib/i18n'
+import ShopperContext from '@/components/shopper-context'
 
 export async function generateStaticParams() {
   return i18nConfig.locales.map((locale) => ({ locale }))
@@ -67,6 +68,7 @@ export default async function RootLayout({
   children,
 }: PropsWithChildren<{ params: Promise<{ locale: string }> }>) {
   const { locale } = await params
+
   const cartPromise = getCart(locale)
 
   return (
@@ -84,6 +86,11 @@ export default async function RootLayout({
         <LocaleProvider locale={locale}>
           <CartProvider cartPromise={cartPromise}>{children}</CartProvider>
         </LocaleProvider>
+
+        <Suspense>
+          <ShopperContext />
+        </Suspense>
+
         <SpeedInsights />
       </styled.body>
     </styled.html>

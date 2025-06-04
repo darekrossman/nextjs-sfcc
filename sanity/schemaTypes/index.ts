@@ -3,6 +3,7 @@ import { type SchemaTypeDefinition } from 'sanity'
 import { blockContentType } from './blockContentType'
 import { categoryType } from './categoryType'
 import { localeType } from './localeType'
+import { menuType } from './menuType'
 import { pageType } from './pageType'
 import { pageBuilderType } from './pageBuilderType'
 import { faqType } from './faqType'
@@ -17,6 +18,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     // Document types
     categoryType,
     localeType,
+    menuType,
     pageType,
     siteSettingsType,
 

@@ -1,10 +1,15 @@
-import { ShopperProducts, ShopperSearch } from 'commerce-sdk-isomorphic'
+import {
+  ClientConfig,
+  ShopperProducts,
+  ShopperProductsTypes,
+  ShopperSearch,
+} from 'commerce-sdk-isomorphic'
 import { TAGS } from 'lib/constants'
 import {
   unstable_cacheLife as cacheLife,
   unstable_cacheTag as cacheTag,
 } from 'next/cache'
-import { getGuestUserConfig } from './auth'
+import { getGuestUserConfig, isTokenValid } from './auth'
 import { defaultSort } from './constants'
 import {
   Product,
@@ -13,17 +18,42 @@ import {
   ProductSearchHit,
 } from './types'
 import { ensureSDKResponseError } from './type-guards'
+import { getShopperContext } from './context'
+import { cookies } from 'next/headers'
 
-export async function getProduct({ id, locale }: { id: string; locale: string }) {
-  // 'use cache'
-  // cacheLife('days')
-  // cacheTag(TAGS.products)
+// =====================================================================
+// GET PRODUCT
+// =====================================================================
 
-  console.log('getProduct', id, locale)
+export async function getPersonalizedProduct({
+  id,
+  locale,
+}: { id: string; locale: string }) {
+  const context = await getShopperContext()
+  const token = (await cookies()).get('guest_token')?.value
 
-  const config = await getGuestUserConfig()
-  const productsClient = new ShopperProducts(config)
+  console.log('getPersonalizedProduct', context)
+
+  if (!context || !token || !isTokenValid(token)) {
+    return
+  }
+
+  return getProduct({ id, locale, token })
+}
+
+export async function getProduct({
+  id,
+  locale,
+  token,
+}: { id: string; locale: string; token?: string }) {
+  'use cache'
+  cacheLife('days')
+  cacheTag(TAGS.products)
+  console.log(token ? 'fetching personalized product' : 'fetching product', id, locale)
+  const config = await getGuestUserConfig(token)
   try {
+    const productsClient = new ShopperProducts(config)
+
     const product = await productsClient.getProduct({
       parameters: {
         id,
@@ -48,6 +78,10 @@ export async function getProduct({ id, locale }: { id: string; locale: string })
     return
   }
 }
+
+// =====================================================================
+// GET PRODUCT RECOMMENDATIONS
+// =====================================================================
 
 export async function getProductRecommendations({
   productId,
@@ -77,6 +111,10 @@ export async function getProductRecommendations({
     ) || []
   )
 }
+
+// =====================================================================
+// SEARCH PRODUCTS
+// =====================================================================
 
 export async function searchProducts({
   locale = 'default',

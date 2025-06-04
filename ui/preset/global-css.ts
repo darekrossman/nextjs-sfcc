@@ -11,6 +11,7 @@ export const globalCss = defineGlobalStyles({
   },
   body: {
     fontFamily: 'sans',
+    bg: 'stone.300',
     // overscrollBehavior: 'none',
   },
 

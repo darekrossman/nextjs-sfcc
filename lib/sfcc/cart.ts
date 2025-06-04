@@ -6,6 +6,10 @@ import { cache } from 'react'
 import { getGuestUserConfig, getValidGuestUserConfig, isTokenValid } from './auth'
 import { ensureSDKResponseError } from './type-guards'
 
+// =====================================================================
+// CREATE CART
+// =====================================================================
+
 export async function createCart(locale?: string) {
   const config = await getValidGuestUserConfig()
   const basketClient = new ShopperBaskets(config)
@@ -19,6 +23,10 @@ export async function createCart(locale?: string) {
 
   return basket
 }
+
+// =====================================================================
+// GET CART
+// =====================================================================
 
 export const getCart = cache(async (locale?: string) => {
   const cartId = (await cookies()).get('cartId')?.value!
@@ -62,6 +70,10 @@ export const getCart = cache(async (locale?: string) => {
   }
 })
 
+// =====================================================================
+// ADD TO CART
+// =====================================================================
+
 export async function addToCart(
   items: {
     productId: string
@@ -93,6 +105,10 @@ export async function addToCart(
   }
 }
 
+// =====================================================================
+// REMOVE FROM CART
+// =====================================================================
+
 export async function removeFromCart(lineIds: string[]) {
   const cartId = (await cookies()).get('cartId')?.value!
   // Next Commerce only sends one lineId at a time
@@ -113,6 +129,10 @@ export async function removeFromCart(lineIds: string[]) {
 
   return basket
 }
+
+// =====================================================================
+// UPDATE CART
+// =====================================================================
 
 export async function updateCart(
   lines: { id: string; itemId: string; quantity: number }[],
