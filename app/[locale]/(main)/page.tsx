@@ -53,7 +53,7 @@ export default async function HomePage({
             mixBlendMode="screen"
           />
 
-          <Box position="absolute" inset="0" zIndex="1">
+          <Box position="absolute" inset="0" zIndex="1" bg="{gradients.PeachTree}">
             {image ? (
               <FadeImage
                 src={urlFor(image).width(1600).fit('min').url()}

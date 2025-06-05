@@ -1,6 +1,6 @@
 'use client'
 
-import { Stack, VisuallyHidden, styled } from '@/styled-system/jsx'
+import { Stack, VisuallyHidden, styled, Flex, HStack, Divider } from '@/styled-system/jsx'
 import { Link } from '@/ui/core'
 import { useBreakpoint } from '@/ui/core/hooks/use-breakpoint'
 import { CATEGORIES_QUERYResult } from '@/sanity/types'
@@ -138,6 +138,8 @@ function NavContent({
           color: 'gray.100',
           overflow: 'hidden',
           zIndex: 'navSheetOpen',
+          display: 'flex',
+          flexDirection: 'column',
         })}
       >
         <motion.div
@@ -160,34 +162,97 @@ function NavContent({
           />
         </motion.div>
 
-        <styled.div translateY={{ base: '92px', md: '200px' }}>
-          <motion.ul
-            initial="closed"
-            animate="open"
-            exit="closed"
-            variants={listVariants}
-            className={css({ px: '6' })}
+        <Flex direction="column" flex="1" overflow="hidden">
+          <styled.div translateY={{ base: '92px', md: '200px' }} flex="1" pb="12">
+            <motion.ul
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={listVariants}
+              className={css({ px: '6' })}
+            >
+              {navItems.map((item) => {
+                if (!item.slug?.current) return null
+                return (
+                  <motion.li key={item._id} variants={itemVariants}>
+                    <Link
+                      href={`/category/${item.slug.current}`}
+                      onClick={() => setOpen(false)}
+                      display="flex"
+                      alignItems="center"
+                      h="11"
+                      fontSize="24px"
+                      fontWeight="light"
+                    >
+                      {item.title}
+                    </Link>
+                  </motion.li>
+                )
+              })}
+            </motion.ul>
+          </styled.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, delay: 0.2 }}
           >
-            {navItems.map((item) => {
-              if (!item.slug?.current) return null
-              return (
-                <motion.li key={item._id} variants={itemVariants}>
-                  <Link
-                    href={`/category/${item.slug.current}`}
-                    onClick={() => setOpen(false)}
-                    display="flex"
-                    alignItems="center"
-                    h="11"
-                    fontSize="24px"
-                    fontWeight="light"
-                  >
-                    {item.title}
-                  </Link>
-                </motion.li>
-              )
-            })}
-          </motion.ul>
-        </styled.div>
+            <Flex
+              position="sticky"
+              bottom="0"
+              alignItems="center"
+              w="full"
+              h="12"
+              flexShrink="0"
+              borderTop="1px solid"
+              borderGradient="PeachTreeBorder"
+              bg="gray.900/70"
+              className={css({
+                backdropBlur: 'blur(10px)',
+              })}
+            >
+              <styled.a
+                href="/en"
+                onClick={() => setOpen(false)}
+                position="relative"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                h="full"
+                px="6"
+                flex="1 1 0%"
+                fontFamily="mono"
+                fontWeight="bold"
+                fontSize="sm"
+                textTransform="uppercase"
+                color="gray.100"
+              >
+                <styled.div mb="-1px">EN</styled.div>
+              </styled.a>
+
+              <Divider orientation="vertical" h="full" borderGradient="PeachTreeBorder" />
+
+              <styled.a
+                href="/fr"
+                onClick={() => setOpen(false)}
+                position="relative"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                h="full"
+                px="6"
+                flex="1 1 0%"
+                fontFamily="mono"
+                fontWeight="bold"
+                fontSize="sm"
+                textTransform="uppercase"
+                color="gray.100"
+              >
+                <styled.div mb="-1px">FR</styled.div>
+              </styled.a>
+            </Flex>
+          </motion.div>
+        </Flex>
 
         <VisuallyHidden>
           <Dialog.Title>Main Navigation</Dialog.Title>

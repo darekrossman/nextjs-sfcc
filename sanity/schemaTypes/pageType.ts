@@ -24,7 +24,7 @@ export const pageType = defineType({
   fields: [
     defineField({
       name: 'title',
-      type: 'string',
+      type: 'internationalizedArrayString',
       group: 'content',
       validation: (rule) => rule.required().error('Title is required'),
     }),
@@ -33,7 +33,18 @@ export const pageType = defineType({
       type: 'slug',
       group: 'content',
       options: {
-        source: 'title',
+        source: (doc) => {
+          const title = doc.title
+          if (Array.isArray(title)) {
+            // Try English first, then fall back to the first available language
+            return (
+              title.find((item) => item._key === 'en')?.value ||
+              title[0]?.value ||
+              'untitled'
+            )
+          }
+          return title || 'untitled'
+        },
       },
       validation: (rule) => rule.required().error('Slug is required'),
     }),
@@ -100,8 +111,17 @@ export const pageType = defineType({
     },
     prepare(selection) {
       const { title, subtitle, media } = selection
+
+      // Extract the title from the internationalized array
+      // Try English first, then fall back to the first available language
+      const displayTitle = Array.isArray(title)
+        ? title.find((item) => item._key === 'en')?.value ||
+          title[0]?.value ||
+          'Untitled Page'
+        : title || 'Untitled Page'
+
       return {
-        title,
+        title: displayTitle,
         subtitle: subtitle ? `/${subtitle}` : 'No slug set',
         media: media || DocumentIcon,
       }

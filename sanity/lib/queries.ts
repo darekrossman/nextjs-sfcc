@@ -11,19 +11,31 @@ export const SITE_SETTINGS_QUERY = defineQuery(
     siteName,
     homePage->{
       _id,
-      title,
+      "title": coalesce(
+        title[_key == $locale][0].value,
+        title[_key == "en"][0].value,
+        title[0].value
+      ),
       slug,
       status
     },
     navigation[]->{
       _id,
-      title,
+      "title": coalesce(
+        title[_key == $locale][0].value,
+        title[_key == "en"][0].value,
+        title[0].value
+      ),
       slug,
       status
     },
     footerNavigation[]->{
       _id,
-      title,
+      "title": coalesce(
+        title[_key == $locale][0].value,
+        title[_key == "en"][0].value,
+        title[0].value
+      ),
       slug,
       status
     }
@@ -47,7 +59,11 @@ export const HOMEPAGE_QUERY = defineQuery(
     && _id == "siteSettings"
   ][0].homePage->{
     _id,
-    title,
+    "title": coalesce(
+      title[_key == $locale][0].value,
+      title[_key == "en"][0].value,
+      title[0].value
+    ),
     slug,
     content[]{
       _type,
@@ -117,7 +133,11 @@ export const SITE_NAVIGATION_QUERY = defineQuery(
     && _id == "siteSettings"
   ][0].navigation[]->{
     _id,
-    title,
+    "title": coalesce(
+      title[_key == $locale][0].value,
+      title[_key == "en"][0].value,
+      title[0].value
+    ),
     slug,
     status,
     excerpt
@@ -132,7 +152,11 @@ export const SITE_FOOTER_NAVIGATION_QUERY = defineQuery(
     && _id == "siteSettings"
   ][0].footerNavigation[]->{
     _id,
-    title,
+    "title": coalesce(
+      title[_key == $locale][0].value,
+      title[_key == "en"][0].value,
+      title[0].value
+    ),
     slug,
     status,
     excerpt
@@ -182,13 +206,19 @@ export const CATEGORY_QUERY = defineQuery(
   }`,
 )
 
+// Page Query - Get a specific page by slug with localized content
+// Usage: const page = await sanityFetch({ query: PAGE_QUERY, params: { slug: 'about', locale: 'en' } })
 export const PAGE_QUERY = defineQuery(
   `*[
     _type == "page"
     && slug.current == $slug
   ][0]{
     _id,
-    title,
+    "title": coalesce(
+      title[_key == $locale][0].value,
+      title[_key == "en"][0].value,
+      title[0].value
+    ),
     slug,
     excerpt,
     metaDescription,
@@ -255,7 +285,7 @@ export const PAGE_QUERY = defineQuery(
 )
 
 // Menu Query - Get a specific menu by identifier
-// Usage: const menu = await sanityFetch({ query: MENU_QUERY, params: { identifier: 'main-menu' } })
+// Usage: const menu = await sanityFetch({ query: MENU_QUERY, params: { identifier: 'main-menu', locale: 'en' } })
 export const MENU_QUERY = defineQuery(
   `*[
     _type == "menu"
@@ -272,7 +302,11 @@ export const MENU_QUERY = defineQuery(
       label,
       page->{
         _id,
-        title,
+        "title": coalesce(
+          title[_key == $locale][0].value,
+          title[_key == "en"][0].value,
+          title[0].value
+        ),
         slug
       },
       externalUrl,
@@ -282,7 +316,11 @@ export const MENU_QUERY = defineQuery(
         label,
         page->{
           _id,
-          title,
+          "title": coalesce(
+            title[_key == $locale][0].value,
+            title[_key == "en"][0].value,
+            title[0].value
+          ),
           slug
         },
         externalUrl,
@@ -293,7 +331,7 @@ export const MENU_QUERY = defineQuery(
 )
 
 // All Menus Query - Get all active menus ordered by sortOrder
-// Usage: const menus = await sanityFetch({ query: ALL_MENUS_QUERY })
+// Usage: const menus = await sanityFetch({ query: ALL_MENUS_QUERY, params: { locale: 'en' } })
 export const ALL_MENUS_QUERY = defineQuery(
   `*[
     _type == "menu"
@@ -309,7 +347,11 @@ export const ALL_MENUS_QUERY = defineQuery(
       label,
       page->{
         _id,
-        title,
+        "title": coalesce(
+          title[_key == $locale][0].value,
+          title[_key == "en"][0].value,
+          title[0].value
+        ),
         slug
       },
       externalUrl,
@@ -319,7 +361,11 @@ export const ALL_MENUS_QUERY = defineQuery(
         label,
         page->{
           _id,
-          title,
+          "title": coalesce(
+            title[_key == $locale][0].value,
+            title[_key == "en"][0].value,
+            title[0].value
+          ),
           slug
         },
         externalUrl,
@@ -330,7 +376,7 @@ export const ALL_MENUS_QUERY = defineQuery(
 )
 
 // Menu Items Only Query - Get just the menu items for a specific menu (lighter query)
-// Usage: const menuItems = await sanityFetch({ query: MENU_ITEMS_QUERY, params: { identifier: 'main-menu' } })
+// Usage: const menuItems = await sanityFetch({ query: MENU_ITEMS_QUERY, params: { identifier: 'main-menu', locale: 'en' } })
 export const MENU_ITEMS_QUERY = defineQuery(
   `*[
     _type == "menu"
@@ -341,7 +387,11 @@ export const MENU_ITEMS_QUERY = defineQuery(
     label,
     page->{
       _id,
-      title,
+      "title": coalesce(
+        title[_key == $locale][0].value,
+        title[_key == "en"][0].value,
+        title[0].value
+      ),
       slug
     },
     externalUrl,
@@ -351,7 +401,11 @@ export const MENU_ITEMS_QUERY = defineQuery(
       label,
       page->{
         _id,
-        title,
+        "title": coalesce(
+          title[_key == $locale][0].value,
+          title[_key == "en"][0].value,
+          title[0].value
+        ),
         slug
       },
       externalUrl,
