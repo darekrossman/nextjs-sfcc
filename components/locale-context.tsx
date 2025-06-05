@@ -2,18 +2,25 @@
 
 import { createContext, PropsWithChildren, useContext } from 'react'
 
-export const LocaleContext = createContext<{ locale: string; currency: string }>({
+export const LocaleContext = createContext<{
+  locale: string
+  currency: string
+  dict: Record<string, string>
+}>({
   locale: 'en',
   currency: 'USD',
+  dict: {},
 })
 
 export const LocaleProvider = ({
   locale,
+  dict,
   children,
-}: PropsWithChildren<{ locale: string }>) => {
+}: PropsWithChildren<{ locale: string; dict: Record<string, string> }>) => {
   const currency = locale === 'fr' ? 'EUR' : 'USD'
+
   return (
-    <LocaleContext.Provider value={{ locale, currency }}>
+    <LocaleContext.Provider value={{ locale, currency, dict }}>
       {children}
     </LocaleContext.Provider>
   )

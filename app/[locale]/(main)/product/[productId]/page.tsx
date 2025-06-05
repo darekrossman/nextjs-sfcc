@@ -17,9 +17,11 @@ import { ProductPrice } from '@/components/product/product-price'
 import { HeartPlus } from 'lucide-react'
 import { UnknownSearchParams } from '@/lib/constants'
 import { ProductPromotion } from '@/components/product/product-promotion'
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer'
+import { getDictionary } from '@/lib/dictionaries/dictionaries'
 
 type PageProps = {
-  params: Promise<{ productId: string; locale: string }>
+  params: Promise<{ productId: string; locale: 'en' | 'fr' }>
   searchParams: Promise<UnknownSearchParams>
 }
 
@@ -62,6 +64,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 export default async function ProductPage(props: PageProps) {
   const params = await props.params
+  const dict = await getDictionary(params.locale)
   const product = await getProduct({ id: params.productId, locale: params.locale })
 
   if (!product) return notFound()
@@ -142,9 +145,10 @@ export default async function ProductPage(props: PageProps) {
 
                 <styled.h1
                   fontSize="3xl"
-                  lineHeight="1.1"
+                  lineHeight="1.2"
                   fontWeight="light"
                   color="neutral.800"
+                  textWrap="balance"
                 >
                   {product.name}
                 </styled.h1>
@@ -166,7 +170,12 @@ export default async function ProductPage(props: PageProps) {
                   </Suspense>
                 </Flex>
 
-                <styled.p color="neutral.600" fontSize="sm" lineHeight="1.4">
+                <styled.p
+                  color="neutral.600"
+                  fontSize="sm"
+                  lineHeight="1.4"
+                  textWrap="balance"
+                >
                   {product.shortDescription}
                 </styled.p>
               </Stack>
@@ -213,6 +222,7 @@ export default async function ProductPage(props: PageProps) {
                   />
                 </Suspense>
 
+                <Box hideFrom="lg" flex="1" />
                 <Divider orientation="vertical" h="auto" color="var(--border)" />
 
                 <styled.button
@@ -221,8 +231,9 @@ export default async function ProductPage(props: PageProps) {
                   justifyContent="center"
                   w="11"
                   h="11"
+                  color="stone.600"
                 >
-                  <HeartPlus strokeWidth={1} size={16} />
+                  <HeartPlus strokeWidth={2} size={16} />
                 </styled.button>
 
                 <Divider orientation="vertical" h="auto" color="var(--border)" />
@@ -236,12 +247,14 @@ export default async function ProductPage(props: PageProps) {
           w="full"
           mx="auto"
           px={{ base: '6', md: '6' }}
-          py="12"
-          bg="stone.400"
+          py="16"
         >
-          <Stack minH="400px">
-            <styled.h2>Product Details</styled.h2>
-            <Box>{product.longDescription}</Box>
+          <Stack minH="400px" gap="6">
+            <styled.h2 fontSize="2xl" fontWeight="light" color="stone.700">
+              {dict.productDetails}
+            </styled.h2>
+            <Divider color="stone.400/50" borderStyle="dashed" />
+            <MarkdownRenderer content={product.longDescription || ''} />
           </Stack>
         </PageContainer>
       </ProductProvider>

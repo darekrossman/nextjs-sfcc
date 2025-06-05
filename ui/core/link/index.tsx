@@ -37,11 +37,20 @@ const prependLocaleToHref = (
     if (href.startsWith('?')) {
       return href
     }
+    // Don't modify if already starts with /en or /fr
+    if (href.startsWith('/en') || href.startsWith('/fr')) {
+      return href
+    }
     return `/${locale}${href}`
   }
 
   // UrlObject case - don't modify if it has query but no pathname
   if (href.query && !href.pathname) {
+    return href
+  }
+
+  // Don't modify if pathname already starts with /en or /fr
+  if (href.pathname?.startsWith('/en') || href.pathname?.startsWith('/fr')) {
     return href
   }
 

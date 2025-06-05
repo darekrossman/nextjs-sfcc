@@ -93,8 +93,14 @@ export function toggleRefinementForQuery({
     newRefine = [...existingRefine, `${attributeId}=${value}`]
   }
 
+  // Filter out cgid refinements to prevent them from being added to the URL
+  const filteredRefine = newRefine.filter((refinement) => !refinement.startsWith('cgid='))
+
   const { locale, ...paramsWithoutLocale } = params
-  return { ...paramsWithoutLocale, refine: newRefine.length > 0 ? newRefine : undefined }
+  return {
+    ...paramsWithoutLocale,
+    refine: filteredRefine.length > 0 ? filteredRefine : undefined,
+  }
 }
 
 export function parseParamsFromUrl(

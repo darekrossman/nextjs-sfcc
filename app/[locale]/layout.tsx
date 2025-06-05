@@ -12,6 +12,7 @@ import { PropsWithChildren, Suspense } from 'react'
 import { LocaleProvider } from '@/components/locale-context'
 import { i18nConfig } from '@/lib/i18n'
 import ShopperContext from '@/components/shopper-context'
+import { getDictionary } from '@/lib/dictionaries/dictionaries'
 
 export async function generateStaticParams() {
   return i18nConfig.locales.map((locale) => ({ locale }))
@@ -66,9 +67,9 @@ const dmMono = DM_Mono({
 export default async function RootLayout({
   params,
   children,
-}: PropsWithChildren<{ params: Promise<{ locale: string }> }>) {
+}: PropsWithChildren<{ params: Promise<{ locale: 'en' | 'fr' }> }>) {
   const { locale } = await params
-
+  const dict = await getDictionary(locale)
   const cartPromise = getCart(locale)
 
   return (
@@ -83,7 +84,7 @@ export default async function RootLayout({
       )}
     >
       <styled.body minH="100dvh" display="flex" flexDir="column">
-        <LocaleProvider locale={locale}>
+        <LocaleProvider locale={locale} dict={dict}>
           <CartProvider cartPromise={cartPromise}>{children}</CartProvider>
         </LocaleProvider>
 

@@ -65,6 +65,7 @@ export const FadeImage = ({
           ease: 'easeOut',
         }}
         style={{
+          position: 'relative',
           width: '100%',
           height: '100%',
         }}

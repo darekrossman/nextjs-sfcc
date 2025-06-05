@@ -25,14 +25,19 @@ export default async function Footer({ locale }: { locale: string }) {
   })
 
   return (
-    <Box borderTop="1px solid" borderColor="stone.400/50" py="6" px="6">
+    <Box
+      borderTop="1px solid"
+      borderColor="stone.400/50"
+      py={{ base: '8', md: '6' }}
+      px="6"
+    >
       <Flex
-        gap={{ base: '8', md: '4' }}
+        gap={{ base: '9', md: '4' }}
         justify="space-between"
         align={{ base: 'flex-start', md: 'center' }}
         direction={{ base: 'column', md: 'row' }}
       >
-        <Stack gap="2" order={{ base: 2, md: 1 }}>
+        <Stack gap="2.5" order={{ base: 2, md: 1 }}>
           <styled.p fontSize="xs" color="gray.700">
             &copy; 2025 Darek Rossman, Future PSE
           </styled.p>
@@ -42,7 +47,7 @@ export default async function Footer({ locale }: { locale: string }) {
         </Stack>
 
         <Flex
-          gap="4"
+          gap={{ base: '5', md: '4' }}
           direction={{ base: 'column', md: 'row' }}
           order={{ base: 1, md: 2 }}
           color="gray.700"

@@ -8,6 +8,7 @@ import { Center, Stack } from '@/styled-system/jsx'
 import { Link } from '@/ui/core'
 import { startTransition, useOptimistic, useState, useTransition } from 'react'
 import { useSearchState } from './search-context'
+import { usePathname } from 'next/navigation'
 
 export function RefinementColors({
   refinement,
@@ -18,6 +19,7 @@ export function RefinementColors({
   selectedColors: string[]
   searchParams: ProductSearchParams
 }) {
+  const pathname = usePathname()
   const { startTransition } = useSearchState()
   const [optimisticColors, setOptimisticColors] = useOptimistic(
     selectedColors,
@@ -37,22 +39,25 @@ export function RefinementColors({
   }
 
   return (
-    <Stack gap="1" alignItems="flex-start" pt="8">
+    <Stack gap="0.5" alignItems="flex-start" pt="8">
       {refinement.values?.map((value, j) => {
         if (value.hitCount === 0) {
           return null
         }
         const isSelected = optimisticColors.includes(value.label)
+
+        const query = toggleRefinementForQuery({
+          params: searchParams,
+          attributeId: 'c_refinementColor',
+          value: value.label,
+        })
+
+        const hasQuery = Object.values(query).some(Boolean)
+
         return (
           <Center key={`${refinement.attributeId}-${value.label}-${j}`}>
             <Link
-              href={{
-                query: toggleRefinementForQuery({
-                  params: searchParams,
-                  attributeId: 'c_refinementColor',
-                  value: value.label,
-                }),
-              }}
+              href={hasQuery ? { query } : { pathname }}
               position="relative"
               prefetch={false}
               display="block"
@@ -76,7 +81,7 @@ export function RefinementColors({
                   height: '0',
                   borderLeft: '6px solid transparent',
                   borderBottom: '6px solid var(--bg)',
-                  // borderBottomColor: isSelected ? 'white' : 'stone.300',
+                  // borderBottomColor: isSelected ? 'black/30' : 'var(--bg)',
                 },
               })}
               style={

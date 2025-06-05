@@ -8,6 +8,7 @@ import { AnimatePresence } from 'motion/react'
 import * as motion from 'motion/react-client'
 import { Dialog } from 'radix-ui'
 import { PropsWithChildren, Suspense, use, useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { token } from '@/styled-system/tokens'
 import { css } from '@/styled-system/css'
 import { NavButton } from './nav-button'
@@ -122,8 +123,14 @@ function NavContent({
   handleSearchBlur: () => void
 }) {
   const { data: menu } = use(navPromise)
+  const pathname = usePathname()
 
-  console.log(menu)
+  const getLocalizedPath = (newLocale: string) => {
+    const segments = pathname.split('/')
+    // Replace the first segment (locale) with the new locale
+    segments[1] = newLocale
+    return segments.join('/')
+  }
 
   return (
     <Dialog.Content
@@ -234,8 +241,8 @@ function NavContent({
                 backdropBlur: 'blur(10px)',
               })}
             >
-              <styled.a
-                href="/en"
+              <Link
+                href={getLocalizedPath('en')}
                 onClick={() => setOpen(false)}
                 position="relative"
                 display="flex"
@@ -251,12 +258,12 @@ function NavContent({
                 color="gray.100"
               >
                 <styled.div mb="-1px">EN</styled.div>
-              </styled.a>
+              </Link>
 
               <Divider orientation="vertical" h="full" borderGradient="PeachTreeBorder" />
 
-              <styled.a
-                href="/fr"
+              <Link
+                href={getLocalizedPath('fr')}
                 onClick={() => setOpen(false)}
                 position="relative"
                 display="flex"
@@ -272,7 +279,7 @@ function NavContent({
                 color="gray.100"
               >
                 <styled.div mb="-1px">FR</styled.div>
-              </styled.a>
+              </Link>
             </Flex>
           </motion.div>
         </Flex>

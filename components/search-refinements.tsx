@@ -2,6 +2,7 @@
 
 import { RefinementColors } from './refinement-colors'
 import { ProductSearchResult, ProductSearchParams } from '@/lib/sfcc/types'
+import { css } from '@/styled-system/css'
 import * as motion from 'motion/react-client'
 import { use } from 'react'
 
@@ -24,6 +25,7 @@ export const SearchRefinements = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
+      className={css({ w: 'full' })}
     >
       {searchResults?.refinements?.map((refinement, i) => {
         if (refinement.attributeId === 'c_refinementColor') {

@@ -13,6 +13,7 @@ import { SearchMasthead } from './search-masthead'
 import { sanityFetch } from '@/sanity/lib/live'
 import { CATEGORY_QUERY } from '@/sanity/lib/queries'
 import { CATEGORY_QUERYResult } from '@/sanity/types'
+import { getDictionary } from '@/lib/dictionaries/dictionaries'
 
 export default async function SearchResults({
   locale,
@@ -23,6 +24,7 @@ export default async function SearchResults({
   categorySlug?: string
   params: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
+  const dict = await getDictionary(locale as 'en' | 'fr')
   let category: CATEGORY_QUERYResult | undefined
 
   if (categorySlug) {
@@ -54,7 +56,7 @@ export default async function SearchResults({
           heading={
             category?.title || (
               <HStack gap="1">
-                Search:{' '}
+                {dict.search}:{' '}
                 <styled.div fontStyle="medium" fontFamily="mono">
                   <styled.span opacity="0.5">{'{'}</styled.span>
                   {searchParams.q}
@@ -83,9 +85,9 @@ export default async function SearchResults({
           >
             <Box hideBelow="md">
               <Stack
-                position={{ md: 'docked' }}
+                position={{ md: 'sticky' }}
                 top="166px"
-                zIndex="sticky"
+                zIndex="docked"
                 alignItems="flex-start"
               >
                 <Suspense>

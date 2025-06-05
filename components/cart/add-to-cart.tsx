@@ -53,7 +53,7 @@ export function AddToCart({
 }) {
   const params = searchParams ? use(searchParams) : {}
   const { addCartItem } = useCart()
-  const { currency } = useLocale()
+  const { currency, dict } = useLocale()
   const { selections: optimisticSelections } = useProduct()
 
   const selections = { ...params, ...optimisticSelections }
@@ -79,31 +79,27 @@ export function AddToCart({
     })
   }
 
-  const disabled = !variant
   const unavailable = variant && !variant.orderable
+  const disabled = unavailable || !variant
 
   return (
     <styled.button
-      display="inline-flex"
+      display="flex"
       alignItems="center"
       justifyContent="center"
       h="11"
       fontSize="sm"
       color="neutral.100"
       lineHeight="1"
+      borderRight={{ lgDown: '1px solid var(--border)' }}
       cursor={disabled ? 'not-allowed' : 'pointer'}
       disabled={disabled}
-      // border={disabled ? '1px solid {colors.stone.400/50}' : 'none'}
-      _hover={
-        {
-          // '--accent': '{gradients.PeachTree}',
-        }
-      }
+      _hover={{
+        '--bg': disabled ? 'transparent' : '{colors.stone.700}',
+      }}
       className={css({
         '--bg': disabled ? 'transparent' : '{colors.stone.800}',
-        '--accentBg': disabled ? 'transparent' : '{colors.stone.600}',
         '--fg': disabled ? '{colors.stone.400}' : '{colors.stone.100}',
-        '--accentFg': disabled ? '{colors.stone.400}' : '{colors.stone.100}',
       })}
       onClick={addItemToCart}
     >
@@ -117,8 +113,10 @@ export function AddToCart({
         fontFamily="mono"
         fontWeight="bold"
         textTransform="uppercase"
+        minW="160px"
+        transition="all 0.15s ease-out"
       >
-        Add to cart
+        {unavailable ? dict.unavailable : dict.addToCart}
       </Center>
     </styled.button>
   )
