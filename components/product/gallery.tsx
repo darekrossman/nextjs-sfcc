@@ -25,8 +25,6 @@ export function Gallery({
 
   const selections = { ...params, ...optimisticSelections }
 
-  if (!imageGroups) return null
-
   const images = getProductImagesForColor(
     imageGroups,
     selections.color as string | undefined,
@@ -92,7 +90,11 @@ export function Gallery({
   }
 
   return (
-    <Box position="relative">
+    <Box
+      position="relative"
+      h={{ base: 'auto', md: '640px' }}
+      aspectRatio={{ mdDown: 1 }}
+    >
       <Box
         ref={scrollContainerRef}
         w="100vw"

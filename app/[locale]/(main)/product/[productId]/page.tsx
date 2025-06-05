@@ -66,11 +66,6 @@ export default async function ProductPage(props: PageProps) {
 
   if (!product) return notFound()
 
-  // const personalizedProductPromise = getPersonalizedProduct({
-  //   id: params.productId,
-  //   locale: params.locale,
-  // })
-
   const productImages = product.imageGroups?.filter((group) => group.viewType === 'large')
   const priceRanges = product.priceRanges || []
 
@@ -178,7 +173,14 @@ export default async function ProductPage(props: PageProps) {
 
               <Box h="8" />
 
-              <Suspense fallback={<VariantSelector />}>
+              <Suspense
+                fallback={
+                  <VariantSelector
+                    attributes={product.variationAttributes}
+                    variants={product.variants}
+                  />
+                }
+              >
                 <VariantSelector
                   attributes={product.variationAttributes}
                   variants={product.variants}
