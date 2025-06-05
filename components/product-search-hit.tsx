@@ -4,8 +4,8 @@ import { type ProductSearchHit } from '@/lib/sfcc/types'
 import { Box, Flex, styled } from '@/styled-system/jsx'
 import { Stack } from '@/styled-system/jsx'
 import { Link } from '@/ui/core'
-import Image from 'next/image'
 import { Price } from './price'
+import { FadeImage } from './fade-image'
 
 export function ProductSearchHit({
   hit,
@@ -38,7 +38,7 @@ export function ProductSearchHit({
     >
       <Box p="5">
         <Box pos="relative" w="full" aspectRatio={1}>
-          <Image
+          <FadeImage
             src={defaultImageGroup?.images?.[0]?.link || ''}
             alt={defaultImageGroup?.images?.[0]?.alt || ''}
             fill
