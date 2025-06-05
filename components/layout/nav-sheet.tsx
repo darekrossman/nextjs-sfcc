@@ -3,7 +3,7 @@
 import { Stack, VisuallyHidden, styled, Flex, HStack, Divider } from '@/styled-system/jsx'
 import { Link } from '@/ui/core'
 import { useBreakpoint } from '@/ui/core/hooks/use-breakpoint'
-import { CATEGORIES_QUERYResult } from '@/sanity/types'
+import { MENU_QUERYResult } from '@/sanity/types'
 import { AnimatePresence } from 'motion/react'
 import * as motion from 'motion/react-client'
 import { Dialog } from 'radix-ui'
@@ -16,8 +16,22 @@ import { Search } from './search'
 import { DialogOverlay } from '@/components/overlays'
 
 type NavSheetProps = PropsWithChildren<{
-  navPromise: Promise<CATEGORIES_QUERYResult>
+  navPromise: Promise<{ data: MENU_QUERYResult }>
 }>
+
+// Custom type for menu items that can reference both pages and categories
+type MenuItemWithReference = {
+  _key: string
+  label: string | null
+  page: {
+    _id: string
+    _type: 'page' | 'category'
+    title: string | null
+    slug: { current: string } | null
+  } | null
+  externalUrl: string | null
+  openInNewTab: boolean | null
+}
 
 const contentVariants = {
   closed: (sm = false) => ({
@@ -107,7 +121,9 @@ function NavContent({
   handleSearchFocus: () => void
   handleSearchBlur: () => void
 }) {
-  const navItems = use(navPromise)
+  const { data: menu } = use(navPromise)
+
+  console.log(menu)
 
   return (
     <Dialog.Content
@@ -171,12 +187,19 @@ function NavContent({
               variants={listVariants}
               className={css({ px: '6' })}
             >
-              {navItems.map((item) => {
-                if (!item.slug?.current) return null
+              {menu?.menuItems?.map((item) => {
+                const menuItem = item as MenuItemWithReference
+                if (!menuItem?.page?.slug?.current) return null
+
+                const href =
+                  menuItem.page._type === 'category'
+                    ? `/category/${menuItem.page.slug.current}`
+                    : `/${menuItem.page.slug.current}`
+
                 return (
-                  <motion.li key={item._id} variants={itemVariants}>
+                  <motion.li key={menuItem._key} variants={itemVariants}>
                     <Link
-                      href={`/category/${item.slug.current}`}
+                      href={href}
                       onClick={() => setOpen(false)}
                       display="flex"
                       alignItems="center"
@@ -184,7 +207,7 @@ function NavContent({
                       fontSize="24px"
                       fontWeight="light"
                     >
-                      {item.title}
+                      {menuItem.page?.title || menuItem.label}
                     </Link>
                   </motion.li>
                 )

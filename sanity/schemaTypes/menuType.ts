@@ -1,4 +1,4 @@
-import { MenuIcon } from '@sanity/icons'
+import { MenuIcon, ChevronDownIcon, DocumentIcon } from '@sanity/icons'
 import { defineField, defineType, defineArrayMember } from 'sanity'
 
 export const menuType = defineType({
@@ -60,8 +60,8 @@ export const menuType = defineType({
             defineField({
               name: 'page',
               type: 'reference',
-              to: [{ type: 'page' }],
-              description: 'Page this menu item links to',
+              to: [{ type: 'page' }, { type: 'category' }],
+              description: 'Page or category this menu item links to',
             }),
             defineField({
               name: 'externalUrl',
@@ -94,7 +94,7 @@ export const menuType = defineType({
                     defineField({
                       name: 'page',
                       type: 'reference',
-                      to: [{ type: 'page' }],
+                      to: [{ type: 'page' }, { type: 'category' }],
                     }),
                     defineField({
                       name: 'externalUrl',
@@ -111,11 +111,30 @@ export const menuType = defineType({
                       title: 'label',
                       subtitle: 'page.title',
                       url: 'externalUrl',
+                      pageType: 'page._type',
                     },
-                    prepare({ title, subtitle, url }) {
+                    prepare({ title, subtitle, url, pageType }) {
+                      // Handle internationalized title properly
+                      let displaySubtitle = url || 'No link configured'
+                      if (subtitle && Array.isArray(subtitle)) {
+                        // Extract title from internationalized array
+                        const englishTitle = subtitle.find(
+                          (item: any) => item._key === 'en',
+                        )?.value
+                        const fallbackTitle = subtitle[0]?.value
+                        displaySubtitle = englishTitle || fallbackTitle || displaySubtitle
+                      } else if (subtitle) {
+                        displaySubtitle = subtitle
+                      }
+
+                      // Add page type indicator
+                      if (pageType) {
+                        displaySubtitle = `${displaySubtitle} (${pageType})`
+                      }
+
                       return {
                         title,
-                        subtitle: subtitle || url || 'No link configured',
+                        subtitle: displaySubtitle,
                       }
                     },
                   },
@@ -129,13 +148,33 @@ export const menuType = defineType({
               subtitle: 'page.title',
               url: 'externalUrl',
               hasSubItems: 'subItems',
+              pageType: 'page._type',
             },
-            prepare({ title, subtitle, url, hasSubItems }) {
+            prepare({ title, subtitle, url, hasSubItems, pageType }) {
               const hasChildren = hasSubItems && hasSubItems.length > 0
+
+              // Handle internationalized title properly
+              let displaySubtitle = url || 'No link configured'
+              if (subtitle && Array.isArray(subtitle)) {
+                // Extract title from internationalized array
+                const englishTitle = subtitle.find(
+                  (item: any) => item._key === 'en',
+                )?.value
+                const fallbackTitle = subtitle[0]?.value
+                displaySubtitle = englishTitle || fallbackTitle || displaySubtitle
+              } else if (subtitle) {
+                displaySubtitle = subtitle
+              }
+
+              // Add page type indicator
+              if (pageType) {
+                displaySubtitle = `${displaySubtitle} (${pageType})`
+              }
+
               return {
                 title,
-                subtitle: subtitle || url || 'No link configured',
-                media: hasChildren ? 'ChevronDownIcon' : 'FileIcon',
+                subtitle: displaySubtitle,
+                media: hasChildren ? ChevronDownIcon : DocumentIcon,
               }
             },
           },

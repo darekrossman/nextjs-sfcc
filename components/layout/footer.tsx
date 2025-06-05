@@ -2,6 +2,21 @@ import { Box, Flex, HStack, Stack, styled } from '@/styled-system/jsx'
 import { sanityFetch } from '@/sanity/lib/live'
 import { MENU_QUERY } from '@/sanity/lib/queries'
 import { Link } from '@/ui/core'
+import { MENU_QUERYResult } from '@/sanity/types'
+
+// Custom type for menu items that can reference both pages and categories
+type MenuItemWithReference = {
+  _key: string
+  label: string | null
+  page: {
+    _id: string
+    _type: 'page' | 'category'
+    title: string | null
+    slug: { current: string } | null
+  } | null
+  externalUrl: string | null
+  openInNewTab: boolean | null
+}
 
 export default async function Footer({ locale }: { locale: string }) {
   const { data: menu } = await sanityFetch({
@@ -30,16 +45,23 @@ export default async function Footer({ locale }: { locale: string }) {
           gap="4"
           direction={{ base: 'column', md: 'row' }}
           order={{ base: 1, md: 2 }}
+          color="gray.700"
         >
-          {menu?.menuItems?.map((item) => (
-            <Link
-              key={item._key}
-              href={`/${item.page?.slug?.current ?? '/'}`}
-              fontSize="xs"
-            >
-              {item.page?.title}
-            </Link>
-          ))}
+          {menu?.menuItems?.map((item) => {
+            const menuItem = item as MenuItemWithReference
+            if (!menuItem?.page?.slug?.current) return null
+
+            const href =
+              menuItem.page._type === 'category'
+                ? `/category/${menuItem.page.slug.current}`
+                : `/${menuItem.page.slug.current}`
+
+            return (
+              <Link key={menuItem._key} href={href} fontSize="xs">
+                {menuItem.page?.title}
+              </Link>
+            )
+          })}
         </Flex>
       </Flex>
     </Box>

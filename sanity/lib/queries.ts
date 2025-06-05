@@ -302,6 +302,7 @@ export const MENU_QUERY = defineQuery(
       label,
       page->{
         _id,
+        _type,
         "title": coalesce(
           title[_key == $locale][0].value,
           title[_key == "en"][0].value,
@@ -316,6 +317,7 @@ export const MENU_QUERY = defineQuery(
         label,
         page->{
           _id,
+          _type,
           "title": coalesce(
             title[_key == $locale][0].value,
             title[_key == "en"][0].value,
@@ -347,6 +349,7 @@ export const ALL_MENUS_QUERY = defineQuery(
       label,
       page->{
         _id,
+        _type,
         "title": coalesce(
           title[_key == $locale][0].value,
           title[_key == "en"][0].value,
@@ -361,6 +364,7 @@ export const ALL_MENUS_QUERY = defineQuery(
         label,
         page->{
           _id,
+          _type,
           "title": coalesce(
             title[_key == $locale][0].value,
             title[_key == "en"][0].value,
@@ -387,6 +391,7 @@ export const MENU_ITEMS_QUERY = defineQuery(
     label,
     page->{
       _id,
+      _type,
       "title": coalesce(
         title[_key == $locale][0].value,
         title[_key == "en"][0].value,
@@ -401,6 +406,7 @@ export const MENU_ITEMS_QUERY = defineQuery(
       label,
       page->{
         _id,
+        _type,
         "title": coalesce(
           title[_key == $locale][0].value,
           title[_key == "en"][0].value,

@@ -39,7 +39,10 @@ export default async function SearchResults({
   }
 
   if (categorySlug && !searchParams.refine?.includes(`cgid=${categorySlug}`)) {
-    searchParams.refine = [`cgid=${categorySlug}`, ...(searchParams.refine || [])]
+    searchParams.refine = [
+      `cgid=${category?.categoryId || categorySlug}`,
+      ...(searchParams.refine || []),
+    ]
   }
 
   const searchResultsPromise = searchProducts(searchParams)

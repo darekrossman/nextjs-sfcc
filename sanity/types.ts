@@ -241,6 +241,11 @@ export type Menu = {
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "page";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "category";
     };
     externalUrl?: string;
     openInNewTab?: boolean;
@@ -251,6 +256,11 @@ export type Menu = {
         _type: "reference";
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "page";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "category";
       };
       externalUrl?: string;
       openInNewTab?: boolean;
@@ -892,7 +902,7 @@ export type PAGE_QUERYResult = {
   } | null;
 } | null;
 // Variable: MENU_QUERY
-// Query: *[    _type == "menu"    && identifier.current == $identifier    && isActive == true  ][0]{    _id,    title,    identifier,    isActive,    sortOrder,    menuItems[]{      _key,      label,      page->{        _id,        "title": coalesce(          title[_key == $locale][0].value,          title[_key == "en"][0].value,          title[0].value        ),        slug      },      externalUrl,      openInNewTab,      subItems[]{        _key,        label,        page->{          _id,          "title": coalesce(            title[_key == $locale][0].value,            title[_key == "en"][0].value,            title[0].value          ),          slug        },        externalUrl,        openInNewTab      }    }  }
+// Query: *[    _type == "menu"    && identifier.current == $identifier    && isActive == true  ][0]{    _id,    title,    identifier,    isActive,    sortOrder,    menuItems[]{      _key,      label,      page->{        _id,        _type,        "title": coalesce(          title[_key == $locale][0].value,          title[_key == "en"][0].value,          title[0].value        ),        slug      },      externalUrl,      openInNewTab,      subItems[]{        _key,        label,        page->{          _id,          _type,          "title": coalesce(            title[_key == $locale][0].value,            title[_key == "en"][0].value,            title[0].value          ),          slug        },        externalUrl,        openInNewTab      }    }  }
 export type MENU_QUERYResult = {
   _id: string;
   title: string | null;
@@ -904,6 +914,12 @@ export type MENU_QUERYResult = {
     label: string | null;
     page: {
       _id: string;
+      _type: "category";
+      title: string | null;
+      slug: Slug | null;
+    } | {
+      _id: string;
+      _type: "page";
       title: string | null;
       slug: Slug | null;
     } | null;
@@ -914,6 +930,12 @@ export type MENU_QUERYResult = {
       label: string | null;
       page: {
         _id: string;
+        _type: "category";
+        title: string | null;
+        slug: Slug | null;
+      } | {
+        _id: string;
+        _type: "page";
         title: string | null;
         slug: Slug | null;
       } | null;
@@ -923,7 +945,7 @@ export type MENU_QUERYResult = {
   }> | null;
 } | null;
 // Variable: ALL_MENUS_QUERY
-// Query: *[    _type == "menu"    && isActive == true  ] | order(sortOrder asc, title asc){    _id,    title,    identifier,    isActive,    sortOrder,    menuItems[]{      _key,      label,      page->{        _id,        "title": coalesce(          title[_key == $locale][0].value,          title[_key == "en"][0].value,          title[0].value        ),        slug      },      externalUrl,      openInNewTab,      subItems[]{        _key,        label,        page->{          _id,          "title": coalesce(            title[_key == $locale][0].value,            title[_key == "en"][0].value,            title[0].value          ),          slug        },        externalUrl,        openInNewTab      }    }  }
+// Query: *[    _type == "menu"    && isActive == true  ] | order(sortOrder asc, title asc){    _id,    title,    identifier,    isActive,    sortOrder,    menuItems[]{      _key,      label,      page->{        _id,        _type,        "title": coalesce(          title[_key == $locale][0].value,          title[_key == "en"][0].value,          title[0].value        ),        slug      },      externalUrl,      openInNewTab,      subItems[]{        _key,        label,        page->{          _id,          _type,          "title": coalesce(            title[_key == $locale][0].value,            title[_key == "en"][0].value,            title[0].value          ),          slug        },        externalUrl,        openInNewTab      }    }  }
 export type ALL_MENUS_QUERYResult = Array<{
   _id: string;
   title: string | null;
@@ -935,6 +957,12 @@ export type ALL_MENUS_QUERYResult = Array<{
     label: string | null;
     page: {
       _id: string;
+      _type: "category";
+      title: string | null;
+      slug: Slug | null;
+    } | {
+      _id: string;
+      _type: "page";
       title: string | null;
       slug: Slug | null;
     } | null;
@@ -945,6 +973,12 @@ export type ALL_MENUS_QUERYResult = Array<{
       label: string | null;
       page: {
         _id: string;
+        _type: "category";
+        title: string | null;
+        slug: Slug | null;
+      } | {
+        _id: string;
+        _type: "page";
         title: string | null;
         slug: Slug | null;
       } | null;
@@ -954,12 +988,18 @@ export type ALL_MENUS_QUERYResult = Array<{
   }> | null;
 }>;
 // Variable: MENU_ITEMS_QUERY
-// Query: *[    _type == "menu"    && identifier.current == $identifier    && isActive == true  ][0].menuItems[]{    _key,    label,    page->{      _id,      "title": coalesce(        title[_key == $locale][0].value,        title[_key == "en"][0].value,        title[0].value      ),      slug    },    externalUrl,    openInNewTab,    subItems[]{      _key,      label,      page->{        _id,        "title": coalesce(          title[_key == $locale][0].value,          title[_key == "en"][0].value,          title[0].value        ),        slug      },      externalUrl,      openInNewTab    }  }
+// Query: *[    _type == "menu"    && identifier.current == $identifier    && isActive == true  ][0].menuItems[]{    _key,    label,    page->{      _id,      _type,      "title": coalesce(        title[_key == $locale][0].value,        title[_key == "en"][0].value,        title[0].value      ),      slug    },    externalUrl,    openInNewTab,    subItems[]{      _key,      label,      page->{        _id,        _type,        "title": coalesce(          title[_key == $locale][0].value,          title[_key == "en"][0].value,          title[0].value        ),        slug      },      externalUrl,      openInNewTab    }  }
 export type MENU_ITEMS_QUERYResult = Array<{
   _key: string;
   label: string | null;
   page: {
     _id: string;
+    _type: "category";
+    title: string | null;
+    slug: Slug | null;
+  } | {
+    _id: string;
+    _type: "page";
     title: string | null;
     slug: Slug | null;
   } | null;
@@ -970,6 +1010,12 @@ export type MENU_ITEMS_QUERYResult = Array<{
     label: string | null;
     page: {
       _id: string;
+      _type: "category";
+      title: string | null;
+      slug: Slug | null;
+    } | {
+      _id: string;
+      _type: "page";
       title: string | null;
       slug: Slug | null;
     } | null;
@@ -998,9 +1044,9 @@ declare module "@sanity/client" {
     "*[_type == \"category\"]{ \n    _id, \n    categoryId, \n    slug, \n    \"title\": coalesce(\n      title[_key == $locale][0].value,\n      title[_key == \"en\"][0].value,\n      title[0].value\n    )\n  }": CATEGORIES_QUERYResult;
     "*[\n    _type == \"category\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    categoryId,\n    slug,\n    \"title\": coalesce(\n      title[_key == $locale][0].value,\n      title[_key == \"en\"][0].value,\n      title[0].value\n    ),\n    body,\n    bannerImage{\n      asset->{\n        _id,\n        url\n      },\n      \"alt\": coalesce(\n        alt[_key == $locale][0].value,\n        alt[_key == \"en\"][0].value,\n        alt[0].value\n      ),\n      hotspot,\n      crop\n    }\n  }": CATEGORY_QUERYResult;
     "*[\n    _type == \"page\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    \"title\": coalesce(\n      title[_key == $locale][0].value,\n      title[_key == \"en\"][0].value,\n      title[0].value\n    ),\n    slug,\n    excerpt,\n    metaDescription,\n    noIndex,\n    includeInSitemap,\n    content[]{\n      _type,\n      _key,\n      _type == \"hero\" => {\n        title,\n        text,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"richText\" => {\n        content,\n        alignment,\n        maxWidth\n      },\n      _type == \"splitImage\" => {\n        orientation,\n        title,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"features\" => {\n        title,\n        features[]{\n          _key,\n          title,\n          text\n        }\n      },\n      _type == \"faqs\" => {\n        title,\n        faqs[]->{\n          _id,\n          title,\n          body\n        }\n      }\n    },\n    mainImage{\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    }\n  }": PAGE_QUERYResult;
-    "*[\n    _type == \"menu\"\n    && identifier.current == $identifier\n    && isActive == true\n  ][0]{\n    _id,\n    title,\n    identifier,\n    isActive,\n    sortOrder,\n    menuItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        \"title\": coalesce(\n          title[_key == $locale][0].value,\n          title[_key == \"en\"][0].value,\n          title[0].value\n        ),\n        slug\n      },\n      externalUrl,\n      openInNewTab,\n      subItems[]{\n        _key,\n        label,\n        page->{\n          _id,\n          \"title\": coalesce(\n            title[_key == $locale][0].value,\n            title[_key == \"en\"][0].value,\n            title[0].value\n          ),\n          slug\n        },\n        externalUrl,\n        openInNewTab\n      }\n    }\n  }": MENU_QUERYResult;
-    "*[\n    _type == \"menu\"\n    && isActive == true\n  ] | order(sortOrder asc, title asc){\n    _id,\n    title,\n    identifier,\n    isActive,\n    sortOrder,\n    menuItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        \"title\": coalesce(\n          title[_key == $locale][0].value,\n          title[_key == \"en\"][0].value,\n          title[0].value\n        ),\n        slug\n      },\n      externalUrl,\n      openInNewTab,\n      subItems[]{\n        _key,\n        label,\n        page->{\n          _id,\n          \"title\": coalesce(\n            title[_key == $locale][0].value,\n            title[_key == \"en\"][0].value,\n            title[0].value\n          ),\n          slug\n        },\n        externalUrl,\n        openInNewTab\n      }\n    }\n  }": ALL_MENUS_QUERYResult;
-    "*[\n    _type == \"menu\"\n    && identifier.current == $identifier\n    && isActive == true\n  ][0].menuItems[]{\n    _key,\n    label,\n    page->{\n      _id,\n      \"title\": coalesce(\n        title[_key == $locale][0].value,\n        title[_key == \"en\"][0].value,\n        title[0].value\n      ),\n      slug\n    },\n    externalUrl,\n    openInNewTab,\n    subItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        \"title\": coalesce(\n          title[_key == $locale][0].value,\n          title[_key == \"en\"][0].value,\n          title[0].value\n        ),\n        slug\n      },\n      externalUrl,\n      openInNewTab\n    }\n  }": MENU_ITEMS_QUERYResult;
+    "*[\n    _type == \"menu\"\n    && identifier.current == $identifier\n    && isActive == true\n  ][0]{\n    _id,\n    title,\n    identifier,\n    isActive,\n    sortOrder,\n    menuItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        _type,\n        \"title\": coalesce(\n          title[_key == $locale][0].value,\n          title[_key == \"en\"][0].value,\n          title[0].value\n        ),\n        slug\n      },\n      externalUrl,\n      openInNewTab,\n      subItems[]{\n        _key,\n        label,\n        page->{\n          _id,\n          _type,\n          \"title\": coalesce(\n            title[_key == $locale][0].value,\n            title[_key == \"en\"][0].value,\n            title[0].value\n          ),\n          slug\n        },\n        externalUrl,\n        openInNewTab\n      }\n    }\n  }": MENU_QUERYResult;
+    "*[\n    _type == \"menu\"\n    && isActive == true\n  ] | order(sortOrder asc, title asc){\n    _id,\n    title,\n    identifier,\n    isActive,\n    sortOrder,\n    menuItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        _type,\n        \"title\": coalesce(\n          title[_key == $locale][0].value,\n          title[_key == \"en\"][0].value,\n          title[0].value\n        ),\n        slug\n      },\n      externalUrl,\n      openInNewTab,\n      subItems[]{\n        _key,\n        label,\n        page->{\n          _id,\n          _type,\n          \"title\": coalesce(\n            title[_key == $locale][0].value,\n            title[_key == \"en\"][0].value,\n            title[0].value\n          ),\n          slug\n        },\n        externalUrl,\n        openInNewTab\n      }\n    }\n  }": ALL_MENUS_QUERYResult;
+    "*[\n    _type == \"menu\"\n    && identifier.current == $identifier\n    && isActive == true\n  ][0].menuItems[]{\n    _key,\n    label,\n    page->{\n      _id,\n      _type,\n      \"title\": coalesce(\n        title[_key == $locale][0].value,\n        title[_key == \"en\"][0].value,\n        title[0].value\n      ),\n      slug\n    },\n    externalUrl,\n    openInNewTab,\n    subItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        _type,\n        \"title\": coalesce(\n          title[_key == $locale][0].value,\n          title[_key == \"en\"][0].value,\n          title[0].value\n        ),\n        slug\n      },\n      externalUrl,\n      openInNewTab\n    }\n  }": MENU_ITEMS_QUERYResult;
     "*[\n    _type == \"menu\"\n    && isActive == true\n  ] | order(sortOrder asc, title asc){\n    _id,\n    title,\n    identifier,\n    \"itemCount\": count(menuItems)\n  }": MENU_IDENTIFIERS_QUERYResult;
   }
 }
