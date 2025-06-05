@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import * as motion from 'motion/react-client'
 import { Gallery } from '@/components/product/gallery'
-import { getPersonalizedProduct, getProduct } from '@/lib/sfcc'
+import { getProduct } from '@/lib/sfcc'
 import { Suspense } from 'react'
 import { PageContainer } from '@/components/page-container'
 import { Box, Center, Divider, Flex, Stack, styled } from '@/styled-system/jsx'
@@ -92,8 +93,14 @@ export default async function ProductPage(props: PageProps) {
             pt={{ base: '12', md: '0' }}
             borderBottom="1px solid {colors.stone.400/50}"
           >
-            <Suspense>
-              <Gallery imageGroups={productImages} searchParams={props.searchParams} />
+            <Suspense fallback={<Gallery />}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Gallery imageGroups={productImages} searchParams={props.searchParams} />
+              </motion.div>
             </Suspense>
           </Box>
 
@@ -149,12 +156,18 @@ export default async function ProductPage(props: PageProps) {
 
                 <Flex alignItems="center" h="12px">
                   <Suspense>
-                    <ProductPrice
-                      price={product.price!}
-                      priceRanges={priceRanges}
-                      variants={product.variants}
-                      searchParams={props.searchParams}
-                    />
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <ProductPrice
+                        price={product.price!}
+                        priceRanges={priceRanges}
+                        variants={product.variants}
+                        searchParams={props.searchParams}
+                      />
+                    </motion.div>
                   </Suspense>
                 </Flex>
 
@@ -165,7 +178,7 @@ export default async function ProductPage(props: PageProps) {
 
               <Box h="8" />
 
-              <Suspense>
+              <Suspense fallback={<VariantSelector />}>
                 <VariantSelector
                   attributes={product.variationAttributes}
                   variants={product.variants}
