@@ -2,6 +2,7 @@ import { Hero } from '@/components/blocks/hero'
 import { Features } from '@/components/blocks/features'
 import { SplitImage } from '@/components/blocks/split-image'
 import { FAQs } from '@/components/blocks/faqs'
+import RichText from '@/components/blocks/rich-text'
 import { PAGE_QUERYResult } from '@/sanity/types'
 
 type PageBuilderProps = {
@@ -25,6 +26,8 @@ export function PageBuilder({ content }: PageBuilderProps) {
         switch (block._type) {
           case 'hero':
             return <Hero key={block._key} {...block} />
+          case 'richText':
+            return <RichText key={block._key} {...block} />
           case 'features':
             return <Features key={block._key} {...block} />
           case 'splitImage':

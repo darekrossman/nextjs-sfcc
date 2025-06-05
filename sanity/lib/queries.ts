@@ -64,6 +64,11 @@ export const HOMEPAGE_QUERY = defineQuery(
           crop
         }
       },
+      _type == "richText" => {
+        content,
+        alignment,
+        maxWidth
+      },
       _type == "splitImage" => {
         orientation,
         title,
@@ -185,6 +190,10 @@ export const PAGE_QUERY = defineQuery(
     _id,
     title,
     slug,
+    excerpt,
+    metaDescription,
+    noIndex,
+    includeInSitemap,
     content[]{
       _type,
       _key,
@@ -199,6 +208,11 @@ export const PAGE_QUERY = defineQuery(
           hotspot,
           crop
         }
+      },
+      _type == "richText" => {
+        content,
+        alignment,
+        maxWidth
       },
       _type == "splitImage" => {
         orientation,

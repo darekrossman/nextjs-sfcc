@@ -14,7 +14,7 @@ export default async function Footer({ locale }: { locale: string }) {
       <Flex
         gap={{ base: '8', md: '4' }}
         justify="space-between"
-        align="center"
+        align={{ base: 'flex-start', md: 'center' }}
         direction={{ base: 'column', md: 'row' }}
       >
         <Stack gap="2" order={{ base: 2, md: 1 }}>

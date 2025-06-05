@@ -1,10 +1,9 @@
-import { PortableText } from 'next-sanity'
 import Image from 'next/image'
 import { urlFor } from '@/sanity/lib/image'
 import { PAGE_QUERYResult } from '@/sanity/types'
-import { Box, Center, styled } from '@/styled-system/jsx'
+import { Box, Center, Flex, styled } from '@/styled-system/jsx'
 import { css } from '@/styled-system/css'
-import { filter } from 'motion/dist/react-client'
+import RichText from './rich-text'
 
 type HeroProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>['content']>[number],
@@ -14,15 +13,16 @@ type HeroProps = Extract<
 export function Hero({ title, text, image }: HeroProps) {
   return (
     <styled.section position="relative">
-      <Center
+      <Flex
         position="relative"
         overflow="hidden"
         bg="white"
         w="100vw"
-        h={{ base: '300px', md: '400px' }}
+        h={{ base: '176px', md: '300px' }}
         px={{ base: '4', md: '48px' }}
-        pt={{ base: '0', md: '138px' }}
-        alignItems={{ base: 'center', md: 'flex-end' }}
+        pt={{ base: '60px', md: '161px' }}
+        alignItems={{ base: 'flex-start', sm: 'center' }}
+        justifyContent="center"
         flexDirection="column"
       >
         <Box
@@ -50,39 +50,46 @@ export function Hero({ title, text, image }: HeroProps) {
           ) : null}
         </Box>
 
-        <styled.h1
+        <Flex
+          alignItems="center"
           position="relative"
-          fontFamily="major"
-          fontSize={{ base: '32px', sm: '40px', md: '50px' }}
-          lineHeight="1"
-          color="white"
-          bg="black"
-          p="2"
-          fontWeight="bold"
-          textAlign="center"
-          letterSpacing="-0.05em"
+          zIndex="2"
+          flex="1"
           mixBlendMode="multiply"
-          zIndex="2"
+          opacity="0.9"
         >
-          neXt.js <styled.span mx="-16px">+</styled.span> sAlesforCe
-        </styled.h1>
-        <styled.h2
-          position="relative"
-          fontFamily="major"
-          fontSize={{ base: '20px', md: '32px' }}
-          lineHeight="1"
-          color="black"
-          bg="white"
-          p="2"
-          fontWeight="bold"
-          textAlign="center"
-          letterSpacing="-0.05em"
-          mixBlendMode="lighten"
-          zIndex="2"
-        >
-          Built by Me for Vercel
-        </styled.h2>
-      </Center>
+          <styled.h1
+            position="relative"
+            fontSize={{ base: '32px', sm: '40px', md: '50px' }}
+            lineHeight="1"
+            color="black"
+            fontWeight="bold"
+            textAlign="left"
+            letterSpacing="-0.03em"
+            mixBlendMode="multiply"
+            zIndex="2"
+          >
+            {title}
+          </styled.h1>
+          {/* {text && (
+          <Box
+            position="relative"
+            fontSize={{ base: '20px', md: '32px' }}
+            lineHeight="1"
+            color="black"
+            bg="white"
+            p="2"
+            fontWeight="medium"
+            textAlign="right"
+            // letterSpacing="-0.05em"
+            // mixBlendMode="lighten"
+            zIndex="2"
+          >
+            <RichText content={text} />
+          </Box>
+        )} */}
+        </Flex>
+      </Flex>
     </styled.section>
   )
 }

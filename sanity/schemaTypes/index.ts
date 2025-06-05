@@ -10,6 +10,7 @@ import { faqType } from './faqType'
 import { faqsType } from './blocks/faqsType'
 import { featuresType } from './blocks/featuresType'
 import { heroType } from './blocks/heroType'
+import { richTextType } from './blocks/richTextType'
 import { splitImageType } from './blocks/splitImageType'
 import { siteSettingsType } from './siteSettingsType'
 
@@ -26,6 +27,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     faqsType,
     featuresType,
     heroType,
+    richTextType,
     splitImageType,
 
     // Reusable types

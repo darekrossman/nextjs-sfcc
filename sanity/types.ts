@@ -17,6 +17,8 @@ export type PageBuilder = Array<{
   _key: string;
 } & Hero | {
   _key: string;
+} & RichText | {
+  _key: string;
 } & SplitImage | {
   _key: string;
 } & Features | {
@@ -37,15 +39,45 @@ export type Faq = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
+      blank?: boolean;
       _type: "link";
+      _key: string;
+    } | {
+      reference?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "page";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "category";
+      };
+      _type: "internalLink";
       _key: string;
     }>;
     level?: number;
     _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    caption?: string;
+    size?: "small" | "medium" | "large" | "full";
+    _type: "image";
     _key: string;
   }>;
 };
@@ -57,15 +89,45 @@ export type BlockContent = Array<{
     _type: "span";
     _key: string;
   }>;
-  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
   listItem?: "bullet" | "number";
   markDefs?: Array<{
     href?: string;
+    blank?: boolean;
     _type: "link";
+    _key: string;
+  } | {
+    reference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "page";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "category";
+    };
+    _type: "internalLink";
     _key: string;
   }>;
   level?: number;
   _type: "block";
+  _key: string;
+} | {
+  asset?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+  };
+  media?: unknown;
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  alt?: string;
+  caption?: string;
+  size?: "small" | "medium" | "large" | "full";
+  _type: "image";
   _key: string;
 }>;
 
@@ -85,6 +147,13 @@ export type SplitImage = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+};
+
+export type RichText = {
+  _type: "richText";
+  content?: BlockContent;
+  alignment?: "left" | "center" | "right";
+  maxWidth?: "full" | "large" | "medium" | "small";
 };
 
 export type Hero = {
@@ -195,29 +264,6 @@ export type Menu = {
   sortOrder?: number;
 };
 
-export type Page = {
-  _id: string;
-  _type: "page";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  content?: PageBuilder;
-  mainImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-};
-
 export type Locale = {
   _id: string;
   _type: "locale";
@@ -262,6 +308,33 @@ export type Category = {
     _type: "image";
   };
   body?: BlockContent;
+};
+
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  content?: PageBuilder;
+  mainImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  metaDescription?: string;
+  noIndex?: boolean;
+  includeInSitemap?: boolean;
 };
 
 export type InternationalizedArrayStringValue = {
@@ -512,7 +585,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = PageBuilder | Faq | BlockContent | SplitImage | Hero | Features | Faqs | SiteSettings | Menu | Page | Locale | Category | InternationalizedArrayStringValue | InternationalizedArrayString | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = PageBuilder | Faq | BlockContent | SplitImage | RichText | Hero | Features | Faqs | SiteSettings | Menu | Locale | Category | Page | InternationalizedArrayStringValue | InternationalizedArrayString | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
@@ -543,7 +616,7 @@ export type SITE_SETTINGS_QUERYResult = {
 // Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].siteName
 export type SITE_NAME_QUERYResult = string | null;
 // Variable: HOMEPAGE_QUERY
-// Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].homePage->{    _id,    title,    slug,    content[]{      _type,      _key,      _type == "hero" => {        title,        text,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "splitImage" => {        orientation,        title,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "features" => {        title,        features[]{          _key,          title,          text        }      },      _type == "faqs" => {        title,        faqs[]->{          _id,          title,          body        }      }    },    mainImage{      asset->{        _id,        url      },      hotspot,      crop    }  }
+// Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].homePage->{    _id,    title,    slug,    content[]{      _type,      _key,      _type == "hero" => {        title,        text,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "richText" => {        content,        alignment,        maxWidth      },      _type == "splitImage" => {        orientation,        title,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "features" => {        title,        features[]{          _key,          title,          text        }      },      _type == "faqs" => {        title,        faqs[]->{          _id,          title,          body        }      }    },    mainImage{      asset->{        _id,        url      },      hotspot,      crop    }  }
 export type HOMEPAGE_QUERYResult = {
   _id: string;
   title: string | null;
@@ -562,15 +635,45 @@ export type HOMEPAGE_QUERYResult = {
           _type: "span";
           _key: string;
         }>;
-        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
         listItem?: "bullet" | "number";
         markDefs?: Array<{
+          reference?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "category";
+          } | {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "page";
+          };
+          _type: "internalLink";
+          _key: string;
+        } | {
           href?: string;
+          blank?: boolean;
           _type: "link";
           _key: string;
         }>;
         level?: number;
         _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        caption?: string;
+        size?: "full" | "large" | "medium" | "small";
+        _type: "image";
         _key: string;
       }> | null;
     }> | null;
@@ -596,6 +699,12 @@ export type HOMEPAGE_QUERYResult = {
       hotspot: SanityImageHotspot | null;
       crop: SanityImageCrop | null;
     } | null;
+  } | {
+    _type: "richText";
+    _key: string;
+    content: BlockContent | null;
+    alignment: "center" | "left" | "right" | null;
+    maxWidth: "full" | "large" | "medium" | "small" | null;
   } | {
     _type: "splitImage";
     _key: string;
@@ -626,7 +735,7 @@ export type SITE_NAVIGATION_QUERYResult = Array<{
   title: string | null;
   slug: Slug | null;
   status: null;
-  excerpt: null;
+  excerpt: string | null;
 }> | null;
 // Variable: SITE_FOOTER_NAVIGATION_QUERY
 // Query: *[    _type == "siteSettings"    && _id == "siteSettings"  ][0].footerNavigation[]->{    _id,    title,    slug,    status,    excerpt  }
@@ -635,7 +744,7 @@ export type SITE_FOOTER_NAVIGATION_QUERYResult = Array<{
   title: string | null;
   slug: Slug | null;
   status: null;
-  excerpt: null;
+  excerpt: string | null;
 }> | null;
 // Variable: CATEGORIES_QUERY
 // Query: *[_type == "category"]{     _id,     categoryId,     slug,     "title": coalesce(      title[_key == $locale][0].value,      title[_key == "en"][0].value,      title[0].value    )  }
@@ -664,11 +773,15 @@ export type CATEGORY_QUERYResult = {
   } | null;
 } | null;
 // Variable: PAGE_QUERY
-// Query: *[    _type == "page"    && slug.current == $slug  ][0]{    _id,    title,    slug,    content[]{      _type,      _key,      _type == "hero" => {        title,        text,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "splitImage" => {        orientation,        title,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "features" => {        title,        features[]{          _key,          title,          text        }      },      _type == "faqs" => {        title,        faqs[]->{          _id,          title,          body        }      }    },    mainImage{      asset->{        _id,        url      },      hotspot,      crop    }  }
+// Query: *[    _type == "page"    && slug.current == $slug  ][0]{    _id,    title,    slug,    excerpt,    metaDescription,    noIndex,    includeInSitemap,    content[]{      _type,      _key,      _type == "hero" => {        title,        text,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "richText" => {        content,        alignment,        maxWidth      },      _type == "splitImage" => {        orientation,        title,        image{          asset->{            _id,            url          },          hotspot,          crop        }      },      _type == "features" => {        title,        features[]{          _key,          title,          text        }      },      _type == "faqs" => {        title,        faqs[]->{          _id,          title,          body        }      }    },    mainImage{      asset->{        _id,        url      },      hotspot,      crop    }  }
 export type PAGE_QUERYResult = {
   _id: string;
   title: string | null;
   slug: Slug | null;
+  excerpt: string | null;
+  metaDescription: string | null;
+  noIndex: boolean | null;
+  includeInSitemap: boolean | null;
   content: Array<{
     _type: "faqs";
     _key: string;
@@ -683,15 +796,45 @@ export type PAGE_QUERYResult = {
           _type: "span";
           _key: string;
         }>;
-        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
         listItem?: "bullet" | "number";
         markDefs?: Array<{
+          reference?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "category";
+          } | {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "page";
+          };
+          _type: "internalLink";
+          _key: string;
+        } | {
           href?: string;
+          blank?: boolean;
           _type: "link";
           _key: string;
         }>;
         level?: number;
         _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        caption?: string;
+        size?: "full" | "large" | "medium" | "small";
+        _type: "image";
         _key: string;
       }> | null;
     }> | null;
@@ -717,6 +860,12 @@ export type PAGE_QUERYResult = {
       hotspot: SanityImageHotspot | null;
       crop: SanityImageCrop | null;
     } | null;
+  } | {
+    _type: "richText";
+    _key: string;
+    content: BlockContent | null;
+    alignment: "center" | "left" | "right" | null;
+    maxWidth: "full" | "large" | "medium" | "small" | null;
   } | {
     _type: "splitImage";
     _key: string;
@@ -841,12 +990,12 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0]{\n    _id,\n    siteName,\n    homePage->{\n      _id,\n      title,\n      slug,\n      status\n    },\n    navigation[]->{\n      _id,\n      title,\n      slug,\n      status\n    },\n    footerNavigation[]->{\n      _id,\n      title,\n      slug,\n      status\n    }\n  }": SITE_SETTINGS_QUERYResult;
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].siteName": SITE_NAME_QUERYResult;
-    "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].homePage->{\n    _id,\n    title,\n    slug,\n    content[]{\n      _type,\n      _key,\n      _type == \"hero\" => {\n        title,\n        text,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"splitImage\" => {\n        orientation,\n        title,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"features\" => {\n        title,\n        features[]{\n          _key,\n          title,\n          text\n        }\n      },\n      _type == \"faqs\" => {\n        title,\n        faqs[]->{\n          _id,\n          title,\n          body\n        }\n      }\n    },\n    mainImage{\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    }\n  }": HOMEPAGE_QUERYResult;
+    "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].homePage->{\n    _id,\n    title,\n    slug,\n    content[]{\n      _type,\n      _key,\n      _type == \"hero\" => {\n        title,\n        text,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"richText\" => {\n        content,\n        alignment,\n        maxWidth\n      },\n      _type == \"splitImage\" => {\n        orientation,\n        title,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"features\" => {\n        title,\n        features[]{\n          _key,\n          title,\n          text\n        }\n      },\n      _type == \"faqs\" => {\n        title,\n        faqs[]->{\n          _id,\n          title,\n          body\n        }\n      }\n    },\n    mainImage{\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    }\n  }": HOMEPAGE_QUERYResult;
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].navigation[]->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt\n  }": SITE_NAVIGATION_QUERYResult;
     "*[\n    _type == \"siteSettings\"\n    && _id == \"siteSettings\"\n  ][0].footerNavigation[]->{\n    _id,\n    title,\n    slug,\n    status,\n    excerpt\n  }": SITE_FOOTER_NAVIGATION_QUERYResult;
     "*[_type == \"category\"]{ \n    _id, \n    categoryId, \n    slug, \n    \"title\": coalesce(\n      title[_key == $locale][0].value,\n      title[_key == \"en\"][0].value,\n      title[0].value\n    )\n  }": CATEGORIES_QUERYResult;
     "*[\n    _type == \"category\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    categoryId,\n    slug,\n    \"title\": coalesce(\n      title[_key == $locale][0].value,\n      title[_key == \"en\"][0].value,\n      title[0].value\n    ),\n    body,\n    bannerImage{\n      asset->{\n        _id,\n        url\n      },\n      \"alt\": coalesce(\n        alt[_key == $locale][0].value,\n        alt[_key == \"en\"][0].value,\n        alt[0].value\n      ),\n      hotspot,\n      crop\n    }\n  }": CATEGORY_QUERYResult;
-    "*[\n    _type == \"page\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    title,\n    slug,\n    content[]{\n      _type,\n      _key,\n      _type == \"hero\" => {\n        title,\n        text,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"splitImage\" => {\n        orientation,\n        title,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"features\" => {\n        title,\n        features[]{\n          _key,\n          title,\n          text\n        }\n      },\n      _type == \"faqs\" => {\n        title,\n        faqs[]->{\n          _id,\n          title,\n          body\n        }\n      }\n    },\n    mainImage{\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    }\n  }": PAGE_QUERYResult;
+    "*[\n    _type == \"page\"\n    && slug.current == $slug\n  ][0]{\n    _id,\n    title,\n    slug,\n    excerpt,\n    metaDescription,\n    noIndex,\n    includeInSitemap,\n    content[]{\n      _type,\n      _key,\n      _type == \"hero\" => {\n        title,\n        text,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"richText\" => {\n        content,\n        alignment,\n        maxWidth\n      },\n      _type == \"splitImage\" => {\n        orientation,\n        title,\n        image{\n          asset->{\n            _id,\n            url\n          },\n          hotspot,\n          crop\n        }\n      },\n      _type == \"features\" => {\n        title,\n        features[]{\n          _key,\n          title,\n          text\n        }\n      },\n      _type == \"faqs\" => {\n        title,\n        faqs[]->{\n          _id,\n          title,\n          body\n        }\n      }\n    },\n    mainImage{\n      asset->{\n        _id,\n        url\n      },\n      hotspot,\n      crop\n    }\n  }": PAGE_QUERYResult;
     "*[\n    _type == \"menu\"\n    && identifier.current == $identifier\n    && isActive == true\n  ][0]{\n    _id,\n    title,\n    identifier,\n    isActive,\n    sortOrder,\n    menuItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        title,\n        slug\n      },\n      externalUrl,\n      openInNewTab,\n      subItems[]{\n        _key,\n        label,\n        page->{\n          _id,\n          title,\n          slug\n        },\n        externalUrl,\n        openInNewTab\n      }\n    }\n  }": MENU_QUERYResult;
     "*[\n    _type == \"menu\"\n    && isActive == true\n  ] | order(sortOrder asc, title asc){\n    _id,\n    title,\n    identifier,\n    isActive,\n    sortOrder,\n    menuItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        title,\n        slug\n      },\n      externalUrl,\n      openInNewTab,\n      subItems[]{\n        _key,\n        label,\n        page->{\n          _id,\n          title,\n          slug\n        },\n        externalUrl,\n        openInNewTab\n      }\n    }\n  }": ALL_MENUS_QUERYResult;
     "*[\n    _type == \"menu\"\n    && identifier.current == $identifier\n    && isActive == true\n  ][0].menuItems[]{\n    _key,\n    label,\n    page->{\n      _id,\n      title,\n      slug\n    },\n    externalUrl,\n    openInNewTab,\n    subItems[]{\n      _key,\n      label,\n      page->{\n        _id,\n        title,\n        slug\n      },\n      externalUrl,\n      openInNewTab\n    }\n  }": MENU_ITEMS_QUERYResult;
