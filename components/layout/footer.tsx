@@ -1,76 +1,47 @@
-import Link from 'next/link'
+import { Box, Flex, HStack, Stack, styled } from '@/styled-system/jsx'
+import { sanityFetch } from '@/sanity/lib/live'
+import { MENU_QUERY } from '@/sanity/lib/queries'
+import { Link } from '@/ui/core'
 
-import FooterMenu from 'components/layout/footer-menu'
-import LogoSquare from 'components/logo-square'
-import { getFooterMenu } from 'lib/sfcc/content'
-import { Suspense } from 'react'
-
-const { COMPANY_NAME, SITE_NAME } = process.env
-
-export default async function Footer() {
-  const currentYear = new Date().getFullYear()
-  const copyrightDate = 2023 + (currentYear > 2023 ? `-${currentYear}` : '')
-  const skeleton =
-    'w-full h-6 animate-pulse rounded-sm bg-neutral-200 dark:bg-neutral-700'
-  const menu = await getFooterMenu()
-  const copyrightName = COMPANY_NAME || SITE_NAME || ''
+export default async function Footer({ locale }: { locale: string }) {
+  const { data: menu } = await sanityFetch({
+    query: MENU_QUERY,
+    params: { identifier: 'footer-menu', locale },
+  })
 
   return (
-    <footer className="text-sm text-neutral-500 dark:text-neutral-400">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 border-t border-neutral-200 px-6 py-12 text-sm md:flex-row md:gap-12 md:px-4 min-[1320px]:px-0 dark:border-neutral-700">
-        <div>
-          <Link
-            className="flex items-center gap-2 text-black md:pt-1 dark:text-white"
-            href="/"
-          >
-            <LogoSquare size="sm" />
-            <span className="uppercase">{SITE_NAME}</span>
-          </Link>
-        </div>
-        <Suspense
-          fallback={
-            <div className="flex h-[188px] w-[200px] flex-col gap-2">
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-            </div>
-          }
+    <Box borderTop="1px solid" borderColor="stone.400/50" py="6" px="6">
+      <Flex
+        gap={{ base: '8', md: '4' }}
+        justify="space-between"
+        align="center"
+        direction={{ base: 'column', md: 'row' }}
+      >
+        <Stack gap="2" order={{ base: 2, md: 1 }}>
+          <styled.p fontSize="xs" color="gray.700">
+            &copy; 2025 Darek Rossman, Future PSE
+          </styled.p>
+          <styled.p fontSize="xs" color="gray.500">
+            <styled.a href="https://vercel.com">Created for ▲ Vercel</styled.a>
+          </styled.p>
+        </Stack>
+
+        <Flex
+          gap="4"
+          direction={{ base: 'column', md: 'row' }}
+          order={{ base: 1, md: 2 }}
         >
-          <FooterMenu menu={menu} />
-        </Suspense>
-        <div className="md:ml-auto">
-          <a
-            className="flex h-8 w-max flex-none items-center justify-center rounded-md border border-neutral-200 bg-white text-xs text-black dark:border-neutral-700 dark:bg-black dark:text-white"
-            aria-label="Deploy on Vercel"
-            href="https://vercel.com/templates/next.js/nextjs-commerce"
-          >
-            <span className="px-3">▲</span>
-            <hr className="h-full border-r border-neutral-200 dark:border-neutral-700" />
-            <span className="px-3">Deploy</span>
-          </a>
-        </div>
-      </div>
-      <div className="border-t border-neutral-200 py-6 text-sm dark:border-neutral-700">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-1 px-4 md:flex-row md:gap-0 md:px-4 min-[1320px]:px-0">
-          <p>
-            &copy; {copyrightDate} {copyrightName}
-            {copyrightName.length && !copyrightName.endsWith('.') ? '.' : ''} All rights
-            reserved.
-          </p>
-          <hr className="mx-4 hidden h-4 w-[1px] border-l border-neutral-400 md:inline-block" />
-          <p>
-            <a href="https://github.com/vercel/commerce">View the source</a>
-          </p>
-          <p className="md:ml-auto">
-            <a href="https://vercel.com" className="text-black dark:text-white">
-              Created by ▲ Vercel
-            </a>
-          </p>
-        </div>
-      </div>
-    </footer>
+          {menu?.menuItems?.map((item) => (
+            <Link
+              key={item._key}
+              href={`/${item.page?.slug?.current ?? '/'}`}
+              fontSize="xs"
+            >
+              {item.page?.title}
+            </Link>
+          ))}
+        </Flex>
+      </Flex>
+    </Box>
   )
 }

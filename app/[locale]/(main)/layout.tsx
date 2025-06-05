@@ -6,6 +6,7 @@ import { PropsWithChildren, Suspense } from 'react'
 import { DisableDraftMode } from '@/components/disable-draft-mode'
 import { VisualEditing } from 'next-sanity'
 import { draftMode } from 'next/headers'
+import Footer from '@/components/layout/footer'
 
 export default async function Layout({
   params,
@@ -28,6 +29,10 @@ export default async function Layout({
       <styled.main display="flex" flexDir="column" flex="1">
         {children}
       </styled.main>
+
+      <footer>
+        <Footer locale={locale} />
+      </footer>
 
       <SanityLive />
 

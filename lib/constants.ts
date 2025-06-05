@@ -8,9 +8,6 @@ export const TAGS = {
   productRecommendations: 'product-recommendations',
 }
 
-export const HIDDEN_PRODUCT_TAG = 'nextjs-frontend-hidden'
-export const DEFAULT_OPTION = 'Default Title'
-
 export const REFINEMENT_COLORS = {
   black: {
     label: 'Black',
