@@ -21,11 +21,11 @@ export function PageBuilder({ content }: PageBuilderProps) {
   }
 
   return (
-    <main>
+    <>
       {content.map((block) => {
         switch (block._type) {
-          case 'hero':
-            return <Hero key={block._key} {...block} />
+          // case 'hero':
+          //   return <Hero key={block._key} {...block} />
           case 'richText':
             return <RichText key={block._key} {...block} />
           case 'features':
@@ -35,13 +35,9 @@ export function PageBuilder({ content }: PageBuilderProps) {
           case 'faqs':
             return <FAQs key={block._key} {...block} />
           default:
-            // This is a fallback for when we don't have a block type
-            const unknownBlock = block as BaseBlock
-            return (
-              <div key={unknownBlock._key}>Block not found: {unknownBlock._type}</div>
-            )
+            null
         }
       })}
-    </main>
+    </>
   )
 }

@@ -50,6 +50,6 @@ export const config = {
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      * - studio (Sanity Studio)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|studio).*)',
+    '/((?!api|_next/static|_next/image|public/|.*\\..*|favicon.ico|sitemap.xml|robots.txt|studio).*)',
   ],
 }

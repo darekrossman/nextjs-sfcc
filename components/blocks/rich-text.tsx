@@ -1,6 +1,7 @@
 import { PAGE_QUERYResult } from '@/sanity/types'
 import { PortableText } from '@portabletext/react'
 import { css } from '@/styled-system/css'
+import { Stack, styled } from '@/styled-system/jsx'
 
 type RichTextBlockProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>['content']>[number],
@@ -105,7 +106,6 @@ const portableTextComponents = {
         className={css({
           fontSize: '3xl',
           fontWeight: 'bold',
-          marginBottom: '1rem',
           lineHeight: 'tight',
         })}
       >
@@ -117,9 +117,8 @@ const portableTextComponents = {
         className={css({
           fontSize: '2xl',
           fontWeight: 'bold',
-          marginBottom: '1rem',
-          marginTop: '2rem',
           lineHeight: 'tight',
+          mt: '6',
         })}
       >
         {children}
@@ -130,8 +129,6 @@ const portableTextComponents = {
         className={css({
           fontSize: 'xl',
           fontWeight: 'bold',
-          marginBottom: '0.75rem',
-          marginTop: '1.5rem',
           lineHeight: 'tight',
         })}
       >
@@ -143,8 +140,6 @@ const portableTextComponents = {
         className={css({
           fontSize: 'lg',
           fontWeight: 'bold',
-          marginBottom: '0.5rem',
-          marginTop: '1rem',
           lineHeight: 'tight',
         })}
       >
@@ -156,8 +151,6 @@ const portableTextComponents = {
         className={css({
           fontSize: 'md',
           fontWeight: 'bold',
-          marginBottom: '0.5rem',
-          marginTop: '1rem',
           lineHeight: 'tight',
         })}
       >
@@ -169,8 +162,6 @@ const portableTextComponents = {
         className={css({
           fontSize: 'sm',
           fontWeight: 'bold',
-          marginBottom: '0.5rem',
-          marginTop: '1rem',
           lineHeight: 'tight',
           textTransform: 'uppercase',
           letterSpacing: 'wide',
@@ -185,7 +176,6 @@ const portableTextComponents = {
           borderLeft: '4px solid',
           borderLeftColor: 'gray.300',
           paddingLeft: '1rem',
-          marginY: '1.5rem',
           fontStyle: 'italic',
           fontSize: 'lg',
         })}
@@ -196,7 +186,6 @@ const portableTextComponents = {
     normal: ({ children }: any) => (
       <p
         className={css({
-          marginBottom: '1rem',
           lineHeight: 'relaxed',
         })}
       >
@@ -210,8 +199,10 @@ const portableTextComponents = {
         className={css({
           listStyleType: 'disc',
           paddingLeft: '1.5rem',
-          marginBottom: '1rem',
-          '& li': { marginBottom: '0.25rem' },
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '3',
+          '& li': {},
         })}
       >
         {children}
@@ -222,8 +213,10 @@ const portableTextComponents = {
         className={css({
           listStyleType: 'decimal',
           paddingLeft: '1.5rem',
-          marginBottom: '1rem',
-          '& li': { marginBottom: '0.25rem' },
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '3',
+          '& li': {},
         })}
       >
         {children}
@@ -249,15 +242,8 @@ export default function RichText(props: RichTextBlockProps) {
   const maxWidthClass = maxWidthStyles[maxWidth || 'full'] || maxWidthStyles.full
 
   return (
-    <div
-      className={`${alignmentClass} ${maxWidthClass} ${css({
-        paddingY: '2rem',
-        paddingX: '1rem',
-        '& > :first-child': { marginTop: 0 },
-        '& > :last-child': { marginBottom: 0 },
-      })}`}
-    >
+    <Stack gap="6">
       <PortableText value={content} components={portableTextComponents} />
-    </div>
+    </Stack>
   )
 }

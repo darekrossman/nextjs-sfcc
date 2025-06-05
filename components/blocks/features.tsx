@@ -1,4 +1,5 @@
 import { PAGE_QUERYResult } from '@/sanity/types'
+import { Grid, Stack, styled } from '@/styled-system/jsx'
 
 type FeaturesProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>['content']>[number],
@@ -7,23 +8,32 @@ type FeaturesProps = Extract<
 
 export function Features({ features, title }: FeaturesProps) {
   return (
-    <section className="container mx-auto flex flex-col gap-8 py-16">
-      {title ? (
-        <h2 className="text-xl mx-auto md:text-2xl lg:text-5xl font-semibold text-slate-800 text-pretty max-w-3xl">
+    <Stack gap="7">
+      {title && (
+        <styled.h2 fontSize="2xl" fontWeight="semibold">
           {title}
-        </h2>
-      ) : null}
+        </styled.h2>
+      )}
 
       {Array.isArray(features) ? (
-        <div className="grid grid-cols-3 gap-8">
+        <Grid
+          gridTemplateColumns={{
+            base: '1fr',
+            sm: 'repeat(2, 1fr)',
+            md: 'repeat(3, 1fr)',
+          }}
+          gap="8"
+        >
           {features.map((feature) => (
-            <div key={feature._key} className="flex flex-col gap-4">
-              <h3 className="text-xl font-semibold text-slate-800">{feature.title}</h3>
-              <p className="text-lg text-slate-600">{feature.text}</p>
-            </div>
+            <Stack key={feature._key} gap="4">
+              <styled.h3 fontSize="lg" fontWeight="semibold">
+                {feature.title}
+              </styled.h3>
+              <styled.p fontSize="sm">{feature.text}</styled.p>
+            </Stack>
           ))}
-        </div>
+        </Grid>
       ) : null}
-    </section>
+    </Stack>
   )
 }

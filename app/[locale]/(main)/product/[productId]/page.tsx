@@ -231,7 +231,19 @@ export default async function ProductPage(props: PageProps) {
           </Center>
         </Stack>
 
-        <Box h="400px" />
+        <PageContainer
+          maxW={{ base: '768px' }}
+          w="full"
+          mx="auto"
+          px={{ base: '6', md: '6' }}
+          py="12"
+          bg="stone.400"
+        >
+          <Stack minH="400px">
+            <styled.h2>Product Details</styled.h2>
+            <Box>{product.longDescription}</Box>
+          </Stack>
+        </PageContainer>
       </ProductProvider>
     </PageContainer>
   )

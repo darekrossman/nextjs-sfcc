@@ -18,7 +18,7 @@ export const globalCss = defineGlobalStyles({
   '*:not(#sanity *)': {
     textBoxEdge: 'cap alphabetic',
     textBoxTrim: 'trim-both',
-    textWrap: 'balance',
+    textWrap: 'pretty',
   },
   button: {
     cursor: 'pointer',

@@ -1,7 +1,9 @@
+import { Hero } from '@/components/blocks/hero'
 import { PageBuilder } from '@/components/page-builder'
 import { PageContainer } from '@/components/page-container'
 import { sanityFetch } from '@/sanity/lib/live'
 import { PAGE_QUERY } from '@/sanity/lib/queries'
+import { Container, Stack } from '@/styled-system/jsx'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
@@ -72,9 +74,21 @@ export default async function Page({
     return notFound()
   }
 
+  const hero = page?.content?.find((block) => {
+    return block._type === 'hero'
+  })
+
   return (
     <PageContainer>
-      {page?.content ? <PageBuilder content={page.content} /> : null}
+      {hero && <Hero key={hero._key} {...hero} />}
+
+      {page.content && (
+        <Container maxWidth="3xl" py="12">
+          <Stack gap="16">
+            <PageBuilder content={page.content} />
+          </Stack>
+        </Container>
+      )}
     </PageContainer>
   )
 }

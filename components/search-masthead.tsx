@@ -1,12 +1,63 @@
-import { HStack, Stack, Box, Flex, styled } from '@/styled-system/jsx'
-import { ReactNode } from 'react'
+'use client'
 
-export function SearchMasthead({ heading }: { heading?: ReactNode }) {
+import { ProductSearchResult } from '@/lib/sfcc/types'
+import { HStack, Stack, Box, Flex, styled } from '@/styled-system/jsx'
+import { ReactNode, use } from 'react'
+import { useSearchState } from './search-context'
+import { FadeImage } from './fade-image'
+import Image from 'next/image'
+import { CATEGORY_QUERYResult } from '@/sanity/types'
+import { urlFor } from '@/sanity/lib/image'
+import { css } from '@/styled-system/css'
+
+export function SearchMasthead({
+  heading,
+  backgroundImage,
+  searchResultsPromise,
+}: {
+  heading?: ReactNode
+  backgroundImage?: NonNullable<CATEGORY_QUERYResult>['bannerImage']
+  searchResultsPromise: Promise<ProductSearchResult | undefined>
+}) {
+  const searchResults = use(searchResultsPromise)
+  const { isPending } = useSearchState()
+
   return (
-    <Box position="sticky" top="0">
+    <Box position="sticky" top="0" bg="var(--bg)">
+      <Box position="absolute" inset="0" zIndex="0" mixBlendMode="multiply" opacity="0.5">
+        {backgroundImage && (
+          <Image
+            src={urlFor(backgroundImage)
+              .width(1408)
+              .height(167)
+
+              .url()}
+            width={1408}
+            height={167}
+            alt={backgroundImage.alt ?? ''}
+            className={css({
+              w: 'auto',
+              h: 'full',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              filter: 'grayscale(100%)',
+            })}
+          />
+        )}
+      </Box>
+      <Box
+        position="absolute"
+        inset="0"
+        zIndex="1"
+        bg={{
+          base: 'linear-gradient(333deg, transparent 0%, var(--bg) 50%)',
+          md: 'linear-gradient(333deg, transparent 0%, var(--bg) 60%)',
+        }}
+      />
+
       <Flex
         alignItems="center"
-        h={{ base: 'auto', md: '168px' }}
+        h={{ base: 'auto', md: '167px' }}
         pt={{ base: '60px', md: '6' }}
         pl={{ md: '88px' }}
         zIndex="1"
@@ -36,7 +87,7 @@ export function SearchMasthead({ heading }: { heading?: ReactNode }) {
                   fontSize="xs"
                   fontWeight="bold"
                   textTransform="uppercase"
-                  color="neutral.500"
+                  color="stone.500/70"
                 >
                   results:
                 </styled.p>
@@ -44,9 +95,9 @@ export function SearchMasthead({ heading }: { heading?: ReactNode }) {
                   fontFamily="mono"
                   fontSize="xs"
                   fontWeight="bold"
-                  color="gray.200"
+                  color="stone.700"
                 >
-                  11
+                  {isPending ? '...' : searchResults?.total}
                 </styled.p>
               </HStack>
 
@@ -56,18 +107,17 @@ export function SearchMasthead({ heading }: { heading?: ReactNode }) {
                   fontSize="xs"
                   fontWeight="bold"
                   textTransform="uppercase"
-                  color="neutral.500"
+                  color="stone.500/70"
                 >
                   filters:
                 </styled.p>
                 <styled.p
                   fontFamily="mono"
                   fontSize="xs"
-                  fontWeight="medium"
-                  color="neutral.500"
-                  opacity="0.5"
+                  fontWeight="bold"
+                  color="stone.700"
                 >
-                  none applied
+                  {isPending ? '...' : 'none'}
                 </styled.p>
               </HStack>
             </Stack>

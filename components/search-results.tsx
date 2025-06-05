@@ -46,23 +46,25 @@ export default async function SearchResults({
 
   return (
     <PageContainer>
-      <SearchMasthead
-        heading={
-          category?.title || (
-            <HStack gap="1">
-              Search:{' '}
-              <styled.div fontStyle="medium" fontFamily="mono">
-                <styled.span opacity="0.5">{'{'}</styled.span>
-                {searchParams.q}
-                <styled.span opacity="0.5">{'}'}</styled.span>
-              </styled.div>
-            </HStack>
-          )
-        }
-      />
+      <SearchProvider>
+        <SearchMasthead
+          heading={
+            category?.title || (
+              <HStack gap="1">
+                Search:{' '}
+                <styled.div fontStyle="medium" fontFamily="mono">
+                  <styled.span opacity="0.5">{'{'}</styled.span>
+                  {searchParams.q}
+                  <styled.span opacity="0.5">{'}'}</styled.span>
+                </styled.div>
+              </HStack>
+            )
+          }
+          searchResultsPromise={searchResultsPromise}
+          backgroundImage={category?.bannerImage}
+        />
 
-      <PageContainer position="relative" bg="var(--bg)">
-        <SearchProvider>
+        <PageContainer position="relative" bg="var(--bg)">
           <Box position="sticky" top="0" w="full" zIndex="popover">
             <Suspense fallback={<SearchLoader />}>
               <SearchLoader searchResultsPromise={searchResultsPromise} />
@@ -103,8 +105,8 @@ export default async function SearchResults({
               </Box>
             </Box>
           </Grid>
-        </SearchProvider>
-      </PageContainer>
+        </PageContainer>
+      </SearchProvider>
     </PageContainer>
   )
 }
