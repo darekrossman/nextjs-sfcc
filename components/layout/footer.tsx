@@ -54,6 +54,22 @@ export default async function Footer({ locale }: { locale: string }) {
         >
           {menu?.menuItems?.map((item) => {
             const menuItem = item as MenuItemWithReference
+
+            if (menuItem.externalUrl) {
+              return (
+                <Link
+                  prefetch={false}
+                  target="_self"
+                  key={menuItem._key}
+                  href={menuItem.externalUrl}
+                  fontSize="xs"
+                  color="green.800"
+                >
+                  {menuItem.label}
+                </Link>
+              )
+            }
+
             if (!menuItem?.page?.slug?.current) return null
 
             const href =
