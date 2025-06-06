@@ -77,7 +77,7 @@ export default function Slide4() {
               <styled.li>Global caching</styled.li>
               <styled.li>Fluid compute</styled.li>
               <styled.li>Edge middleware</styled.li>
-              <styled.li>Observability</styled.li>
+              <styled.li>Blob storage</styled.li>
             </styled.ul>
           </Stack>
         </GridItem>
