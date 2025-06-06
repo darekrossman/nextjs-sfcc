@@ -87,7 +87,22 @@ export const HOMEPAGE_QUERY = defineQuery(
       },
       _type == "splitImage" => {
         orientation,
-        title,
+        "title": coalesce(
+          title[_key == $locale][0].value,
+          title[_key == "en"][0].value,
+          title[0].value
+        ),
+        "content": coalesce(
+          content[_key == $locale][0].value,
+          content[_key == "en"][0].value,
+          content[0].value
+        ),
+        "ctaLabel": coalesce(
+          ctaLabel[_key == $locale][0].value,
+          ctaLabel[_key == "en"][0].value,
+          ctaLabel[0].value
+        ),
+        ctaUrl,
         image{
           asset->{
             _id,
@@ -246,7 +261,22 @@ export const PAGE_QUERY = defineQuery(
       },
       _type == "splitImage" => {
         orientation,
-        title,
+        "title": coalesce(
+          title[_key == $locale][0].value,
+          title[_key == "en"][0].value,
+          title[0].value
+        ),
+        "content": coalesce(
+          content[_key == $locale][0].value,
+          content[_key == "en"][0].value,
+          content[0].value
+        ),
+        "ctaLabel": coalesce(
+          ctaLabel[_key == $locale][0].value,
+          ctaLabel[_key == "en"][0].value,
+          ctaLabel[0].value
+        ),
+        ctaUrl,
         image{
           asset->{
             _id,

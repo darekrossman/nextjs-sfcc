@@ -77,9 +77,24 @@ export const siteSettingsType = defineType({
       homePageTitle: 'homePage.title',
     },
     prepare({ title, homePageTitle }) {
+      // Handle internationalized home page title properly
+      let displayHomeTitle = 'No home page set'
+      if (homePageTitle) {
+        if (Array.isArray(homePageTitle)) {
+          // Extract title from internationalized array
+          const englishTitle = homePageTitle.find(
+            (item: any) => item._key === 'en',
+          )?.value
+          const fallbackTitle = homePageTitle[0]?.value
+          displayHomeTitle = englishTitle || fallbackTitle || 'No home page set'
+        } else {
+          displayHomeTitle = homePageTitle
+        }
+      }
+
       return {
         title: title || 'Site Settings',
-        subtitle: homePageTitle ? `Home: ${homePageTitle}` : 'No home page set',
+        subtitle: `Home: ${displayHomeTitle}`,
         media: CogIcon,
       }
     },

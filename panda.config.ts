@@ -18,7 +18,13 @@ export default defineConfig({
 
   // Useful for theme customization
   theme: {
-    extend: {},
+    extend: {
+      containerSizes: {
+        xs: '100px',
+        sm: '200px',
+        md: '600px',
+      },
+    },
   },
 
   jsxFramework: 'react',

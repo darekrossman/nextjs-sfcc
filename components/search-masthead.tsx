@@ -25,8 +25,6 @@ export function SearchMasthead({
   const searchResults = use(searchResultsPromise)
   const { isPending } = useSearchState()
 
-  console.log(searchResults)
-
   return (
     <Box position="sticky" top="0" bg="var(--bg)">
       {/* <Box position="absolute" inset="0" zIndex="0" mixBlendMode="multiply" opacity="0.5">
@@ -110,9 +108,7 @@ export function SearchMasthead({
                   fontWeight="bold"
                   color="stone.700"
                 >
-                  <FadeText isPending={isPending} pendingText="#">
-                    {searchResults?.total}
-                  </FadeText>
+                  {isPending ? '#' : searchResults?.total}
                 </styled.p>
 
                 <styled.p
@@ -130,10 +126,10 @@ export function SearchMasthead({
                   fontWeight="bold"
                   color="stone.700"
                 >
-                  <FadeText isPending={isPending} pendingText="#">
-                    {searchResults?.selectedRefinements?.c_refinementColor?.split('|')
-                      .length ?? 0}
-                  </FadeText>
+                  {isPending
+                    ? '#'
+                    : (searchResults?.selectedRefinements?.c_refinementColor?.split('|')
+                        .length ?? 0)}
                 </styled.p>
               </Grid>
 

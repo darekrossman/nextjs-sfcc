@@ -953,6 +953,72 @@
         "title": {
           "type": "objectAttribute",
           "value": {
+            "type": "array",
+            "of": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "rest": {
+                "type": "inline",
+                "name": "internationalizedArrayStringValue"
+              }
+            }
+          },
+          "optional": true
+        },
+        "content": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "array",
+            "of": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "rest": {
+                "type": "inline",
+                "name": "internationalizedArrayStringValue"
+              }
+            }
+          },
+          "optional": true
+        },
+        "ctaLabel": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "array",
+            "of": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "rest": {
+                "type": "inline",
+                "name": "internationalizedArrayStringValue"
+              }
+            }
+          },
+          "optional": true
+        },
+        "ctaUrl": {
+          "type": "objectAttribute",
+          "value": {
             "type": "string"
           },
           "optional": true
