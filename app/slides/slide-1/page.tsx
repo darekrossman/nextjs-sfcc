@@ -1,8 +1,7 @@
-import { css } from '@/styled-system/css'
-import { Box, HStack, Stack, styled } from '@/styled-system/jsx'
+import { HStack, styled } from '@/styled-system/jsx'
 import { stack } from '@/styled-system/patterns'
 
-export default function Slide2() {
+export default function Slide1() {
   return (
     <HStack alignItems="flex-start" textAlign="left" w="full" p="72px">
       <styled.h1

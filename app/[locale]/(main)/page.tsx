@@ -114,11 +114,7 @@ export default async function HomePage({
           gap={{ base: '6', md: '1px' }}
         >
           {featuredProducts?.map((block, i) => (
-            <GridItem
-              key={block._key}
-              className={cq()}
-              colSpan={{ base: 1, md: i === 0 ? 2 : 1 }}
-            >
+            <GridItem key={block._key} colSpan={{ base: 1, md: i === 0 ? 2 : 1 }}>
               <Flex
                 key={block._key}
                 flexDirection={{ base: 'column', md: i === 0 ? 'row' : 'column' }}

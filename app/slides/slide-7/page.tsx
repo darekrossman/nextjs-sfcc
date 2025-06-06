@@ -2,7 +2,7 @@ import LogoIcon from '@/components/icons/logo-animated'
 import { Box, Divider, HStack, Stack, styled } from '@/styled-system/jsx'
 import Link from 'next/link'
 
-export default function Slide6() {
+export default function Slide7() {
   return (
     <Stack alignItems="center" textAlign="center" w="full" p="72px">
       <Link href="/en">
@@ -20,7 +20,7 @@ export default function Slide6() {
         lineHeight="1.1"
         textWrap="balance"
       >
-        the demo
+        the wrap
       </styled.h1>
     </Stack>
   )
