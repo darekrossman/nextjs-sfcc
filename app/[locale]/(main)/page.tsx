@@ -34,8 +34,6 @@ export default async function HomePage({
   const image = page?.content?.find((block) => block._type === 'hero')?.image
   const featuredProducts = page?.content?.filter((block) => block._type === 'splitImage')
 
-  console.log(featuredProducts)
-
   return (
     <PageContainer>
       <styled.section position="relative">
@@ -123,7 +121,7 @@ export default async function HomePage({
             >
               <Flex
                 key={block._key}
-                flexDirection={{ base: 'column', '@/md': 'row' }}
+                flexDirection={{ base: 'column', md: i === 0 ? 'row' : 'column' }}
                 flex="1"
                 h="full"
                 bg="stone.400/30"
@@ -151,7 +149,7 @@ export default async function HomePage({
                 <Stack
                   flex="1 1 50%"
                   alignItems="flex-start"
-                  justifyContent={{ base: 'flex-start', '@/md': 'center' }}
+                  justifyContent={{ base: 'flex-start', md: 'center' }}
                   px={{ base: '6', md: '12' }}
                   py={{ base: '8', md: '12' }}
                   gap={{ base: '5', md: '6' }}
@@ -168,13 +166,13 @@ export default async function HomePage({
                   <styled.p
                     fontSize={{ base: 'sm', md: 'md' }}
                     lineHeight="1.5"
-                    maxW={{ base: 'full', '@/md': '400px' }}
+                    maxW={{ base: 'full', md: '400px' }}
                     textWrap="pretty"
                   >
                     {block.content}
                   </styled.p>
 
-                  <Box flex={{ base: '1', '@/md': '0' }} />
+                  <Box flex={{ base: '1', md: i === 0 ? '0' : '1' }} />
 
                   {block.ctaLabel && block.ctaUrl ? (
                     <Link
