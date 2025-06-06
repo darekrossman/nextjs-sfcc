@@ -12,7 +12,7 @@ export default function Slide2() {
         lineHeight="1.1"
         textWrap="balance"
       >
-        the plan
+        the goods
       </styled.h1>
 
       <styled.ul
@@ -22,11 +22,11 @@ export default function Slide2() {
         fontSize="3xl"
         className={stack({ gap: '7' })}
       >
-        <styled.li>About me</styled.li>
-        <styled.li>Project motivation</styled.li>
-        <styled.li>Technical overview</styled.li>
-        <styled.li>Live demonstration</styled.li>
-        <styled.li>Q&A</styled.li>
+        <styled.li>Personalization</styled.li>
+        <styled.li>i18n & l10n</styled.li>
+        <styled.li>Dynamic UX, static speed</styled.li>
+        <styled.li>Proper optimistic state</styled.li>
+        <styled.li>Self-hosted CMS</styled.li>
       </styled.ul>
     </HStack>
   )

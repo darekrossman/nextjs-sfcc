@@ -1,6 +1,5 @@
 import { SITE_NAME } from '@/lib/constants'
 import { HTMLStyledProps, styled } from '@/styled-system/jsx'
-import clsx from 'clsx'
 
 export default function LogoIcon(props: HTMLStyledProps<'svg'>) {
   return (

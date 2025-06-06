@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { css } from '@/styled-system/css'
+import Image from 'next/image'
+import { Box, Center, Divider } from '@/styled-system/jsx'
 
 interface SlideLayoutProps {
   children: React.ReactNode
@@ -11,7 +13,7 @@ interface SlideLayoutProps {
 const SlideLayout = ({ children }: SlideLayoutProps) => {
   const router = useRouter()
   const pathname = usePathname()
-  const [totalSlides, setTotalSlides] = useState(3) // We'll start with 3 slides
+  const [totalSlides, setTotalSlides] = useState(14) // Updated to match presentation outline
 
   // Extract current slide number from pathname
   const getCurrentSlideNumber = () => {
@@ -75,103 +77,79 @@ const SlideLayout = ({ children }: SlideLayoutProps) => {
   return (
     <div
       className={css({
+        '--bg': '{colors.gray.900}',
+        '--fg': 'white',
+        '--border': '{colors.gray.700}',
+
+        fontFamily: 'var(--fonts-geist-sans)',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        bg: 'gray.900',
-        color: 'gray.100',
+        alignItems: 'center',
+        justifyContent: 'center',
+        bg: 'var(--bg)',
+        color: 'var(--fg)',
+        borderColor: 'var(--border)',
+
+        '& li': {
+          listStyleType: 'circle',
+          '&::marker': {
+            color: 'purple.300',
+          },
+        },
       })}
     >
-      {/* Main content area */}
       <main
         className={css({
-          flex: 1,
+          position: 'relative',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          p: 8,
+
+          m: '72px',
+          w: '1030px',
+          aspectRatio: 1030 / 900,
+          textWrap: 'balance',
         })}
       >
+        <Divider
+          borderStyle="dashed"
+          color="var(--border)"
+          position="absolute"
+          top="0"
+          w="100vw"
+        />
+        <Divider
+          borderStyle="dashed"
+          color="var(--border)"
+          position="absolute"
+          bottom="0"
+          w="100vw"
+        />
+        <Divider
+          borderStyle="dashed"
+          color="var(--border)"
+          position="absolute"
+          right="0"
+          h="100vh"
+          orientation="vertical"
+        />
+        <Divider
+          borderStyle="dashed"
+          color="var(--border)"
+          position="absolute"
+          left="0"
+          h="100vh"
+          orientation="vertical"
+        />
+
+        <Box position="absolute" top="3" right="3" w="90" aspectRatio={2048 / 407}>
+          <Image src="/demo/vercel-logotype-dark.png" alt="" fill />
+        </Box>
+
         {children}
       </main>
-
-      {/* Navigation indicators and controls */}
-      {currentSlide > 0 && (
-        <div
-          className={css({
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            bg: 'white',
-            borderTop: '1px solid',
-            borderColor: 'gray.200',
-            p: 4,
-          })}
-        >
-          <div
-            className={css({
-              maxW: '1200px',
-              mx: 'auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            })}
-          >
-            {/* Progress dots */}
-            <div
-              className={css({
-                display: 'flex',
-                gap: 2,
-                alignItems: 'center',
-              })}
-            >
-              {Array.from({ length: totalSlides }, (_, i) => (
-                <button
-                  key={i + 1}
-                  onClick={() => navigateToSlide(i + 1)}
-                  aria-label={`Go to slide ${i + 1}`}
-                  className={css({
-                    w: 2,
-                    h: 2,
-                    rounded: 'full',
-                    bg: currentSlide === i + 1 ? 'blue.600' : 'gray.300',
-                    transition: 'all 0.2s',
-                    cursor: 'pointer',
-                    border: 'none',
-                    _hover: {
-                      bg: currentSlide === i + 1 ? 'blue.700' : 'gray.400',
-                      transform: 'scale(1.2)',
-                    },
-                  })}
-                />
-              ))}
-            </div>
-
-            {/* Slide counter */}
-            <div
-              className={css({
-                fontSize: 'sm',
-                color: 'gray.600',
-                fontWeight: 'medium',
-              })}
-            >
-              Slide {currentSlide} of {totalSlides}
-            </div>
-
-            {/* Navigation hints */}
-            <div
-              className={css({
-                fontSize: 'xs',
-                color: 'gray.500',
-                display: { base: 'none', md: 'block' },
-              })}
-            >
-              Use ← → arrows to navigate • ESC to exit
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

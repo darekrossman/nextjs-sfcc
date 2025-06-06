@@ -22,8 +22,8 @@ export const fonts = defineTokens.fonts({
       // Panda merges array when extending theme, so we need to join it to convert it to a string
       .join(', '),
   },
-  geistMono: {
-    value: 'var(--font-geist-mono)',
+  gmono: {
+    value: 'var(--fonts-geist-mono)',
   },
   mono: {
     value: ['var(--fonts-mono)', 'ui-monospace', 'monospace'].join(', '),

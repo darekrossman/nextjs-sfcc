@@ -1,183 +1,40 @@
 import { css } from '@/styled-system/css'
+import { Box, HStack, Stack, styled } from '@/styled-system/jsx'
+import { stack } from '@/styled-system/patterns'
+import Image from 'next/image'
 
-const Slide2 = () => {
+export default function Slide2() {
   return (
-    <div
-      className={css({
-        maxW: '1200px',
-        mx: 'auto',
-      })}
-    >
-      <h1
-        className={css({
-          fontSize: { base: '3xl', md: '5xl' },
-          fontWeight: 'bold',
-          mb: 8,
-          color: 'gray.900',
-        })}
-      >
-        Main Content
-      </h1>
+    <Stack alignItems="flex-start" textAlign="left" w="full" p="72px">
+      <HStack flex="1" justifyContent="space-between" w="full">
+        <styled.h1 fontSize="7xl" fontWeight="bold" lineHeight="1.1">
+          the person
+        </styled.h1>
 
-      <div
-        className={css({
-          display: 'grid',
-          gridTemplateColumns: { base: '1fr', md: '1fr 1fr' },
-          gap: 8,
-          mb: 8,
-        })}
-      >
-        {/* Left column */}
-        <div>
-          <h2
-            className={css({
-              fontSize: '2xl',
-              fontWeight: 'semibold',
-              mb: 4,
-              color: 'gray.800',
-            })}
-          >
-            Key Features
-          </h2>
+        <Box>
+          <Image src="/demo/pixel-face.png" alt="me" width={200} height={200} />
+        </Box>
+      </HStack>
 
-          <ul
-            className={css({
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 3,
-              listStyle: 'none',
-              p: 0,
-            })}
-          >
-            {[
-              'Keyboard navigation with arrow keys',
-              'Visual progress indicators',
-              'Responsive design for all devices',
-              'Clean and modern interface',
-              'Easy to extend and customize',
-            ].map((feature, index) => (
-              <li
-                key={index}
-                className={css({
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: 3,
-                })}
-              >
-                <span
-                  className={css({
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    w: 6,
-                    h: 6,
-                    bg: 'green.500',
-                    color: 'white',
-                    rounded: 'full',
-                    fontSize: 'sm',
-                    fontWeight: 'bold',
-                    flexShrink: 0,
-                    mt: 0.5,
-                  })}
-                >
-                  ✓
-                </span>
-                <span
-                  className={css({
-                    color: 'gray.700',
-                    fontSize: 'lg',
-                  })}
-                >
-                  {feature}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Right column */}
-        <div>
-          <h2
-            className={css({
-              fontSize: '2xl',
-              fontWeight: 'semibold',
-              mb: 4,
-              color: 'gray.800',
-            })}
-          >
-            Technical Stack
-          </h2>
-
-          <div
-            className={css({
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: 4,
-            })}
-          >
-            {[
-              { name: 'Next.js', color: 'blue' },
-              { name: 'TypeScript', color: 'purple' },
-              { name: 'PandaCSS', color: 'yellow' },
-              { name: 'React', color: 'cyan' },
-            ].map((tech) => (
-              <div
-                key={tech.name}
-                className={css({
-                  p: 4,
-                  bg: `${tech.color}.50`,
-                  border: '1px solid',
-                  borderColor: `${tech.color}.200`,
-                  rounded: 'lg',
-                  textAlign: 'center',
-                  fontWeight: 'semibold',
-                  color: `${tech.color}.900`,
-                })}
-              >
-                {tech.name}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Code example */}
-      <div
-        className={css({
-          mt: 8,
-          p: 6,
-          bg: 'gray.900',
-          rounded: 'lg',
-          overflow: 'auto',
-        })}
-      >
-        <h3
-          className={css({
-            fontSize: 'sm',
-            fontWeight: 'medium',
-            color: 'gray.400',
-            mb: 3,
-          })}
+      <Box>
+        <styled.ul
+          listStyleType="disc"
+          pl="1.1em"
+          fontSize="3xl"
+          className={stack({ gap: '7' })}
         >
-          Example Code
-        </h3>
-        <pre
-          className={css({
-            fontSize: 'sm',
-            color: 'gray.100',
-            fontFamily: 'mono',
-          })}
-        >
-          {`// Navigate to next slide
-const handleNext = () => {
-  if (currentSlide < totalSlides) {
-    router.push(\`/slides/slide-\${currentSlide + 1}\`)
-  }
-}`}
-        </pre>
-      </div>
-    </div>
+          <styled.li>Based in St. Pete, Florida</styled.li>
+          <styled.li>
+            Married with 8 children{' '}
+            <styled.span fontSize="2xl" opacity="0.5">
+              (2 dogs, 2 cats, 4 chickens)
+            </styled.span>
+          </styled.li>
+          <styled.li>20+ years of tinkering with the web</styled.li>
+          <styled.li>Likes building synthesizers and sim racing</styled.li>
+          <styled.li>Currently on season 9 of E.R.</styled.li>
+        </styled.ul>
+      </Box>
+    </Stack>
   )
 }
-
-export default Slide2
