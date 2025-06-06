@@ -9,7 +9,6 @@ import { Box, Container, Flex, Grid, GridItem, Stack, styled } from '@/styled-sy
 import { Center } from '@/styled-system/jsx'
 import { Metadata } from 'next'
 import { Link } from '@/ui/core'
-import { cq } from '@/styled-system/patterns'
 
 export const metadata: Metadata = {
   description:

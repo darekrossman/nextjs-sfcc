@@ -125,13 +125,6 @@ function NavContent({
   const { data: menu } = use(navPromise)
   const pathname = usePathname()
 
-  const getLocalizedPath = (newLocale: string) => {
-    const segments = pathname.split('/')
-    // Replace the first segment (locale) with the new locale
-    segments[1] = newLocale
-    return segments.join('/')
-  }
-
   return (
     <Dialog.Content
       asChild
@@ -242,7 +235,7 @@ function NavContent({
               })}
             >
               <Link
-                href={getLocalizedPath('en')}
+                href="/en"
                 onClick={() => setOpen(false)}
                 position="relative"
                 display="flex"
@@ -263,7 +256,7 @@ function NavContent({
               <Divider orientation="vertical" h="full" borderGradient="PeachTreeBorder" />
 
               <Link
-                href={getLocalizedPath('fr')}
+                href="/fr"
                 onClick={() => setOpen(false)}
                 position="relative"
                 display="flex"
