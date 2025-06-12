@@ -7,6 +7,7 @@ import { styled } from '@/styled-system/jsx'
 import { baseUrl } from '@/lib/utils'
 import { Metadata } from 'next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Analytics } from '@vercel/analytics/next'
 import { Geist, Major_Mono_Display, Silkscreen, DM_Mono } from 'next/font/google'
 import { PropsWithChildren, Suspense } from 'react'
 import { LocaleProvider } from '@/components/locale-context'
@@ -88,11 +89,8 @@ export default async function RootLayout({
           <CartProvider cartPromise={cartPromise}>{children}</CartProvider>
         </LocaleProvider>
 
-        <Suspense>
-          <ShopperContext />
-        </Suspense>
-
         <SpeedInsights />
+        <Analytics />
       </styled.body>
     </styled.html>
   )
