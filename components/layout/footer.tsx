@@ -39,7 +39,7 @@ export default async function Footer({ locale }: { locale: string }) {
       >
         <Stack gap="2.5" order={{ base: 2, md: 1 }}>
           <styled.p fontSize="xs" color="gray.700">
-            &copy; 2025 Darek Rossman, Future PSE
+            &copy; 2025 Darek Rossman, Future Vercel Team Member.
           </styled.p>
           <styled.p fontSize="xs" color="gray.500">
             <styled.a href="https://vercel.com">Created for ▲ Vercel</styled.a>
