@@ -35,60 +35,12 @@ interface FormattedMessageProps {
   children?: (message: string) => React.ReactNode
 }
 
-const FormattedMessage: React.FC<FormattedMessageProps> = ({
-  id,
-  defaultMessage,
-  values,
-  children,
-}) => {
-  const intl = useIntl()
-  const message: string | undefined = intl.formatMessage({ id, defaultMessage }, values)
-
-  if (typeof children === 'function') {
-    // children is a function that receives the message and returns React nodes
-    return children(message)
-  }
-
-  // If children is not a function, render the message string directly.
-  // If message is empty and children exist (and are not the function type),
-  // render children as fallback (though unusual for FormattedMessage).
-  // Use React.Fragment for safety.
-  return message || (children ? children : null)
-}
-
 // Mock implementation for FormattedNumber
 interface FormattedNumberProps {
   value: number
   currency?: string
   style?: string
   children?: (formattedNumber: string) => React.ReactNode
-}
-
-const FormattedNumber: React.FC<FormattedNumberProps> = ({
-  value,
-  currency,
-  style,
-  children,
-}) => {
-  let formattedNumber: string
-  if (style) {
-    const options: Intl.NumberFormatOptions = { style: style as any }
-    if (style === 'currency' && currency) {
-      options.currency = currency
-    }
-    formattedNumber = value.toLocaleString(undefined, options)
-  } else if (currency) {
-    formattedNumber = value.toLocaleString(undefined, { style: 'currency', currency })
-  } else {
-    const intl = useIntl()
-    formattedNumber = intl.formatNumber(value)
-  }
-
-  if (typeof children === 'function') {
-    return children(formattedNumber)
-  }
-
-  return formattedNumber
 }
 
 // Export other components/hooks from react-intl if they are used, e.g.:

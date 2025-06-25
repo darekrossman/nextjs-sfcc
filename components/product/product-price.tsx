@@ -22,7 +22,6 @@ function ProductPriceBase({
   priceRanges,
   variants,
   searchParams,
-  ...props
 }: {
   price: number
   priceRanges: Product['priceRanges']
@@ -39,7 +38,6 @@ function ProductPriceBase({
   }
 
   const listRange = priceRanges?.find((range) => range.pricebook?.includes('list'))
-  const saleRange = priceRanges?.find((range) => range.pricebook?.includes('sale'))
 
   const minPrice = listRange?.minPrice || price
   const maxPrice = listRange?.maxPrice || price

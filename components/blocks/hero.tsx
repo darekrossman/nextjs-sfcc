@@ -1,16 +1,15 @@
 import Image from 'next/image'
 import { urlFor } from '@/sanity/lib/image'
 import { PAGE_QUERYResult } from '@/sanity/types'
-import { Box, Center, Flex, styled } from '@/styled-system/jsx'
+import { Box, Flex, styled } from '@/styled-system/jsx'
 import { css } from '@/styled-system/css'
-import RichText from './rich-text'
 
 type HeroProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>['content']>[number],
   { _type: 'hero' }
 >
 
-export function Hero({ title, text, image }: HeroProps) {
+export function Hero({ title, image }: HeroProps) {
   return (
     <styled.section position="relative">
       <Flex

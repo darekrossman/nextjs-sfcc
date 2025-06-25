@@ -53,11 +53,3 @@ export function SearchHitsGrid({
     </Box>
   )
 }
-
-function SearchHitsGridLoading() {
-  return (
-    <Box position="absolute" top="1px" left="1px" w="full" h="12px" overflow="hidden">
-      <ColorSkeleton />
-    </Box>
-  )
-}

@@ -16,7 +16,6 @@ export default async function SearchPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const { locale } = await params
-  const term = (await searchParams)?.q
 
   return (
     <PageContainer

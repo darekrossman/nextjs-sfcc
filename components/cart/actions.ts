@@ -62,13 +62,3 @@ export async function updateItem(itemId: string, quantity: number, locale?: stri
     return
   }
 }
-
-async function redirectToCheckout() {
-  let cart = await getCart()
-  redirect(cart!.checkoutUrl)
-}
-
-async function createCartAndSetCookie() {
-  let cart = await createCart()
-  ;(await cookies()).set('cartId', cart.id!)
-}

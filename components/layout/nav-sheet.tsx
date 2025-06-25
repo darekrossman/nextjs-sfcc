@@ -107,7 +107,6 @@ const searchVariants = {
 
 function NavContent({
   navPromise,
-  open,
   setOpen,
   isMobile,
   searchFocused,
@@ -123,7 +122,6 @@ function NavContent({
   handleSearchBlur: () => void
 }) {
   const { data: menu } = use(navPromise)
-  const pathname = usePathname()
 
   return (
     <Dialog.Content

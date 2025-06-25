@@ -62,18 +62,3 @@ const pluralize = (count: number, singular: string, plural?: string): string => 
   // Default: just add 's'
   return singular + 's'
 }
-
-/**
- * Returns a pluralized phrase with count
- * @param count - The number to display
- * @param singular - The singular form of the word
- * @param plural - Optional custom plural form
- * @returns A string like "1 item" or "5 items"
- */
-const pluralizeWithCount = (
-  count: number,
-  singular: string,
-  plural?: string,
-): string => {
-  return `${count} ${pluralize(count, singular, plural)}`
-}

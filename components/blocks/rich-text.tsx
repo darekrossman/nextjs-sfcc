@@ -237,10 +237,6 @@ export default function RichText(props: RichTextBlockProps) {
     return null
   }
 
-  // Safely get alignment and maxWidth styles with fallbacks
-  const alignmentClass = alignmentStyles[alignment || 'left'] || alignmentStyles.left
-  const maxWidthClass = maxWidthStyles[maxWidth || 'full'] || maxWidthStyles.full
-
   return (
     <Stack gap="6">
       <PortableText value={content} components={portableTextComponents} />

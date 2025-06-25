@@ -53,19 +53,6 @@ function reshapeCategory(
   }
 }
 
-function reshapeCategories(categories: ShopperProductsTypes.Category[]) {
-  const reshapedCategories = []
-  for (const category of categories) {
-    if (category) {
-      const reshapedCategory = reshapeCategory(category)
-      if (reshapedCategory) {
-        reshapedCategories.push(reshapedCategory)
-      }
-    }
-  }
-  return reshapedCategories
-}
-
 function reshapeProduct(product: ShopperProductsTypes.Product) {
   if (!product.name) {
     throw new Error('Product name is not set')
@@ -125,19 +112,6 @@ function reshapeProduct(product: ShopperProductsTypes.Product) {
   }
 }
 
-function reshapeProducts(products: ShopperProductsTypes.Product[]) {
-  const reshapedProducts = []
-  for (const product of products) {
-    if (product) {
-      const reshapedProduct = reshapeProduct(product)
-      if (reshapedProduct) {
-        reshapedProducts.push(reshapedProduct)
-      }
-    }
-  }
-  return reshapedProducts
-}
-
 function reshapeImages(
   imageGroups: ShopperProductsTypes.ImageGroup[] | undefined,
 ): Image[] {
@@ -183,36 +157,6 @@ function reshapeVariant(
     price: {
       amount: variant.price?.toString() || '0',
       currencyCode: product.currency || 'USD',
-    },
-  }
-}
-
-function reshapeProductItem(
-  item: ShopperBasketsTypes.ProductItem,
-  currency: string,
-  matchingProduct: Product,
-) {
-  return {
-    id: item.itemId || '',
-    quantity: item.quantity || 0,
-    cost: {
-      totalAmount: {
-        amount: item.price?.toString() || '0',
-        currencyCode: currency,
-      },
-    },
-    merchandise: {
-      id: item.productId || '',
-      title: item.productName || '',
-      selectedOptions:
-        Object.entries(matchingProduct.variationValues || {}).map(([key, value]) => ({
-          name: matchingProduct.options?.find((opt) => opt.id === key)?.name || key,
-          value:
-            matchingProduct.options
-              ?.find((opt) => opt.id === key)
-              ?.values?.find((v) => v.id === value)?.name || String(value),
-        })) || [],
-      product: matchingProduct,
     },
   }
 }

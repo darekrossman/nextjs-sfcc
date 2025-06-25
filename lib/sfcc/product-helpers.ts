@@ -39,10 +39,6 @@ export function getProductImagesForColor(
   )
 }
 
-function getDefaultProductColor(variants: Product['variants']) {
-  return variants?.[0]?.variationValues?.color
-}
-
 export function toggleRefinementForQuery({
   params,
   attributeId,
@@ -119,63 +115,4 @@ export function parseParamsFromUrl(
     ...otherParams,
     refine: refineArray.length > 0 ? refineArray : undefined,
   } as ProductSearchParams
-}
-
-function formatParamsForUrl(
-  searchParams: ProductSearchParams,
-): Record<string, string | string[]> {
-  const { refine, ...otherParams } = searchParams
-
-  const urlParams: Record<string, string | string[]> = {}
-
-  // Add all non-refine parameters
-  Object.entries(otherParams).forEach(([key, value]) => {
-    if (value !== undefined && value !== null) {
-      // Convert to string format for URL
-      if (Array.isArray(value)) {
-        urlParams[key] = value.map(String)
-      } else {
-        urlParams[key] = String(value)
-      }
-    }
-  })
-
-  // Add refine parameter if it exists
-  if (refine && refine.length > 0) {
-    urlParams.refine = refine
-  }
-
-  return urlParams
-}
-
-function removeRefinementValue(
-  searchParams: ProductSearchParams,
-  attributeId: string,
-  valueToRemove: string,
-): ProductSearchParams {
-  const { refine = [], ...otherParams } = searchParams
-  const attributePattern = `${attributeId}=`
-
-  const newRefine = refine
-    .map((refinement) => {
-      if (!refinement.startsWith(attributePattern)) {
-        return refinement
-      }
-
-      const values = refinement.substring(attributePattern.length).split('|')
-      const filteredValues = values.filter((value) => value !== valueToRemove)
-
-      // If no values left, remove the entire refinement
-      if (filteredValues.length === 0) {
-        return null
-      }
-
-      return `${attributeId}=${filteredValues.join('|')}`
-    })
-    .filter((refinement): refinement is string => refinement !== null)
-
-  return {
-    ...otherParams,
-    refine: newRefine.length > 0 ? newRefine : undefined,
-  }
 }

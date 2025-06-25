@@ -1,20 +1,14 @@
 'use client'
 
 import { ProductSearchResult } from '@/lib/sfcc/types'
-import { HStack, Stack, Box, Flex, styled, Grid } from '@/styled-system/jsx'
+import { Stack, Box, Flex, styled, Grid } from '@/styled-system/jsx'
 import { ReactNode, use } from 'react'
 import { useSearchState } from './search-context'
-import { FadeImage } from './fade-image'
-import Image from 'next/image'
 import { CATEGORY_QUERYResult } from '@/sanity/types'
-import { urlFor } from '@/sanity/lib/image'
-import { css } from '@/styled-system/css'
 import { useLocale } from './locale-context'
-import { FadeText } from './fade-text'
 
 export function SearchMasthead({
   heading,
-  backgroundImage,
   searchResultsPromise,
 }: {
   heading?: ReactNode
@@ -27,37 +21,6 @@ export function SearchMasthead({
 
   return (
     <Box position="sticky" top="0" bg="var(--bg)">
-      {/* <Box position="absolute" inset="0" zIndex="0" mixBlendMode="multiply" opacity="0.5">
-        {backgroundImage && (
-          <Image
-            src={urlFor(backgroundImage)
-              .width(1408)
-              .height(167)
-
-              .url()}
-            width={1408}
-            height={167}
-            alt={backgroundImage.alt ?? ''}
-            className={css({
-              w: 'auto',
-              h: 'full',
-              objectFit: 'cover',
-              objectPosition: 'center',
-              filter: 'grayscale(100%)',
-            })}
-          />
-        )}
-      </Box> */}
-      {/* <Box
-        position="absolute"
-        inset="0"
-        zIndex="1"
-        bg={{
-          base: 'linear-gradient(333deg, transparent 0%, var(--bg) 50%)',
-          md: 'linear-gradient(333deg, transparent 0%, var(--bg) 60%)',
-        }}
-      /> */}
-
       <Flex
         alignItems="center"
         h={{ base: 'auto', md: '167px' }}

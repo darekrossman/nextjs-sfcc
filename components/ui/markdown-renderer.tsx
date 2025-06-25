@@ -128,28 +128,28 @@ const markdownStyles = css({
 })
 
 const components: Components = {
-  h1: ({ children, ...props }) => <styled.h1>{children}</styled.h1>,
-  h2: ({ children, ...props }) => <styled.h2>{children}</styled.h2>,
-  h3: ({ children, ...props }) => <styled.h3>{children}</styled.h3>,
-  h4: ({ children, ...props }) => <styled.h4>{children}</styled.h4>,
-  h5: ({ children, ...props }) => <styled.h5>{children}</styled.h5>,
-  h6: ({ children, ...props }) => <styled.h6>{children}</styled.h6>,
-  p: ({ children, ...props }) => <styled.p>{children}</styled.p>,
-  ul: ({ children, ...props }) => <styled.ul>{children}</styled.ul>,
-  ol: ({ children, ...props }) => <styled.ol>{children}</styled.ol>,
-  li: ({ children, ...props }) => <styled.li>{children}</styled.li>,
-  blockquote: ({ children, ...props }) => (
+  h1: ({ children, }) => <styled.h1>{children}</styled.h1>,
+  h2: ({ children, }) => <styled.h2>{children}</styled.h2>,
+  h3: ({ children, }) => <styled.h3>{children}</styled.h3>,
+  h4: ({ children, }) => <styled.h4>{children}</styled.h4>,
+  h5: ({ children, }) => <styled.h5>{children}</styled.h5>,
+  h6: ({ children, }) => <styled.h6>{children}</styled.h6>,
+  p: ({ children, }) => <styled.p>{children}</styled.p>,
+  ul: ({ children, }) => <styled.ul>{children}</styled.ul>,
+  ol: ({ children, }) => <styled.ol>{children}</styled.ol>,
+  li: ({ children, }) => <styled.li>{children}</styled.li>,
+  blockquote: ({ children, }) => (
     <styled.blockquote>{children}</styled.blockquote>
   ),
-  code: ({ children, ...props }) => <styled.code>{children}</styled.code>,
-  pre: ({ children, ...props }) => <styled.pre>{children}</styled.pre>,
-  table: ({ children, ...props }) => <styled.table>{children}</styled.table>,
-  th: ({ children, ...props }) => <styled.th>{children}</styled.th>,
-  td: ({ children, ...props }) => <styled.td>{children}</styled.td>,
-  a: ({ children, ...props }) => <styled.a>{children}</styled.a>,
-  strong: ({ children, ...props }) => <styled.strong>{children}</styled.strong>,
-  em: ({ children, ...props }) => <styled.em>{children}</styled.em>,
-  hr: ({ ...props }) => <styled.hr />,
+  code: ({ children, }) => <styled.code>{children}</styled.code>,
+  pre: ({ children, }) => <styled.pre>{children}</styled.pre>,
+  table: ({ children, }) => <styled.table>{children}</styled.table>,
+  th: ({ children, }) => <styled.th>{children}</styled.th>,
+  td: ({ children, }) => <styled.td>{children}</styled.td>,
+  a: ({ children, }) => <styled.a>{children}</styled.a>,
+  strong: ({ children, }) => <styled.strong>{children}</styled.strong>,
+  em: ({ children, }) => <styled.em>{children}</styled.em>,
+  hr: ({ }) => <styled.hr />,
 }
 
 export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
