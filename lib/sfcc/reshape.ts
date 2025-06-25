@@ -33,7 +33,7 @@ export function reshapeShippingMethods(
   )
 }
 
-export function reshapeCategory(
+function reshapeCategory(
   category: ShopperProductsTypes.Category,
 ): Collection | undefined {
   if (!category) {
@@ -53,7 +53,7 @@ export function reshapeCategory(
   }
 }
 
-export function reshapeCategories(categories: ShopperProductsTypes.Category[]) {
+function reshapeCategories(categories: ShopperProductsTypes.Category[]) {
   const reshapedCategories = []
   for (const category of categories) {
     if (category) {
@@ -66,7 +66,7 @@ export function reshapeCategories(categories: ShopperProductsTypes.Category[]) {
   return reshapedCategories
 }
 
-export function reshapeProduct(product: ShopperProductsTypes.Product) {
+function reshapeProduct(product: ShopperProductsTypes.Product) {
   if (!product.name) {
     throw new Error('Product name is not set')
   }
@@ -125,7 +125,7 @@ export function reshapeProduct(product: ShopperProductsTypes.Product) {
   }
 }
 
-export function reshapeProducts(products: ShopperProductsTypes.Product[]) {
+function reshapeProducts(products: ShopperProductsTypes.Product[]) {
   const reshapedProducts = []
   for (const product of products) {
     if (product) {
@@ -138,7 +138,7 @@ export function reshapeProducts(products: ShopperProductsTypes.Product[]) {
   return reshapedProducts
 }
 
-export function reshapeImages(
+function reshapeImages(
   imageGroups: ShopperProductsTypes.ImageGroup[] | undefined,
 ): Image[] {
   if (!imageGroups) return []
@@ -157,14 +157,14 @@ export function reshapeImages(
   })
 }
 
-export function reshapeVariants(
+function reshapeVariants(
   variants: ShopperProductsTypes.Variant[],
   product: ShopperProductsTypes.Product,
 ) {
   return variants.map((variant) => reshapeVariant(variant, product))
 }
 
-export function reshapeVariant(
+function reshapeVariant(
   variant: ShopperProductsTypes.Variant,
   product: ShopperProductsTypes.Product,
 ) {
@@ -187,7 +187,7 @@ export function reshapeVariant(
   }
 }
 
-export function reshapeProductItem(
+function reshapeProductItem(
   item: ShopperBasketsTypes.ProductItem,
   currency: string,
   matchingProduct: Product,
@@ -217,7 +217,7 @@ export function reshapeProductItem(
   }
 }
 
-export function reshapeBasket(
+function reshapeBasket(
   basket: ShopperBasketsTypes.Basket,
   cartItems: CartItem[],
 ): Cart {

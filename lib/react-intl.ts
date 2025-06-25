@@ -35,7 +35,7 @@ interface FormattedMessageProps {
   children?: (message: string) => React.ReactNode
 }
 
-export const FormattedMessage: React.FC<FormattedMessageProps> = ({
+const FormattedMessage: React.FC<FormattedMessageProps> = ({
   id,
   defaultMessage,
   values,
@@ -64,7 +64,7 @@ interface FormattedNumberProps {
   children?: (formattedNumber: string) => React.ReactNode
 }
 
-export const FormattedNumber: React.FC<FormattedNumberProps> = ({
+const FormattedNumber: React.FC<FormattedNumberProps> = ({
   value,
   currency,
   style,

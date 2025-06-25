@@ -21,7 +21,7 @@ export function formatPrice({
  * @param plural - Optional custom plural form. If not provided, basic English pluralization rules are applied
  * @returns The correctly pluralized word
  */
-export const pluralize = (count: number, singular: string, plural?: string): string => {
+const pluralize = (count: number, singular: string, plural?: string): string => {
   if (count === 1) {
     return singular
   }
@@ -70,7 +70,7 @@ export const pluralize = (count: number, singular: string, plural?: string): str
  * @param plural - Optional custom plural form
  * @returns A string like "1 item" or "5 items"
  */
-export const pluralizeWithCount = (
+const pluralizeWithCount = (
   count: number,
   singular: string,
   plural?: string,

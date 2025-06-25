@@ -2,7 +2,7 @@
 
 import { createContext, PropsWithChildren, useContext } from 'react'
 
-export const LocaleContext = createContext<{
+const LocaleContext = createContext<{
   locale: string
   currency: string
   dict: Record<string, string>

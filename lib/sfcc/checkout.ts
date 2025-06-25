@@ -10,7 +10,7 @@ import { reshapeOrder, reshapeShippingMethods } from './reshape'
 import { ensureSDKResponseError } from './type-guards'
 import { getCardType, maskCardNumber } from './utils'
 
-export async function updateCustomerInfo(email: string) {
+async function updateCustomerInfo(email: string) {
   const cartId = (await cookies()).get('cartId')?.value!
   const guestToken = (await cookies()).get('guest_token')?.value
   const config = await getGuestUserConfig(guestToken)
@@ -32,7 +32,7 @@ export async function updateCustomerInfo(email: string) {
   }
 }
 
-export async function updateShippingAddress(
+async function updateShippingAddress(
   shippingAddress: ShopperBasketsTypes.OrderAddress,
 ) {
   const cartId = (await cookies()).get('cartId')?.value!
@@ -59,7 +59,7 @@ export async function updateShippingAddress(
   }
 }
 
-export async function updateBillingAddress(
+async function updateBillingAddress(
   billingAddress: ShopperBasketsTypes.OrderAddress,
 ) {
   const cartId = (await cookies()).get('cartId')?.value!
@@ -81,7 +81,7 @@ export async function updateBillingAddress(
   }
 }
 
-export async function updateShippingMethod(shippingMethodId: string) {
+async function updateShippingMethod(shippingMethodId: string) {
   const cartId = (await cookies()).get('cartId')?.value!
   const guestToken = (await cookies()).get('guest_token')?.value
   const config = await getGuestUserConfig(guestToken)
@@ -105,7 +105,7 @@ export async function updateShippingMethod(shippingMethodId: string) {
   }
 }
 
-export async function addPaymentMethod(paymentData: {
+async function addPaymentMethod(paymentData: {
   cardNumber: string
   cardholderName: string
   expirationMonth: number
@@ -148,7 +148,7 @@ export async function addPaymentMethod(paymentData: {
   }
 }
 
-export async function getShippingMethods() {
+async function getShippingMethods() {
   const cartId = (await cookies()).get('cartId')?.value!
   const guestToken = (await cookies()).get('guest_token')?.value
   const config = await getGuestUserConfig(guestToken)
@@ -171,7 +171,7 @@ export async function getShippingMethods() {
   }
 }
 
-export async function placeOrder() {
+async function placeOrder() {
   const cartId = (await cookies()).get('cartId')?.value!
   const guestToken = (await cookies()).get('guest_token')?.value
   const config = await getGuestUserConfig(guestToken)
@@ -191,7 +191,7 @@ export async function placeOrder() {
   }
 }
 
-export async function getCheckoutOrder() {
+async function getCheckoutOrder() {
   const orderId = (await cookies()).get('orderId')?.value
   const guestToken = (await cookies()).get('guest_token')?.value
   const config = await getGuestUserConfig(guestToken)

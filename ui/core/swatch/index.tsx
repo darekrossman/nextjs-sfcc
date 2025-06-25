@@ -23,7 +23,7 @@ export type SwatchProps = HTMLStyledProps<'button'> &
   RecipeVariantProps<typeof swatch> &
   ColorSwatch & { selected?: boolean }
 
-export const Swatch = forwardRef<HTMLButtonElement, SwatchProps>(
+const Swatch = forwardRef<HTMLButtonElement, SwatchProps>(
   (
     {
       colorValue,

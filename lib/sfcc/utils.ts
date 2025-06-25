@@ -4,7 +4,7 @@ import { CheckoutStep, checkoutStepRoutes } from './constants'
 
 export type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never
 
-export function getCartCheckoutStep(cart: Cart | undefined): CheckoutStep {
+function getCartCheckoutStep(cart: Cart | undefined): CheckoutStep {
   if (!cart) return CheckoutStep.Information
 
   const hasPayment = !!cart.paymentInstruments?.length
@@ -22,12 +22,12 @@ export function getCartCheckoutStep(cart: Cart | undefined): CheckoutStep {
   return CheckoutStep.Information
 }
 
-export function getPathForCartCheckoutStep(cart: Cart | undefined): string {
+function getPathForCartCheckoutStep(cart: Cart | undefined): string {
   const step = getCartCheckoutStep(cart)
   return checkoutStepRoutes[step]
 }
 
-export function formatCreditCardNumber(value: string): string {
+function formatCreditCardNumber(value: string): string {
   // Remove all non-digit characters
   const digits = value.replace(/\D/g, '')
 
@@ -67,11 +67,11 @@ export function getCardType(cardNumber: string): string {
   }
 }
 
-export function stripCardFormatting(cardNumber: string): string {
+function stripCardFormatting(cardNumber: string): string {
   return cardNumber.replace(/\D/g, '')
 }
 
-export function validateCardNumber(cardNumber: string): boolean {
+function validateCardNumber(cardNumber: string): boolean {
   const digits = cardNumber.replace(/\D/g, '')
 
   // Check if the card number is empty or has invalid length
@@ -107,7 +107,7 @@ export function maskCardNumber(cardNumber: string): string {
   return `************${lastFourDigits}`
 }
 
-export const months = Array.from({ length: 12 }, (_, i) => {
+const months = Array.from({ length: 12 }, (_, i) => {
   const month = i + 1
   return {
     value: month.toString().padStart(2, '0'),
@@ -116,7 +116,7 @@ export const months = Array.from({ length: 12 }, (_, i) => {
 })
 
 const currentYear = new Date().getFullYear()
-export const years = Array.from({ length: 10 }, (_, i) => {
+const years = Array.from({ length: 10 }, (_, i) => {
   const year = currentYear + i
   return {
     value: year.toString(),
@@ -124,7 +124,7 @@ export const years = Array.from({ length: 10 }, (_, i) => {
   }
 })
 
-export const formatUSZip = (value: string): string => {
+const formatUSZip = (value: string): string => {
   // Remove non-numeric characters
   const nums = value.replace(/[^\d]/g, '')
 
@@ -136,7 +136,7 @@ export const formatUSZip = (value: string): string => {
   }
 }
 
-export const formatCAPostal = (value: string): string => {
+const formatCAPostal = (value: string): string => {
   // Remove non-alphanumeric characters
   const cleaned = value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase()
 
@@ -148,7 +148,7 @@ export const formatCAPostal = (value: string): string => {
   }
 }
 
-export const formatUKPostcode = (value: string): string => {
+const formatUKPostcode = (value: string): string => {
   // Remove non-alphanumeric characters and convert to uppercase
   const cleaned = value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase()
 
@@ -162,7 +162,7 @@ export const formatUKPostcode = (value: string): string => {
   }
 }
 
-export const formatUSPhone = (value: string): string => {
+const formatUSPhone = (value: string): string => {
   // Remove non-numeric characters
   const nums = value.replace(/[^\d]/g, '')
 
@@ -175,17 +175,17 @@ export const formatUSPhone = (value: string): string => {
   }
 }
 
-export const formatCAPhone = (value: string): string => {
+const formatCAPhone = (value: string): string => {
   return formatUSPhone(value)
 }
 
-export const formatUKPhone = (value: string): string => {
+const formatUKPhone = (value: string): string => {
   // No formatting for UK phone numbers to keep things simple
   return value
 }
 
 // Helper for returning the expected error state to actions instead of throwing.
-export const handleFormActionError = (error: unknown, defaultMessage: string) => {
+const handleFormActionError = (error: unknown, defaultMessage: string) => {
   return {
     errors: {
       formErrors: [(error as Error)?.message || defaultMessage],
@@ -198,7 +198,7 @@ type PrefixedShape<T extends z.ZodObject<any>, P extends string> = {
 }
 
 // Creates a new Zod schema with all keys prefixed with the given string.
-export const prefixSchema = <T extends z.ZodObject<any>, P extends string>(
+const prefixSchema = <T extends z.ZodObject<any>, P extends string>(
   schema: T,
   prefix: P,
 ): z.ZodObject<PrefixedShape<T, P>> => {
@@ -214,7 +214,7 @@ export const prefixSchema = <T extends z.ZodObject<any>, P extends string>(
   return z.object(newShape)
 }
 
-export const validateEnvironmentVariables = () => {
+const validateEnvironmentVariables = () => {
   const requiredEnvironmentVariables = [
     'SITE_NAME',
     'SFCC_CLIENT_ID',

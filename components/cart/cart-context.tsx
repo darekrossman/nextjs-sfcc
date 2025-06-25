@@ -26,7 +26,7 @@ type CartContextType = {
   pending: boolean
 }
 
-export const CartContext = createContext<CartContextType | undefined>(undefined)
+const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export function CartProvider({
   children,

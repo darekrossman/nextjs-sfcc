@@ -45,7 +45,7 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue,
 )
 
-export const useFormField = () => {
+const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
   const itemContext = React.useContext(FormItemContext)
   const { getFieldState, formState } = useFormContext()
@@ -238,11 +238,11 @@ const BaseFormPasswordField = ({
   )
 }
 
-export const Form = FormProvider
-export const FormField = BaseFormField
-export const FormLabel = styled(BaseFormLabel as typeof Label, formLabel)
-export const FormItem = styled(BaseFormItem, formItem)
-export const FormControl = styled(BaseFormControl, formControl)
-export const FormDescription = styled(BaseFormDescription, formDescription)
-export const FormMessage = styled(BaseFormMessage, formMessage)
-export const FormPasswordField = styled(BaseFormPasswordField, formPasswordField)
+const Form = FormProvider
+const FormField = BaseFormField
+const FormLabel = styled(BaseFormLabel as typeof Label, formLabel)
+const FormItem = styled(BaseFormItem, formItem)
+const FormControl = styled(BaseFormControl, formControl)
+const FormDescription = styled(BaseFormDescription, formDescription)
+const FormMessage = styled(BaseFormMessage, formMessage)
+const FormPasswordField = styled(BaseFormPasswordField, formPasswordField)

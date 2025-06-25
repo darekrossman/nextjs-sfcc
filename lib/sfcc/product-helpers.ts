@@ -39,7 +39,7 @@ export function getProductImagesForColor(
   )
 }
 
-export function getDefaultProductColor(variants: Product['variants']) {
+function getDefaultProductColor(variants: Product['variants']) {
   return variants?.[0]?.variationValues?.color
 }
 
@@ -121,7 +121,7 @@ export function parseParamsFromUrl(
   } as ProductSearchParams
 }
 
-export function formatParamsForUrl(
+function formatParamsForUrl(
   searchParams: ProductSearchParams,
 ): Record<string, string | string[]> {
   const { refine, ...otherParams } = searchParams
@@ -148,7 +148,7 @@ export function formatParamsForUrl(
   return urlParams
 }
 
-export function removeRefinementValue(
+function removeRefinementValue(
   searchParams: ProductSearchParams,
   attributeId: string,
   valueToRemove: string,

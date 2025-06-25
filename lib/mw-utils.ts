@@ -26,7 +26,7 @@ export const getLocale = (request: NextRequest): string => {
   }
 }
 
-export const callShopperContextHandler = async (
+const callShopperContextHandler = async (
   request: NextRequest,
   response: NextResponse,
   sourceCode: string,
@@ -52,7 +52,7 @@ export const callShopperContextHandler = async (
   }
 }
 
-export const setSourceCodeCookie = (response: NextResponse, sourceCode: string) => {
+const setSourceCodeCookie = (response: NextResponse, sourceCode: string) => {
   response.cookies.set('sourceCode', sourceCode, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -61,7 +61,7 @@ export const setSourceCodeCookie = (response: NextResponse, sourceCode: string) 
   })
 }
 
-export const applyCookiesFromHeaders = (
+const applyCookiesFromHeaders = (
   response: NextResponse,
   setCookieHeaders: string[],
 ) => {

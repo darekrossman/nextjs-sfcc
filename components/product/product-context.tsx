@@ -21,7 +21,7 @@ type ProductContextType = {
   setState: (values: ProductSelections) => void
 }
 
-export const ProductContext = createContext<ProductContextType | undefined>(undefined)
+const ProductContext = createContext<ProductContextType | undefined>(undefined)
 
 export function ProductProvider({
   children,

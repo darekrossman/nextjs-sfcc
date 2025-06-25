@@ -6,7 +6,7 @@ export const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : 'http://localhost:3000'
 
-export const createUrl = (
+const createUrl = (
   pathname: string,
   params: URLSearchParams | ReadonlyURLSearchParams,
 ) => {
@@ -16,9 +16,9 @@ export const createUrl = (
   return `${pathname}${queryString}`
 }
 
-export const ensureStartsWith = (stringToCheck: string, startsWith: string) =>
+const ensureStartsWith = (stringToCheck: string, startsWith: string) =>
   stringToCheck.startsWith(startsWith) ? stringToCheck : `${startsWith}${stringToCheck}`
 
-export function cn(...inputs: ClassValue[]) {
+function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }

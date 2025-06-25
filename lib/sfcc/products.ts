@@ -86,7 +86,7 @@ export async function getProduct({
 // GET PRODUCT RECOMMENDATIONS
 // =====================================================================
 
-export async function getProductRecommendations({
+async function getProductRecommendations({
   productId,
   locale,
 }: {

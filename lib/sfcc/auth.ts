@@ -7,7 +7,7 @@ import { cookies } from 'next/headers'
 // API CONFIGURATION
 // =====================================================================
 
-export const apiConfig = {
+const apiConfig = {
   throwOnBadResponse: true,
   parameters: {
     clientId: process.env.SFCC_CLIENT_ID || '',
@@ -55,7 +55,7 @@ export const isTokenValid = (token: string): boolean => {
 }
 
 // Get time until token expires (in seconds)
-export const getTokenExpirationTime = (token: string): number | null => {
+const getTokenExpirationTime = (token: string): number | null => {
   try {
     const decoded = jwt.decode(token) as jwt.JwtPayload
     console.log('decoded', decoded)
@@ -74,7 +74,7 @@ export const getTokenExpirationTime = (token: string): number | null => {
 // GUEST USER AUTHENTICATION
 // =====================================================================
 
-export async function getGuestUserAuthToken() {
+async function getGuestUserAuthToken() {
   const loginClient = new ShopperLogin(apiConfig)
   try {
     return await helpers.loginGuestUserPrivate(

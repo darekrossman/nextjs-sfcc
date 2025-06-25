@@ -12,7 +12,7 @@ export type SortFilterItem = {
   reverse: boolean
 }
 
-export const storeCatalog = {
+const storeCatalog = {
   ids: 'mens,womens,newarrivals,top-seller',
 }
 
@@ -23,7 +23,7 @@ export const defaultSort: SortFilterItem = {
   reverse: false,
 }
 
-export const sorting: SortFilterItem[] = [
+const sorting: SortFilterItem[] = [
   defaultSort,
   {
     title: 'Price Low to High',

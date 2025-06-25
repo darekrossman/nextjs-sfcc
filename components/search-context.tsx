@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useTransition } from 'react'
 
-export const SearchContext = createContext({
+const SearchContext = createContext({
   isPending: false,
   startTransition: (fn: () => void) => fn(),
 })

@@ -1,13 +1,13 @@
 import { Menu, Page } from './types'
 
-export function getHeaderMenu(): Menu[] {
+function getHeaderMenu(): Menu[] {
   return (
     getMenus().filter((menu) => menu.handle === 'next-js-frontend-header-menu')[0]
       ?.links || []
   )
 }
 
-export function getFooterMenu(): Menu[] {
+function getFooterMenu(): Menu[] {
   return (
     getMenus().filter((menu) => menu.handle === 'next-js-frontend-footer-menu')[0]
       ?.links || []
@@ -18,7 +18,7 @@ export function getFooterMenu(): Menu[] {
  * NOTE: This function currently returns a hardcoded menu structure for demonstration purposes.
  * This should be replaced in a fetch to a CMS or other data source that is appropriate for the project.
  */
-export function getMenus() {
+function getMenus() {
   return [
     {
       handle: 'next-js-frontend-footer-menu',
@@ -73,7 +73,7 @@ export function getMenus() {
  * NOTE: This function currently returns a hardcoded page for demonstration purposes.
  * This should be replaced in a fetch to a CMS or other data source that is appropriate for the project.
  */
-export function getPage(handle: string): Page | undefined {
+function getPage(handle: string): Page | undefined {
   return getPages().find((page) => page.handle === handle)
 }
 

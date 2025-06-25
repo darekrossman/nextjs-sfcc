@@ -2,7 +2,7 @@ import { defineQuery } from 'next-sanity'
 
 // Site Settings Query - Singleton
 // Usage: const siteSettings = await sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale: 'en' } })
-export const SITE_SETTINGS_QUERY = defineQuery(
+const SITE_SETTINGS_QUERY = defineQuery(
   `*[
     _type == "siteSettings"
     && _id == "siteSettings"
@@ -44,7 +44,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(
 
 // Site Name Query - Get just the site name
 // Usage: const siteName = await sanityFetch({ query: SITE_NAME_QUERY })
-export const SITE_NAME_QUERY = defineQuery(
+const SITE_NAME_QUERY = defineQuery(
   `*[
     _type == "siteSettings"
     && _id == "siteSettings"
@@ -142,7 +142,7 @@ export const HOMEPAGE_QUERY = defineQuery(
 
 // Site Navigation Query - Get main navigation pages
 // Usage: const navigation = await sanityFetch({ query: SITE_NAVIGATION_QUERY, params: { locale: 'en' } })
-export const SITE_NAVIGATION_QUERY = defineQuery(
+const SITE_NAVIGATION_QUERY = defineQuery(
   `*[
     _type == "siteSettings"
     && _id == "siteSettings"
@@ -161,7 +161,7 @@ export const SITE_NAVIGATION_QUERY = defineQuery(
 
 // Site Footer Navigation Query - Get footer navigation pages
 // Usage: const footerNav = await sanityFetch({ query: SITE_FOOTER_NAVIGATION_QUERY, params: { locale: 'en' } })
-export const SITE_FOOTER_NAVIGATION_QUERY = defineQuery(
+const SITE_FOOTER_NAVIGATION_QUERY = defineQuery(
   `*[
     _type == "siteSettings"
     && _id == "siteSettings"
@@ -178,7 +178,7 @@ export const SITE_FOOTER_NAVIGATION_QUERY = defineQuery(
   }`,
 )
 
-export const CATEGORIES_QUERY = defineQuery(
+const CATEGORIES_QUERY = defineQuery(
   `*[_type == "category"]{ 
     _id, 
     categoryId, 
@@ -364,7 +364,7 @@ export const MENU_QUERY = defineQuery(
 
 // All Menus Query - Get all active menus ordered by sortOrder
 // Usage: const menus = await sanityFetch({ query: ALL_MENUS_QUERY, params: { locale: 'en' } })
-export const ALL_MENUS_QUERY = defineQuery(
+const ALL_MENUS_QUERY = defineQuery(
   `*[
     _type == "menu"
     && isActive == true
@@ -411,7 +411,7 @@ export const ALL_MENUS_QUERY = defineQuery(
 
 // Menu Items Only Query - Get just the menu items for a specific menu (lighter query)
 // Usage: const menuItems = await sanityFetch({ query: MENU_ITEMS_QUERY, params: { identifier: 'main-menu', locale: 'en' } })
-export const MENU_ITEMS_QUERY = defineQuery(
+const MENU_ITEMS_QUERY = defineQuery(
   `*[
     _type == "menu"
     && identifier.current == $identifier
@@ -452,7 +452,7 @@ export const MENU_ITEMS_QUERY = defineQuery(
 
 // Menu Identifiers Query - Get all menu identifiers for selection/validation
 // Usage: const menuIds = await sanityFetch({ query: MENU_IDENTIFIERS_QUERY })
-export const MENU_IDENTIFIERS_QUERY = defineQuery(
+const MENU_IDENTIFIERS_QUERY = defineQuery(
   `*[
     _type == "menu"
     && isActive == true
