@@ -5,7 +5,7 @@ import { Price } from 'components/price'
 import Image from 'next/image'
 import { startTransition, use, useEffect, useRef, useState } from 'react'
 import { useCart } from './cart-context'
-import { AnimatePresence } from 'motion/react'
+import { AnimatePresence, type Variants } from 'motion/react'
 import * as motion from 'motion/react-client'
 import {
   Box,
@@ -27,7 +27,7 @@ import { DialogOverlay } from '@/components/overlays'
 import { center } from '@/styled-system/patterns'
 import { ColorSkeleton } from '../color-skeleton'
 
-const contentVariants = {
+const contentVariants: Variants = {
   closed: (sm = false) => ({
     top: sm ? 16 : 24,
     width: '0px',
@@ -59,7 +59,7 @@ const listVariants = {
   },
 }
 
-const itemVariants = {
+const itemVariants: Variants = {
   open: {
     opacity: 1,
     x: 0,
