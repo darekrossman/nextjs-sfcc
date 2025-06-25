@@ -1,7 +1,7 @@
 import { Box, Flex, HStack, Stack, styled } from '@/styled-system/jsx'
 import { sanityFetch } from '@/sanity/lib/live'
 import { MENU_QUERY } from '@/sanity/lib/queries'
-import { Link } from '@/ui/core'
+import Link from '@/components/link'
 import { MENU_QUERYResult } from '@/sanity/types'
 
 // Custom type for menu items that can reference both pages and categories

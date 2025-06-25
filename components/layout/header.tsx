@@ -2,7 +2,7 @@ import { SITE_NAME } from '@/lib/constants'
 
 import { css } from '@/styled-system/css'
 import { Box, Divider, Flex, styled } from '@/styled-system/jsx'
-import { Link } from '@/ui/core'
+import Link from '@/components/link'
 import LogoIcon from '../icons/logo'
 import { Nav } from './nav'
 

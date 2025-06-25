@@ -1,8 +1,8 @@
 'use client'
 
 import { Stack, VisuallyHidden, styled, Flex, HStack, Divider } from '@/styled-system/jsx'
-import { Link } from '@/ui/core'
-import { useBreakpoint } from '@/ui/core/hooks/use-breakpoint'
+import Link from '@/components/link'
+import { useBreakpoint } from '@/components/hooks/use-breakpoint'
 import { MENU_QUERYResult } from '@/sanity/types'
 import { AnimatePresence } from 'motion/react'
 import * as motion from 'motion/react-client'

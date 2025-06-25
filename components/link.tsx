@@ -61,10 +61,12 @@ const prependLocaleToHref = (
   }
 }
 
-export const Link = ({ href, ...props }: ComponentProps<typeof StyledLink>) => {
+const Link = ({ href, ...props }: ComponentProps<typeof StyledLink>) => {
   const { locale } = useLocale()
 
   const localizedHref = prependLocaleToHref(href, locale)
 
   return <StyledLink href={localizedHref} {...props} />
 }
+
+export default Link

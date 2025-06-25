@@ -8,7 +8,7 @@ import { css } from '@/styled-system/css'
 import { Box, Container, Flex, Grid, GridItem, Stack, styled } from '@/styled-system/jsx'
 import { Center } from '@/styled-system/jsx'
 import { Metadata } from 'next'
-import { Link } from '@/ui/core'
+import Link from '@/components/link'
 
 export const metadata: Metadata = {
   description:

@@ -3,15 +3,7 @@
 import { Dialog } from 'radix-ui'
 import { Price } from 'components/price'
 import Image from 'next/image'
-import {
-  startTransition,
-  Suspense,
-  use,
-  useEffect,
-  useRef,
-  useState,
-  useTransition,
-} from 'react'
+import { startTransition, use, useEffect, useRef, useState } from 'react'
 import { useCart } from './cart-context'
 import { AnimatePresence } from 'motion/react'
 import * as motion from 'motion/react-client'
@@ -26,15 +18,14 @@ import {
   styled,
 } from '@/styled-system/jsx'
 import { token } from '@/styled-system/tokens'
-import { useBreakpoint } from '@/ui/core/hooks/use-breakpoint'
+import { useBreakpoint } from '@/components/hooks/use-breakpoint'
 import { NavButton } from '../layout/nav-button'
-import { Minus, Pencil, Plus, X } from 'lucide-react'
+import { Minus, Plus, X } from 'lucide-react'
 import { css } from '@/styled-system/css'
 import { ProductImage, type CartItem } from '@/lib/sfcc/types'
 import { DialogOverlay } from '@/components/overlays'
 import { center } from '@/styled-system/patterns'
 import { ColorSkeleton } from '../color-skeleton'
-import { Loader } from '@/ui/core'
 
 const contentVariants = {
   closed: (sm = false) => ({

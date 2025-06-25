@@ -17,7 +17,7 @@ import { ProductPrice } from '@/components/product/product-price'
 import { HeartPlus } from 'lucide-react'
 import { UnknownSearchParams } from '@/lib/constants'
 import { ProductPromotion } from '@/components/product/product-promotion'
-import { MarkdownRenderer } from '@/components/ui/markdown-renderer'
+import { MarkdownRenderer } from '@/components/markdown-renderer'
 import { getDictionary } from '@/lib/dictionaries/dictionaries'
 
 type PageProps = {

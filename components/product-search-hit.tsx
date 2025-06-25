@@ -3,7 +3,7 @@
 import { type ProductSearchHit } from '@/lib/sfcc/types'
 import { Box, Flex, styled } from '@/styled-system/jsx'
 import { Stack } from '@/styled-system/jsx'
-import { Link } from '@/ui/core'
+import Link from '@/components/link'
 import { Price } from './price'
 import { FadeImage } from './fade-image'
 
