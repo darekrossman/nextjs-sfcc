@@ -4,7 +4,7 @@
   "project": [
     "components/**",
     "lib/**",
-    "ui/**",
+    "ui/core/**",
     "sanity/**",
     "public/**",
     "scripts/**",
@@ -14,10 +14,11 @@
     "build/**"
   ],
   "ignore": [
-    "ui/preset",
+    "ui/preset/index.ts",
     "next.config.ts",
     "sanity.cli.ts",
     "middleware.ts",
+    "sanity/types.ts",
     "scripts/**"
   ],
   "ignoreDependencies": ["server-only"]
