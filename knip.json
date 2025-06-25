@@ -1,0 +1,24 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": ["app/**/*.{js,ts,tsx}", "panda.config.ts", "sanity.config.ts"],
+  "project": [
+    "components/**",
+    "lib/**",
+    "ui/**",
+    "sanity/**",
+    "public/**",
+    "scripts/**",
+    "styled-system/**",
+    ".next/**",
+    "dist/**",
+    "build/**"
+  ],
+  "ignore": [
+    "ui/preset",
+    "next.config.ts",
+    "sanity.cli.ts",
+    "middleware.ts",
+    "scripts/**"
+  ],
+  "ignoreDependencies": ["server-only"]
+}

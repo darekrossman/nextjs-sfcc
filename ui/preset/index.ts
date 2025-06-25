@@ -16,7 +16,7 @@ import { utilities } from './utilities'
 
 const defineConfig = <T extends Config>(config: T) => config
 
-export const basePreset = defineConfig({
+const basePreset = defineConfig({
   name: 'base-preset',
   presets: [pandaPreset],
   globalCss,
