@@ -4,7 +4,7 @@ import { Stack, VisuallyHidden, styled, Flex, HStack, Divider } from '@/styled-s
 import Link from '@/components/link'
 import { useBreakpoint } from '@/components/hooks/use-breakpoint'
 import { MENU_QUERYResult } from '@/sanity/types'
-import { AnimatePresence } from 'motion/react'
+import { AnimatePresence, type Variants } from 'motion/react'
 import * as motion from 'motion/react-client'
 import { Dialog } from 'radix-ui'
 import { PropsWithChildren, Suspense, use, useState, useEffect } from 'react'
@@ -34,7 +34,7 @@ type MenuItemWithReference = {
   openInNewTab: boolean | null
 }
 
-const contentVariants = {
+const contentVariants: Variants = {
   closed: (sm = false) => ({
     top: sm ? 16 : 24,
     width: '0px',
@@ -57,7 +57,7 @@ const contentVariants = {
   }),
 }
 
-const listVariants = {
+const listVariants: Variants = {
   open: {
     transition: { staggerChildren: 0.04, delayChildren: 0.3 },
   },
@@ -66,7 +66,7 @@ const listVariants = {
   },
 }
 
-const itemVariants = {
+const itemVariants: Variants = {
   open: {
     opacity: 1,
     x: 0,
@@ -79,7 +79,7 @@ const itemVariants = {
   },
 }
 
-const searchVariants = {
+const searchVariants: Variants = {
   initial: {
     opacity: 0,
     x: '100%',
