@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "biome check --fix --unsafe",
     "lint:unused-vars": "biome lint --only correctness/noUnusedVariables --reporter json | remove-unused-vars",
