@@ -1,5 +1,4 @@
 import { FadeImage } from '@/components/fade-image'
-import { PageBuilder } from '@/components/page-builder'
 import { PageContainer } from '@/components/page-container'
 import { urlFor } from '@/sanity/lib/image'
 import { sanityFetch } from '@/sanity/lib/live'
@@ -68,6 +67,7 @@ export default async function HomePage({
                   objectFit: 'cover',
                   filter: 'grayscale(100%)',
                 })}
+                priority={true}
               />
             ) : null}
           </Box>
