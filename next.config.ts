@@ -1,7 +1,8 @@
 export default {
   experimental: {
     ppr: true,
-    dynamicIO: true,
+    useCache: true,
+    prefetch: false,
   },
   images: {
     formats: ['image/avif', 'image/webp'],

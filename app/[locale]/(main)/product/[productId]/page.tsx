@@ -63,6 +63,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function ProductPage(props: PageProps) {
+  'use cache'
+
   const params = await props.params
   const dict = await getDictionary(params.locale)
   const product = await getProduct({ id: params.productId, locale: params.locale })
