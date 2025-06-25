@@ -1,8 +1,7 @@
 export default {
   experimental: {
     ppr: true,
-    inlineCss: true,
-    useCache: true,
+    dynamicIO: true,
   },
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -24,5 +23,10 @@ export default {
         hostname: 'edge.disstg.commercecloud.salesforce.com',
       },
     ],
+  },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
   },
 }
