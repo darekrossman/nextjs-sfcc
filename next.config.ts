@@ -2,8 +2,8 @@ export default {
   experimental: {
     ppr: true,
     useCache: true,
-    prefetch: false,
   },
+  prefetch: false,
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
