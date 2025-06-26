@@ -15,9 +15,9 @@ export function Header({ locale }: { locale: string }) {
       zIndex="99999"
       className={css({
         '--transition': 'all 0.4s 0.1s',
-        '--fg': '{colors.gray.100}',
-        '--bg': '{colors.gray.900}',
-        '--border': '{colors.gray.700}',
+        '--fg': '{colors.zinc.100}',
+        '--bg': '{colors.zinc.950}',
+        '--border': '{colors.zinc.700}',
         '--logo-fill': 'white',
 
         '.minicart-open &': {
@@ -25,10 +25,10 @@ export function Header({ locale }: { locale: string }) {
         },
 
         '.nav-open &': {
-          '--fg': '{colors.gray.800}',
-          '--bg': '{colors.gray.100}',
-          '--border': '{colors.gray.200}',
-          '--logo-fill': '{colors.gray.900}',
+          '--fg': '{colors.zinc.800}',
+          '--bg': '{colors.zinc.100}',
+          '--border': '{colors.zinc.300}',
+          '--logo-fill': '{colors.zinc.950}',
         },
       })}
     >

@@ -41,7 +41,7 @@ export default async function Footer({ locale }: { locale: string }) {
           <styled.p fontSize="xs" color="gray.700">
             &copy; 2025 Darek Rossman, Future Vercel Team Member.
           </styled.p>
-          <styled.p fontSize="xs" color="gray.500">
+          <styled.p fontSize="xs" color="gray.600">
             <styled.a href="https://vercel.com">Created for ▲ Vercel</styled.a>
           </styled.p>
         </Stack>
@@ -49,6 +49,7 @@ export default async function Footer({ locale }: { locale: string }) {
         <Flex
           gap={{ base: '5', md: '4' }}
           direction={{ base: 'column', md: 'row' }}
+          align={{ base: 'flex-start', md: 'center' }}
           order={{ base: 1, md: 2 }}
           color="gray.700"
         >
@@ -62,8 +63,12 @@ export default async function Footer({ locale }: { locale: string }) {
                   target="_self"
                   key={menuItem._key}
                   href={menuItem.externalUrl}
+                  px="1.5"
+                  py="1.5"
+                  rounded="md"
                   fontSize="xs"
-                  color="green.800"
+                  bg="green.700"
+                  color="white"
                 >
                   {menuItem.label}
                 </Link>

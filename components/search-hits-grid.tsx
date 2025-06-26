@@ -22,7 +22,7 @@ export function SearchHitsGrid({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: isPending ? 0 : 1 }}
-        transition={{ duration: 0.25 }}
+        transition={{ duration: 0.15 }}
       >
         <Grid
           gridTemplateColumns={{

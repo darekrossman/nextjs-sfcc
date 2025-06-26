@@ -89,8 +89,8 @@ function MiniCartContent({
         position: 'fixed',
         top: 0,
         right: 0,
-        bg: 'gray.900',
-        color: 'gray.100',
+        bg: 'zinc.950',
+        color: 'zinc.100',
         overflow: 'hidden',
         zIndex: 'miniCartContent',
       })}
@@ -121,8 +121,8 @@ function MiniCartContent({
             exit={{ opacity: 0 }}
             animate={{
               opacity: 1,
-              backgroundColor: token('colors.gray.100'),
-              color: token('colors.gray.900'),
+              backgroundColor: token('colors.zinc.100'),
+              color: token('colors.zinc.950'),
               transition: {
                 opacity: { duration: 0.2 },
                 backgroundColor: { duration: 0.2, delay: 0.2 },
@@ -138,8 +138,8 @@ function MiniCartContent({
               justifyContent: 'center',
               w: '11',
               h: '11',
-              bg: 'gray.900',
-              color: 'gray.100',
+              bg: 'zinc.950',
+              color: 'zinc.100',
               zIndex: 'miniCartCloseButton',
             })}
           >
@@ -195,7 +195,7 @@ function MiniCartContent({
             flexShrink="0"
             borderTop="1px solid"
             borderGradient="PeachTreeBorder"
-            bg="gray.900/70"
+            bg="zinc.950/70"
             className={css({
               backdropBlur: 'blur(10px)',
             })}
@@ -214,7 +214,7 @@ function MiniCartContent({
                 fontFamily="mono"
                 fontWeight="bold"
                 textTransform="uppercase"
-                color="gray.100"
+                color="zinc.100"
                 textOverflow="clip"
                 mb="-1px"
               >
@@ -236,7 +236,7 @@ function MiniCartContent({
                         currency={cart?.currency}
                         fontSize="sm"
                         fontWeight="medium"
-                        color="gray.100"
+                        color="zinc.100"
                         textAlign="right"
                       />
                     </motion.div>
@@ -364,7 +364,7 @@ export default function MiniCart() {
             })}
           >
             <Dialog.Trigger asChild>
-              <NavButton bg="gray.900" color="gray.100">
+              <NavButton bg="zinc.950" color="zinc.100">
                 <Box
                   pos="absolute"
                   top="0"
@@ -430,13 +430,13 @@ function CartItem({ item }: { item: CartItem }) {
               fontSize="md"
               fontWeight="medium"
               lineHeight="22px"
-              color="gray.100"
+              color="zinc.100"
               flex="1"
             >
               {item.productName}
             </styled.h4>
           </Flex>
-          <styled.p fontSize="sm" color="gray.200/70">
+          <styled.p fontSize="sm" color="zinc.200/70">
             {Object.entries(values)
               .map(([key, value]) => value)
               .join(' / ')}
@@ -444,7 +444,7 @@ function CartItem({ item }: { item: CartItem }) {
         </Stack>
       </Flex>
 
-      <Flex alignItems="center" h="9" borderTop="1px dashed" borderColor="neutral.800">
+      <Flex alignItems="center" h="9" borderTop="1px dashed" borderColor="zinc.800">
         <Flex h="full" alignItems="center">
           <styled.button
             h="full"
@@ -457,7 +457,7 @@ function CartItem({ item }: { item: CartItem }) {
             <styled.p srOnly>reduce quantity</styled.p>
             <Minus strokeWidth={1} size={16} className={css({ translateY: '-0.5px' })} />
           </styled.button>
-          <styled.p fontSize="xs" color="gray.200" w="4" textAlign="center">
+          <styled.p fontSize="xs" color="zinc.200" w="4" textAlign="center">
             {item.quantity}
           </styled.p>
           <styled.button
@@ -475,7 +475,7 @@ function CartItem({ item }: { item: CartItem }) {
           </styled.button>
         </Flex>
 
-        <Divider orientation="vertical" h="full" color="neutral.800" />
+        <Divider orientation="vertical" h="full" color="zinc.800" />
 
         <Flex position="relative" flex="1" h="full" alignItems="center">
           <HStack
@@ -508,7 +508,7 @@ function CartItem({ item }: { item: CartItem }) {
                   style={{
                     fontSize: token(isDiscounted ? 'fontSizes.xs' : 'fontSizes.sm'),
                     textDecoration: isDiscounted ? 'line-through' : 'none',
-                    color: token(isDiscounted ? 'colors.gray.300' : 'colors.gray.100'),
+                    color: token(isDiscounted ? 'colors.zinc.300' : 'colors.zinc.100'),
                   }}
                 />
               </motion.div>
@@ -523,7 +523,7 @@ function CartItem({ item }: { item: CartItem }) {
                     currency={cart?.currency}
                     fontSize="sm"
                     fontWeight="medium"
-                    color="gray.100"
+                    color="zinc.100"
                   />
                 </motion.div>
               )}

@@ -148,8 +148,8 @@ function NavContent({
           top: 0,
           left: 0,
           maxWidth: '100vw',
-          bg: 'gray.900',
-          color: 'gray.100',
+          bg: 'zinc.950',
+          color: 'zinc.100',
           overflow: 'hidden',
           zIndex: 'navSheetOpen',
           display: 'flex',
@@ -227,7 +227,7 @@ function NavContent({
               flexShrink="0"
               borderTop="1px solid"
               borderGradient="PeachTreeBorder"
-              bg="gray.900/70"
+              bg="zinc.950/70"
               className={css({
                 backdropBlur: 'blur(10px)',
               })}
@@ -246,7 +246,7 @@ function NavContent({
                 fontWeight="bold"
                 fontSize="sm"
                 textTransform="uppercase"
-                color="gray.100"
+                color="zinc.100"
               >
                 <styled.div mb="-1px">EN</styled.div>
               </Link>
@@ -267,7 +267,7 @@ function NavContent({
                 fontWeight="bold"
                 fontSize="sm"
                 textTransform="uppercase"
-                color="gray.100"
+                color="zinc.100"
               >
                 <styled.div mb="-1px">FR</styled.div>
               </Link>
