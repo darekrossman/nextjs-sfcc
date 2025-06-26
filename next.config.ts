@@ -2,6 +2,7 @@ export default {
   experimental: {
     ppr: true,
     useCache: true,
+    inlineCss: true,
   },
   images: {
     formats: ['image/avif', 'image/webp'],
