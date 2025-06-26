@@ -116,92 +116,99 @@ export default async function HomePage({
           gridTemplateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }}
           gap={{ base: '6', md: '1px' }}
         >
-          {featuredProducts?.map((block, i) => (
-            <GridItem key={block._key} colSpan={{ base: 1, md: i === 0 ? 2 : 1 }}>
-              <Flex
-                key={block._key}
-                flexDirection={{ base: 'column', md: i === 0 ? 'row' : 'column' }}
-                flex="1"
-                h="full"
-                bg="stone.400/30"
-              >
-                <Box flex="1 1 50%">
-                  {block.image ? (
-                    <Link href={block.ctaUrl!} display="flex" aspectRatio="1">
-                      <Image
-                        src={urlFor(block.image).width(600).height(600).fit('crop').url()}
-                        width={600}
-                        height={600}
-                        alt={block.title || ''}
-                        priority={i === 0}
-                        sizes={`(max-width: ${token('breakpoints.md')}) 100vw, 50vw`}
-                        className={css({
-                          w: '100%',
-                          h: '100%',
-                          objectFit: 'cover',
-                        })}
-                      />
-                    </Link>
-                  ) : (
-                    <Box flex="1" aspectRatio="1" />
-                  )}
-                </Box>
-
-                <Stack
-                  flex="1 1 50%"
-                  alignItems="flex-start"
-                  justifyContent={{ base: 'flex-start', md: 'center' }}
-                  px={{ base: '6', md: '12' }}
-                  py={{ base: '8', md: '12' }}
-                  gap={{ base: '5', md: '6' }}
-                  color="stone.800"
+          {featuredProducts?.map((block, i) => {
+            return (
+              <GridItem key={block._key} colSpan={{ base: 1, md: i === 0 ? 2 : 1 }}>
+                <Flex
+                  key={block._key}
+                  flexDirection={{ base: 'column', md: i === 0 ? 'row' : 'column' }}
+                  flex="1"
+                  h="full"
+                  bg="stone.400/30"
                 >
-                  <styled.h3
-                    fontSize={{ base: '2xl', md: '3xl' }}
-                    fontWeight={{ base: 'normal', md: 'light' }}
-                    lineHeight="1.2"
-                    textWrap="balance"
-                  >
-                    {block.title}
-                  </styled.h3>
-                  <styled.p
-                    fontSize={{ base: 'sm', md: 'md' }}
-                    lineHeight="1.5"
-                    maxW={{ base: 'full', md: '400px' }}
-                    textWrap="pretty"
-                  >
-                    {block.content}
-                  </styled.p>
+                  <Box flex="1 1 50%">
+                    {block.image ? (
+                      <Link href={block.ctaUrl!} display="flex" aspectRatio="1">
+                        <Image
+                          src={urlFor(block.image)
+                            .width(580)
+                            .height(580)
+                            .fit('crop')
+                            .url()}
+                          width={580}
+                          height={580}
+                          quality={70}
+                          alt={block.title || ''}
+                          priority={i === 0}
+                          sizes={`(max-width: ${token('breakpoints.md')}) 100vw, 50vw`}
+                          className={css({
+                            w: '100%',
+                            h: '100%',
+                            objectFit: 'cover',
+                          })}
+                        />
+                      </Link>
+                    ) : (
+                      <Box flex="1" aspectRatio="1" />
+                    )}
+                  </Box>
 
-                  <Box flex={{ base: '1', md: i === 0 ? '0' : '1' }} />
-
-                  {block.ctaLabel && block.ctaUrl ? (
-                    <Link
-                      href={block.ctaUrl}
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      h={{ base: '11', md: '12' }}
-                      px="6"
-                      minW="180px"
-                      fontSize="sm"
-                      fontFamily="mono"
-                      textTransform="uppercase"
-                      fontWeight="bold"
-                      bg="stone.700"
-                      color="stone.100"
-                      transition="all 0.15s ease-out"
-                      _hover={{
-                        bg: 'stone.500',
-                      }}
+                  <Stack
+                    flex="1 1 50%"
+                    alignItems="flex-start"
+                    justifyContent={{ base: 'flex-start', md: 'center' }}
+                    px={{ base: '6', md: '12' }}
+                    py={{ base: '8', md: '12' }}
+                    gap={{ base: '5', md: '6' }}
+                    color="stone.800"
+                  >
+                    <styled.h3
+                      fontSize={{ base: '2xl', md: '3xl' }}
+                      fontWeight={{ base: 'normal', md: 'light' }}
+                      lineHeight="1.2"
+                      textWrap="balance"
                     >
-                      {block.ctaLabel}
-                    </Link>
-                  ) : null}
-                </Stack>
-              </Flex>
-            </GridItem>
-          ))}
+                      {block.title}
+                    </styled.h3>
+                    <styled.p
+                      fontSize={{ base: 'sm', md: 'md' }}
+                      lineHeight="1.5"
+                      maxW={{ base: 'full', md: '400px' }}
+                      textWrap="pretty"
+                    >
+                      {block.content}
+                    </styled.p>
+
+                    <Box flex={{ base: '1', md: i === 0 ? '0' : '1' }} />
+
+                    {block.ctaLabel && block.ctaUrl ? (
+                      <Link
+                        href={block.ctaUrl}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        h={{ base: '11', md: '12' }}
+                        px="6"
+                        minW="180px"
+                        fontSize="sm"
+                        fontFamily="mono"
+                        textTransform="uppercase"
+                        fontWeight="bold"
+                        bg="stone.700"
+                        color="stone.100"
+                        transition="all 0.15s ease-out"
+                        _hover={{
+                          bg: 'stone.500',
+                        }}
+                      >
+                        {block.ctaLabel}
+                      </Link>
+                    ) : null}
+                  </Stack>
+                </Flex>
+              </GridItem>
+            )
+          })}
         </Grid>
       </Container>
     </PageContainer>
