@@ -19,6 +19,7 @@ import { UnknownSearchParams } from '@/lib/constants'
 import { ProductPromotion } from '@/components/product/product-promotion'
 import { MarkdownRenderer } from '@/components/markdown-renderer'
 import { getDictionary } from '@/lib/dictionaries/dictionaries'
+import { getProductImagesForColor } from '@/lib/sfcc/product-helpers'
 
 type PageProps = {
   params: Promise<{ productId: string; locale: 'en' | 'fr' }>
@@ -31,28 +32,20 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
   if (!product) return notFound()
 
-  const { url, width, height, altText: alt } = product.featuredImage || {}
-  const indexable = false
+  const image = getProductImagesForColor(product.imageGroups)?.[0]
 
   const metadata = {
     title: product.pageTitle || product.name,
     description: product.pageDescription || product.shortDescription,
-    robots: {
-      index: indexable,
-      follow: indexable,
-      googleBot: {
-        index: indexable,
-        follow: indexable,
-      },
-    },
-    openGraph: url
+
+    openGraph: image
       ? {
           images: [
             {
-              url,
-              width,
-              height,
-              alt,
+              url: image.link,
+              width: 320,
+              height: 320,
+              alt: image.alt || '',
             },
           ],
         }

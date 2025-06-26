@@ -12,31 +12,39 @@ import { Geist, Major_Mono_Display, Silkscreen, DM_Mono } from 'next/font/google
 import { PropsWithChildren, Suspense } from 'react'
 import { LocaleProvider } from '@/components/locale-context'
 import { i18nConfig } from '@/lib/i18n'
-import ShopperContext from '@/components/shopper-context'
 import { getDictionary } from '@/lib/dictionaries/dictionaries'
 
 export async function generateStaticParams() {
   return i18nConfig.locales.map((locale) => ({ locale }))
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
-  title: {
-    default: SITE_NAME!,
-    template: `%s | ${SITE_NAME}`,
-  },
-  alternates: {
-    canonical: '/',
-    languages: {
-      'x-default': '/',
-      en: '/en',
-      fr: '/fr',
+export async function generateMetadata({
+  params,
+}: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  return {
+    metadataBase: new URL(baseUrl),
+    title: {
+      default: SITE_NAME!,
+      template: `%s | ${SITE_NAME}`,
     },
-  },
-  robots: {
-    follow: false,
-    index: false,
-  },
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        'x-default': '/',
+        en: '/en',
+        fr: '/fr',
+      },
+    },
+    robots: {
+      follow: false,
+      index: false,
+      googleBot: {
+        index: false,
+        follow: false,
+      },
+    },
+  }
 }
 
 // Maybe
