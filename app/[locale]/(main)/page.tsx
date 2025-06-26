@@ -8,6 +8,7 @@ import { Box, Container, Flex, Grid, GridItem, Stack, styled } from '@/styled-sy
 import { Center } from '@/styled-system/jsx'
 import { Metadata } from 'next'
 import Link from '@/components/link'
+import { token } from '@/styled-system/tokens'
 
 export const metadata: Metadata = {
   description:
@@ -132,6 +133,7 @@ export default async function HomePage({
                         height={600}
                         alt={block.title || ''}
                         priority={i === 0}
+                        sizes={`(max-width: ${token('breakpoints.md')}) 100vw, 50vw`}
                         className={css({
                           w: '100%',
                           h: '100%',
