@@ -5,7 +5,7 @@ import { Box, Flex, styled } from '@/styled-system/jsx'
 import { Stack } from '@/styled-system/jsx'
 import Link from '@/components/link'
 import { Price } from './price'
-import { FadeImage } from './fade-image'
+import Image from 'next/image'
 
 export function ProductSearchHit({
   hit,
@@ -38,7 +38,7 @@ export function ProductSearchHit({
     >
       <Box p="5">
         <Box pos="relative" w="full" aspectRatio={1}>
-          <FadeImage
+          <Image
             src={defaultImageGroup?.images?.[0]?.link || ''}
             alt={defaultImageGroup?.images?.[0]?.alt || ''}
             fill

@@ -10,7 +10,6 @@ import { token } from '@/styled-system/tokens'
 import { useProduct } from './product-context'
 import { getProductImagesForColor } from '@/lib/sfcc/product-helpers'
 import { UnknownSearchParams } from '@/lib/constants'
-import { FadeImage } from '../fade-image'
 
 export function Gallery({
   imageGroups,
@@ -143,7 +142,7 @@ export function Gallery({
                   mx="auto"
                   aspectRatio={1}
                 >
-                  <FadeImage
+                  <Image
                     src={image.link}
                     alt={image.alt || ''}
                     fill
