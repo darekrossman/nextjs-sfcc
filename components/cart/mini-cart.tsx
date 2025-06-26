@@ -306,7 +306,6 @@ export default function MiniCart() {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
-    console.log('cart', initialCart)
     if (!cart) {
       startTransition(() => {
         setCart(initialCart)

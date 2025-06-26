@@ -3,7 +3,6 @@ export default {
     ppr: true,
     useCache: true,
   },
-  prefetch: false,
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [

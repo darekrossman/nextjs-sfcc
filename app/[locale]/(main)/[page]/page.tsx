@@ -17,6 +17,7 @@ export async function generateMetadata({
   const { data: page } = await sanityFetch({
     query: PAGE_QUERY,
     params: { slug, locale },
+    stega: false,
   })
 
   if (!page) {
@@ -63,6 +64,8 @@ export default async function Page({
 }: {
   params: Promise<{ locale: string; page: string }>
 }) {
+  'use cache'
+
   const { locale, page: slug } = await params
 
   const { data: page } = await sanityFetch({
