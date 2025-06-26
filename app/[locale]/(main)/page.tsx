@@ -131,6 +131,7 @@ export default async function HomePage({
                         width={600}
                         height={600}
                         alt={block.title || ''}
+                        priority={true}
                         className={css({
                           w: '100%',
                           h: '100%',
