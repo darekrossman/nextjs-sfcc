@@ -22,6 +22,8 @@ export default async function HomePage({
 }: {
   params: Promise<{ locale: string }>
 }) {
+  'use cache'
+
   const { locale } = await params
 
   const { data: page } = await sanityFetch({
