@@ -1,6 +1,5 @@
 export default {
   experimental: {
-    reactCompiler: true,
     ppr: true,
     useCache: true,
     inlineCss: true,
