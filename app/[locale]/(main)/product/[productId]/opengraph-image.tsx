@@ -1,5 +1,4 @@
 import { ImageResponse } from 'next/og'
-import LogoIcon from '@/components/icons/logo-animated'
 import { notFound } from 'next/navigation'
 import { getProduct } from '@/lib/sfcc'
 import { getProductImagesForColor } from '@/lib/sfcc/product-helpers'

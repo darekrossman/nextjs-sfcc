@@ -39,7 +39,7 @@ export function NavSearch() {
         )}
       </AnimatePresence>
 
-      <NavButton hideBelow="md" onClick={() => setIsOpen(true)}>
+      <NavButton hideBelow="md" onClick={() => setIsOpen(true)} aria-label="Search">
         <SearchIcon
           strokeWidth={1}
           className={css({ w: { base: '5', md: '6' }, h: { base: '5', md: '6' } })}

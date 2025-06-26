@@ -323,7 +323,7 @@ export function NavSheet({ navPromise }: NavSheetProps) {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen} modal={false}>
       <Dialog.Trigger asChild>
-        <NavButton>
+        <NavButton aria-label="Toggle navigation">
           <X
             strokeWidth={1}
             className={css({

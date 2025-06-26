@@ -1,4 +1,4 @@
-import { FadeImage } from '@/components/fade-image'
+import Image from 'next/image'
 import { PageContainer } from '@/components/page-container'
 import { urlFor } from '@/sanity/lib/image'
 import { sanityFetch } from '@/sanity/lib/live'
@@ -58,7 +58,7 @@ export default async function HomePage({
 
           <Box position="absolute" inset="0" zIndex="1" bg="{gradients.PeachTree}">
             {image ? (
-              <FadeImage
+              <Image
                 src={urlFor(image).width(1600).fit('min').url()}
                 width={1600}
                 height={800}
@@ -126,12 +126,12 @@ export default async function HomePage({
                 <Box flex="1 1 50%">
                   {block.image ? (
                     <Link href={block.ctaUrl!} display="flex" aspectRatio="1">
-                      <FadeImage
+                      <Image
                         src={urlFor(block.image).width(600).height(600).fit('crop').url()}
                         width={600}
                         height={600}
                         alt={block.title || ''}
-                        priority={true}
+                        priority={i === 0}
                         className={css({
                           w: '100%',
                           h: '100%',
