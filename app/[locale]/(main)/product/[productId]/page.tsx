@@ -35,7 +35,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const image = getProductImagesForColor(product.imageGroups)?.[0]
 
   const metadata = {
-    title: product.pageTitle || product.name,
+    title: product.name,
     description: product.pageDescription || product.shortDescription,
 
     openGraph: image

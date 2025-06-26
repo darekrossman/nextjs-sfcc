@@ -7,13 +7,13 @@ export type Props = {
   title?: string
 }
 
-async function getFont() {
-  'use cache'
+// async function getFont() {
+//   'use cache'
 
-  const file = await readFile(join(process.cwd(), './fonts/Inter-Bold.ttf'))
+//   const file = await readFile(join(process.cwd(), './fonts/Inter-Bold.ttf'))
 
-  return Uint8Array.from(file).buffer
-}
+//   return Uint8Array.from(file).buffer
+// }
 
 export default async function OpengraphImage(props?: Props): Promise<ImageResponse> {
   const { title } = {
@@ -23,7 +23,7 @@ export default async function OpengraphImage(props?: Props): Promise<ImageRespon
     ...props,
   }
 
-  const font = await getFont()
+  // const font = await getFont()
 
   return new ImageResponse(
     <div tw="flex h-full w-full flex-col items-center justify-center bg-black">
@@ -35,14 +35,6 @@ export default async function OpengraphImage(props?: Props): Promise<ImageRespon
     {
       width: 1200,
       height: 630,
-      fonts: [
-        {
-          name: 'Inter',
-          data: font,
-          style: 'normal',
-          weight: 700,
-        },
-      ],
     },
   )
 }
