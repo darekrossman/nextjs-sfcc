@@ -139,7 +139,6 @@ export default async function HomePage({
                           height={580}
                           quality={70}
                           alt={block.title || ''}
-                          priority={i === 0}
                           sizes={`(max-width: ${token('breakpoints.md')}) 100vw, 50vw`}
                           className={css({
                             w: '100%',
