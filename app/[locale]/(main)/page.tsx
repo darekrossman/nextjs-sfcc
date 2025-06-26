@@ -43,7 +43,7 @@ export default async function HomePage({
           overflow="hidden"
           bg="white"
           w="100vw"
-          h={{ base: '300px', md: '400px' }}
+          h={{ base: '100vw', md: '480px' }}
           px={{ base: '4', md: '48px' }}
           pt={{ base: '0', md: '138px' }}
           alignItems={{ base: 'center', md: 'flex-end' }}
@@ -71,6 +71,7 @@ export default async function HomePage({
                   filter: 'grayscale(100%)',
                 })}
                 priority={true}
+                sizes="100vw"
               />
             ) : null}
           </Box>
