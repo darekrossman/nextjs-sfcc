@@ -145,6 +145,7 @@ export async function getValidGuestUserConfig() {
 
 export async function getGuestUserConfig(token?: string) {
   const guestToken = token || (await getGuestUserAuthToken()).access_token
+  console.log('getGuestUserConfig', token, guestToken)
   return {
     ...apiConfig,
     headers: {

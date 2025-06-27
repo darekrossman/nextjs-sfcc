@@ -35,11 +35,11 @@ export async function getPersonalizedProduct({
   const context = await getShopperContext()
   const token = (await cookies()).get('guest_token')?.value
 
-  console.log('getPersonalizedProduct', context)
-
   if (!context || !token || !isTokenValid(token)) {
     return
   }
+
+  console.log('getPersonalizedProduct', context)
 
   return getProduct({ id, locale, token })
 }
@@ -49,6 +49,8 @@ export const getProduct = cache(
     'use cache'
     cacheLife('days')
     cacheTag(TAGS.products)
+
+    console.log('getProduct', id, locale, token)
 
     const config = await getGuestUserConfig(token)
 
