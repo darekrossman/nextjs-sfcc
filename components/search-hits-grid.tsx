@@ -2,13 +2,10 @@
 
 import { ProductSearchHit } from '@/components/product-search-hit'
 import { ProductSearchResult } from '@/lib/sfcc/types'
-import { css } from '@/styled-system/css'
 import { Box, Grid } from '@/styled-system/jsx'
-import { token } from '@/styled-system/tokens'
 import { use } from 'react'
 import { useSearchState } from './search-context'
 import * as motion from 'motion/react-client'
-import { ColorSkeleton } from './color-skeleton'
 
 export function SearchHitsGrid({
   searchResultsPromise,
@@ -31,13 +28,6 @@ export function SearchHitsGrid({
             xl: 'repeat(4, 1fr)',
           }}
           gap="0"
-          className={css({
-            '--img-sizes': [
-              `(max-width: ${token('breakpoints.md')}px) 50vw`,
-              `(max-width: ${token('breakpoints.xl')}px) 33vw`,
-              `25vw`,
-            ].join(','),
-          })}
         >
           {hits?.map((hit, i) => {
             return (

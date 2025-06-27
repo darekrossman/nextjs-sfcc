@@ -6,6 +6,7 @@ import { Stack } from '@/styled-system/jsx'
 import Link from '@/components/link'
 import { Price } from './price'
 import Image from 'next/image'
+import { token } from '@/styled-system/tokens'
 
 export function ProductSearchHit({
   hit,
@@ -42,7 +43,11 @@ export function ProductSearchHit({
             src={defaultImageGroup?.images?.[0]?.link || ''}
             alt={defaultImageGroup?.images?.[0]?.alt || ''}
             fill
-            sizes="var(--img-sizes, 100vw)"
+            sizes={[
+              `(max-width: ${token('breakpoints.md')}px) 50vw`,
+              `(max-width: ${token('breakpoints.xl')}px) 33vw`,
+              `25vw`,
+            ].join(',')}
             priority={imagePriority}
           />
         </Box>
