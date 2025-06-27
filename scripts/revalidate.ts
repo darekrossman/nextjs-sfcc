@@ -32,5 +32,5 @@ const revalidateCache = async (config: RevalidateConfig) => {
   console.log(result)
 }
 
-// revalidateCache({ baseUrl: 'https://nextjs-sfcc-alpha.vercel.app', tag: 'products' })
-revalidateCache({ tag: 'search' })
+revalidateCache({ baseUrl: 'https://nextjs-sfcc-alpha.vercel.app', tag: 'products' })
+// revalidateCache({ tag: 'search' })

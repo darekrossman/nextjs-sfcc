@@ -41,47 +41,45 @@ export async function getPersonalizedProduct({
 
   console.log('getPersonalizedProduct', context)
 
-  return getProduct({ id, locale, token })
+  return getProduct(id, locale, token)
 }
 
-export const getProduct = cache(
-  async ({ id, locale, token }: { id: string; locale: string; token?: string }) => {
-    'use cache'
-    cacheLife('days')
-    cacheTag(TAGS.products)
+export const getProduct = cache(async (id: string, locale: string, token?: string) => {
+  'use cache'
+  cacheLife('days')
+  cacheTag(TAGS.products)
 
-    console.log('getProduct', id, locale, token)
+  console.log('getProduct', id, locale, token)
 
-    const config = await getGuestUserConfig(token)
+  const config = await getGuestUserConfig(token)
 
-    try {
-      const productsClient = new ShopperProducts(config)
+  try {
+    const productsClient = new ShopperProducts(config)
 
-      const product = await productsClient.getProduct({
-        parameters: {
-          id,
-          allImages: true,
-          perPricebook: true,
-          expand: [
-            'prices',
-            'variations',
-            'recommendations',
-            'availability',
-            'images',
-            'promotions',
-          ],
-          locale: locale === 'fr' ? 'fr-FR' : 'default',
-          currency: locale === 'fr' ? 'EUR' : 'USD',
-        },
-      })
+    const product = await productsClient.getProduct({
+      parameters: {
+        id,
+        allImages: true,
+        perPricebook: true,
+        expand: [
+          'prices',
+          'variations',
+          'recommendations',
+          'availability',
+          'images',
+          'promotions',
+        ],
+        locale: locale === 'fr' ? 'fr-FR' : 'default',
+        currency: locale === 'fr' ? 'EUR' : 'USD',
+      },
+    })
 
-      return product as unknown as Product
-    } catch (error) {
-      console.log(await ensureSDKResponseError(error, 'Failed to fetch product'))
-      return
-    }
-  },
-)
+    return product as unknown as Product
+  } catch (error) {
+    console.log(await ensureSDKResponseError(error, 'Failed to fetch product'))
+    return
+  }
+})
 
 // =====================================================================
 // GET PRODUCT RECOMMENDATIONS
@@ -98,7 +96,7 @@ async function getProductRecommendations({
   cacheLife('days')
   cacheTag(TAGS.productRecommendations)
 
-  const product = await getProduct({ id: productId, locale })
+  const product = await getProduct(productId, locale)
   const categoryId = product?.categoryId
 
   if (!categoryId) return []

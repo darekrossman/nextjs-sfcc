@@ -28,7 +28,7 @@ type PageProps = {
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params
-  const product = await getProduct({ id: params.productId, locale: params.locale })
+  const product = await getProduct(params.productId, params.locale)
 
   if (!product) return notFound()
 
@@ -58,7 +58,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 export default async function ProductPage(props: PageProps) {
   const params = await props.params
   const dict = await getDictionary(params.locale)
-  const product = await getProduct({ id: params.productId, locale: params.locale })
+  const product = await getProduct(params.productId, params.locale)
 
   if (!product) return notFound()
 
