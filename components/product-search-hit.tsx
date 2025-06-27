@@ -48,6 +48,7 @@ export function ProductSearchHit({
               `(max-width: ${token('breakpoints.xl')}px) 33vw`,
               `25vw`,
             ].join(',')}
+            quality={70}
             priority={imagePriority}
           />
         </Box>
