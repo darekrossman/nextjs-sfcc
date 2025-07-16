@@ -54,6 +54,7 @@ A cutting-edge, high-performance ecommerce demo showcasing the latest in modern 
 - Salesforce Commerce Cloud B2C
 - Sanity.io headless CMS with live editing
 - Custom product catalog generation
+- Vercel blob storage for product images
 
 **Performance & Tooling**
 - Vercel deployment with Edge Runtime
